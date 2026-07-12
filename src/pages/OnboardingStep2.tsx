@@ -1,0 +1,37 @@
+import CenteredCard from '@/components/custom/CenteredCard'
+import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import logo from '@/assets/HypeUp_onb_login_logo.svg'
+import { useNavigate } from 'react-router-dom'
+
+function OnboardingStep2() {
+  const navigate = useNavigate()
+
+  return (
+    <CenteredCard>
+        <img src={logo} alt="" className="mx-auto mt-6 h-16 w-16 object-contain !rounded-none" />
+      <CardHeader>
+        <CardTitle className='text-xl font-semibold text-center'>How it Works</CardTitle>
+        <CardDescription className='text-lg mb-2.5 font-regular text-center text-neutral-600'>The whole idea, in three parts.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className='text-lg font-semibold text-left text-secondary'>Complete a task</p>
+        <p className='text-md font-regular text-left text-neutral-600 mb-3.5'>Laundry, dishes, that email you've been avoiding — anything counts.</p>
+        <p className='text-lg font-semibold text-left text-secondary'>Ask for help</p>
+        <p className='text-md font-regular text-left text-neutral-600 mb-3.5'>Not feeling it? Post before you start and let people hype you up.</p>
+        <p className='text-lg font-semibold text-left text-secondary'>Cheer each other on!</p>
+        <p className='text-md font-regular text-left mb-2 text-neutral-600'>Follow friends, share wins, and celebrate the small stuff together.</p>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-3 mt-2">
+        <Button size="lg" className="w-full" onClick={() => navigate('/signup')}>
+          Sign Up
+        </Button>
+        <Button variant="link" className="w-full" onClick={() => navigate('/login')}>
+          I already have an account
+        </Button>
+      </CardFooter>
+    </CenteredCard>
+  )
+}
+
+export default OnboardingStep2
