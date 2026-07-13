@@ -1,14 +1,13 @@
 import CenteredCard from '@/components/custom/CenteredCard'
 import CenteredPage from '@/components/custom/CenteredPage'
+import FormField from '@/components/custom/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
-import { Input } from '@base-ui/react'
-import { Label } from '@/components/ui/label'
 
-function Onboarding() {
+function SignUp() {
   const navigate = useNavigate()
 
   return (
@@ -19,34 +18,46 @@ function Onboarding() {
         </div>
         <CenteredCard>
         <CardHeader>
-            <CardTitle className='text-xl font-semibold text-center'>Log into your account</CardTitle>
+            <CardTitle className='text-xl font-semibold text-left'>Create an account</CardTitle>
         </CardHeader>
-        <CardContent className='mb-0'>
-        <div className='flex gap-2'>
-            <div className='flex flex-col gap-1'>
-                <Label></Label>
-                <Input></Input>
+        <CardContent className='mb-0 flex flex-col gap-3'>
+        <div className='flex gap-5'>
+            <FormField
+            id="firstname"
+            label="First Name"
+            type="text"
+            placeholder="Enter your first name"
+          />
+            <FormField
+            id="lastname"
+            label="Last Name"
+            type="text"
+            placeholder="Enter your last name"
+          />
             </div>
-            <div className='flex flex-col gap-1'>
-                <Label></Label>
-                <Input></Input>
-            </div>
-            </div>
-            <Label htmlFor='email' className="text-left text-sm font-medium text-secondary">Email Address</Label>
-            <Input id='email' type='email' placeholder='Enter your email address' className="mb-2 pb-2 pt-2 pl-2 pr-2 w-full border-2 border-neutral-300"></Input>
-            <Label htmlFor='password' className="text-left text-sm font-medium text-secondary">Password</Label>
-            <Input id='email' type='password' placeholder='Enter your password' className="mb-2 pb-2 pt-2 pl-2 pr-2 w-full border-2 border-neutral-300"></Input>
-            <Button variant="link" className="w-full text-center text-sm text-primary font-semibold mb-0" onClick={() => navigate('/login')}>
-            Forgot Password?
-            </Button>
+            <FormField
+            id="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email address"
+          />
+          <FormField
+            id="password"
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+          />
+            <p className="w-full text-center text-sm text-primary font-semibold mb-0">
+            Password must be at least 8 characters
+            </p>
         </CardContent>
-        <CardFooter className="flex flex-col gap-3 mt-0">
+<CardFooter className="flex flex-col gap-4">
             <Button size="lg" className="w-full" onClick={() => navigate('/')}>
-            Log in
+            Create account
             </Button>
             <div className="flex items-center gap-1">
-            <p className='font-medium '>Don't have an account?</p>
-            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </Button>
+            <p className='font-medium '>Already have an account?</p>
+            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log in </Button>
             </div>
         </CardFooter>
         </CenteredCard>
@@ -55,4 +66,4 @@ function Onboarding() {
 }
 
 
-export default Onboarding
+export default SignUp

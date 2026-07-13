@@ -7,9 +7,9 @@ interface CenteredCardProps {
   children: ReactNode
 }
 
-function CenteredCard({ width = '425px', children }: CenteredCardProps) {
+function CenteredCard({ width = '400px', children }: CenteredCardProps) {
   return (
-    <Card className="w-full" style={{ maxWidth: width }}>
+    <Card className="w-full pt-8 pb-8 pl-3.5 pr-3.5 shadow-lg !border-none" style={{ maxWidth: width }}>
       {children}
     </Card>
   )
