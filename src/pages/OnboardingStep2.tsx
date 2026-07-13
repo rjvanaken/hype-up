@@ -17,12 +17,27 @@ function OnboardingStep2() {
         <CardDescription className='text-lg mb-2.5 font-regular text-center text-neutral-600'>The whole idea, in three parts.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className='text-lg font-semibold text-left text-secondary'>Complete a task</p>
-        <p className='text-md font-regular text-left text-neutral-600 mb-3.5'>Laundry, dishes, that email you've been avoiding — anything counts.</p>
-        <p className='text-lg font-semibold text-left text-secondary'>Ask for help</p>
-        <p className='text-md font-regular text-left text-neutral-600 mb-3.5'>Not feeling it? Post before you start and let people hype you up.</p>
-        <p className='text-lg font-semibold text-left text-secondary'>Cheer each other on!</p>
-        <p className='text-md font-regular text-left mb-2 text-neutral-600'>Follow friends, share wins, and celebrate the small stuff together.</p>
+        <div className="flex items-start gap-3 mb-3.5">
+          <span className="text-2xl leading-none" aria-hidden="true">✅</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Complete a task</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Laundry, dishes, that email you've been avoiding — anything counts.</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3 mb-3.5">
+          <span className="text-2xl leading-none" aria-hidden="true">🙋</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Ask for help</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Not feeling it? Post before you start and let people hype you up.</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3 mb-2">
+          <span className="text-2xl leading-none" aria-hidden="true">🎉</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Cheer each other on!</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Follow friends, share wins, and celebrate the small stuff together.</p>
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-3 mt-2">
         <Button size="lg" className="w-full" onClick={() => navigate('/signup')}>
