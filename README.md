@@ -87,8 +87,22 @@ Open that URL in your browser to confirm everything's working.
 src/
 ├── components/
 │   ├── ui/        # shadcn-managed components — installed via CLI, avoid heavy edits
-│   └── custom/     # our own reusable components
+│   └── custom/     # our own custom reusable components
 ├── pages/          # one file per screen (Onboarding, Login, Feed, etc.)
 ├── lib/            # helpers (cn(), Supabase client, etc.)
 └── assets/         # images, logos, icons
 ```
+## Our Dev Process
+No code may be committed without approval from the other team member. All code must be attached to a project task.
+
+- Assign yourself a project task
+- Create a new branch and link it to the task
+- Use detailed commit messages
+- Open the PR when finished and request review from the other team member
+- Code reviews are suggested but optional. May be needed depending on the complexity of the task
+
+## Our Development Team
+The following is how we generally plan to divide the tasks. Deviation is potentially expected depending on availability later on in the project.
+
+- **Backend:** Derrick Tam
+- **Frontend:** Rebecca Van Aken
