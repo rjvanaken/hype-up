@@ -3,11 +3,13 @@ import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from 
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import { useNavigate } from 'react-router-dom'
+import CenteredPage from '@/components/custom/CenteredPage'
 
 function OnboardingStep2() {
   const navigate = useNavigate()
 
   return (
+    <CenteredPage>
     <CenteredCard>
         <img src={logo} alt="" className="mx-auto mt-6 h-16 w-16 object-contain !rounded-none" />
       <CardHeader>
@@ -31,6 +33,7 @@ function OnboardingStep2() {
         </Button>
       </CardFooter>
     </CenteredCard>
+    </CenteredPage>
   )
 }
 

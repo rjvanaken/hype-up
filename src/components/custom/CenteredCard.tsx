@@ -1,3 +1,4 @@
+// src/components/custom/CenteredCard.tsx
 import { Card } from '@/components/ui/card'
 import type { ReactNode } from 'react'
 
@@ -6,13 +7,11 @@ interface CenteredCardProps {
   children: ReactNode
 }
 
-function CenteredCard({ width = '380px', children }: CenteredCardProps) {
+function CenteredCard({ width = '425px', children }: CenteredCardProps) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
-      <Card className="w-full gap-3 pb-6" style={{ maxWidth: width }}>
-        {children}
-      </Card>
-    </div>
+    <Card className="w-full" style={{ maxWidth: width }}>
+      {children}
+    </Card>
   )
 }
 
