@@ -13,15 +13,15 @@ function SignUp() {
   return (
     <CenteredPage>
         <div>
-        <img src={logo} alt="" className="mx-auto mb-0 h-16 w-16 object-contain !rounded-none" />
-        <img src={text_logo_large} alt="" className="mx-auto mt-0 h-35 object-contain" />
+        <img src={logo} alt="" className="mx-auto mb-0 h-14 object-contain !rounded-none" />
+        <img src={text_logo_large} alt="" className="mx-auto mt-0 h-28 object-contain" />
         </div>
         <CenteredCard>
         <CardHeader>
             <CardTitle className='text-xl font-semibold text-left'>Create an account</CardTitle>
         </CardHeader>
         <CardContent className='mb-0 flex flex-col gap-3'>
-        <div className='flex gap-5'>
+        <div className='flex gap-4'>
             <FormField
             id="firstname"
             label="First Name"
@@ -53,11 +53,11 @@ function SignUp() {
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
             <Button size="lg" className="w-full" onClick={() => navigate('/')}>
-            Create account
+            Create Account
             </Button>
             <div className="flex items-center gap-1">
             <p className='font-medium '>Already have an account?</p>
-            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log in </Button>
+            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
             </div>
         </CardFooter>
         </CenteredCard>

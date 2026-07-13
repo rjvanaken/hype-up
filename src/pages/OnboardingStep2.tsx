@@ -11,10 +11,10 @@ function OnboardingStep2() {
   return (
     <CenteredPage>
     <CenteredCard>
-        <img src={logo} alt="" className="mx-auto mt-6 h-16 w-16 object-contain !rounded-none" />
+        <img src={logo} alt="" className="mx-auto mt-6 h-15 object-contain !rounded-none" />
       <CardHeader>
         <CardTitle className='text-xl font-semibold text-center'>How it Works</CardTitle>
-        <CardDescription className='text-lg mb-2.5 font-regular text-center text-neutral-600'>The whole idea, in three parts.</CardDescription>
+        <CardDescription className='text-sm mb-2.5 font-regular text-center text-neutral-500'>The whole idea, in three parts.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex items-start gap-3 mb-3.5">
@@ -43,9 +43,10 @@ function OnboardingStep2() {
         <Button size="lg" className="w-full" onClick={() => navigate('/signup')}>
           Sign Up
         </Button>
-        <Button variant="link" className="w-full" onClick={() => navigate('/login')}>
-          I already have an account
-        </Button>
+            <div className="flex items-center gap-1">
+            <p className='font-medium '>Already have an account?</p>
+            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
+            </div>
       </CardFooter>
     </CenteredCard>
     </CenteredPage>

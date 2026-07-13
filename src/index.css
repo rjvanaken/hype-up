@@ -47,7 +47,7 @@
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* ...existing lines... */
+  /* Custom Text Display*/
   --text-display-2xl: 4.5rem;
   --text-display-xl: 3.75rem;
   --text-display-lg: 3rem;
@@ -73,6 +73,7 @@
 --primary-foreground: oklch(0.9700346731479628 0.00838925803625134 168.75516223431006); /*edited*/
 --secondary: oklch(0.35712502439458393 0.03840100819983442 250.36075790997927);/*edited*/
 --secondary-foreground:  oklch(0.9700346731479628 0.00838925803625134 168.75516223431006); /*edited*/
+--my-muted: oklch(0.5499154363575358 0.04438103530369831 162.80821579108317);
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
     --accent: oklch(0.97 0 0);

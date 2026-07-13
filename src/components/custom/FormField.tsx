@@ -14,7 +14,7 @@ function FormField({ label, id, className, ...props }: FormFieldProps) {
       </Label>
       <Input
         id={id}
-        className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2 py-2 h-11'}
+        className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2 h-11'}
         {...props}
       />
     </div>

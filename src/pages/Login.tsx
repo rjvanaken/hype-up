@@ -39,7 +39,7 @@ function Onboarding() {
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
                     <Button size="lg" className="w-full" onClick={() => navigate('/')}>
-                        Log in
+                        Log In
                     </Button>
                     <div className="flex items-center gap-1">
                         <p className='font-medium '>Don't have an account?</p>
