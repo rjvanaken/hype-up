@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { supabase } from '@/lib/client'
+import { CheckCircle, AlertCircle } from 'lucide-react'
 
 function ForgotPassword() {
     const navigate = useNavigate()
@@ -42,8 +43,8 @@ function ForgotPassword() {
             </div>
             <CenteredCard>
                 <CardHeader>
-                    <CardTitle className='text-xl font-semibold text-left'>Reset Password</CardTitle>
-                    <CardDescription className='text-sm mb-2.5 font-regular text-center text-neutral-500'>Enter your email and we will send you an email to update your password.</CardDescription>
+                    <CardTitle className='text-xl font-semibold text-left'>Forgot Password</CardTitle>
+                    <CardDescription className='text-sm mb-0 mt-2 font-regular text-left text-neutral-500'>Enter your email and we will send you an email to update your password.</CardDescription>
                 </CardHeader>
                 <CardContent className='mb-0 flex flex-col gap-3'>
                     <FormField
@@ -55,24 +56,24 @@ function ForgotPassword() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    {sent && (
-                        <Badge>
-                            ✓ An email has been sent for password recovery
+                    {!error && sent && (
+                        <Badge variant={'success'}>
+                            <CheckCircle /> An email has been sent for password recovery
                         </Badge>
                     )}
 
-                    {error && (
-                        <Badge>
-                            X email failed to send. Try again later.
+                    {!sent && error && (
+                        <Badge variant={'destructive'}>
+                            <AlertCircle /> email failed to send. Try again later.
                         </Badge>
                     )}
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="w-full" onClick={() => handleSendEmail()}>
+                    <Button size="lg" className="flex-1" onClick={() => handleSendEmail()}>
                         Send Email
                     </Button>
-                    <Button size="lg" className="w-full" onClick={() => navigate('login')}> 
+                    <Button variant="outline" className="flex-1" size="lg" onClick={() => navigate('/login')}> 
                         Cancel
                     </Button>
                 </CardFooter>

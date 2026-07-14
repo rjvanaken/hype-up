@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { supabase } from '@/lib/client'
 import { validatePassword } from '@/lib/validation'
+import { AlertCircle } from 'lucide-react'
 
 function ResetPassword() {
     const navigate = useNavigate()
@@ -23,7 +24,7 @@ function ResetPassword() {
 
         const validationError = validatePassword(password, confirm)
         if (validationError) {
-            setError(validationError)
+            setError(<AlertCircle /> + validationError)
             return
         }
 
@@ -32,11 +33,11 @@ function ResetPassword() {
         setSubmitting(false)
 
         if (error) {
-            setError('Something went wrong. Please try again.')
+            setError(<AlertCircle /> + 'Something went wrong. Please try again.')
             return
         }
 
-        navigate('/login')
+        navigate('/password-success')
     }
 
     return (
@@ -68,17 +69,17 @@ function ResetPassword() {
                     />
 
                     {error && (
-                        <Badge>
+                        <Badge variant={'destructive'}>
                             {error}
                         </Badge>
                     )}
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="w-full" onClick={handleUpdatePassword} disabled={submitting}>
+                    <Button size="lg" className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
                         {submitting ? 'Updating...' : 'Update Password'}
                     </Button>
-                    <Button size="lg" className="w-full" onClick={() => navigate('/login')}>
+                    <Button size="lg" variant="outline" className="flex-1" onClick={() => navigate('/password-success')}>
                         Cancel
                     </Button>
                 </CardFooter>
