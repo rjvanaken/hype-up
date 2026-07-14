@@ -3,7 +3,7 @@ import Onboarding from '@/pages/Onboarding'
 import OnboardingStep2 from '@/pages/OnboardingStep2'
 import Login from '@/pages/Login'
 import SignUp from '@/pages/SignUp'
-import ResetPasswordStep2 from '@/pages/ResetPasswordStep2'
+import ForgotPassword from '@/pages/ForgotPassword'
 import ResetPassword from '@/pages/ResetPassword'
 
 function App() {
@@ -14,8 +14,8 @@ function App() {
         <Route path="/onboarding-step-2" element={<OnboardingStep2 />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/reset-password-step-2" element={<ResetPasswordStep2 />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   )

@@ -33,7 +33,7 @@ function Onboarding() {
                         type="password"
                         placeholder="Enter your password"
                     />
-                    <Button variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/reset-password')}>
+                    <Button variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
                         Forgot Password?
                     </Button>
                 </CardContent>
