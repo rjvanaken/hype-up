@@ -1,17 +1,43 @@
 import CenteredPage from '@/components/custom/CenteredPage'
 import CenteredCard from '@/components/custom/CenteredCard'
 import FormField from '@/components/custom/FormField'
-import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
+import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
+import { supabase } from '@/lib/client'
+import { validatePassword } from '@/lib/validation'
 
-function Onboarding() {
+function ResetPassword() {
     const navigate = useNavigate()
-    const [sent, setSent] = useState(false)
+    const [password, setPassword] = useState('')
+    const [confirm, setConfirm] = useState('')
+    const [error, setError] = useState('')
+    const [submitting, setSubmitting] = useState(false)
+
+    async function handleUpdatePassword() {
+        setError('')
+
+        const validationError = validatePassword(password, confirm)
+        if (validationError) {
+            setError(validationError)
+            return
+        }
+
+        setSubmitting(true)
+        const { error } = await supabase.auth.updateUser({ password })
+        setSubmitting(false)
+
+        if (error) {
+            setError('Something went wrong. Please try again.')
+            return
+        }
+
+        navigate('/login')
+    }
 
     return (
         <CenteredPage>
@@ -21,29 +47,38 @@ function Onboarding() {
             </div>
             <CenteredCard>
                 <CardHeader>
-                    <CardTitle className='text-xl font-semibold text-left'>Reset Password</CardTitle>
-                    <CardDescription className='text-sm mb-2.5 font-regular text-center text-neutral-500'>Enter your password and we will send you an email to update your password.</CardDescription>
+                    <CardTitle className='text-xl font-semibold text-left'>Change Password</CardTitle>
                 </CardHeader>
                 <CardContent className='mb-0 flex flex-col gap-3'>
                     <FormField
-                        id="email"
-                        label="Email"
-                        type="email"
-                        placeholder="Enter your email address"
+                        id="new-password"
+                        label="New Password"
+                        type="password"
+                        placeholder="Enter your new password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <FormField
+                        id="new-password-confirm"
+                        label="Confirm Password"
+                        type="password"
+                        placeholder="Confirm your new password"
+                        value={confirm}
+                        onChange={(e) => setConfirm(e.target.value)}
                     />
 
-                    {sent && (
+                    {error && (
                         <Badge>
-                            ✓ An email has been sent for password recovery
+                            {error}
                         </Badge>
                     )}
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="w-full" onClick={() => setSent(true)}> {/*TODO: replace send email logic*/} 
-                        Send Email
+                    <Button size="lg" className="w-full" onClick={handleUpdatePassword} disabled={submitting}>
+                        {submitting ? 'Updating...' : 'Update Password'}
                     </Button>
-                    <Button size="lg" className="w-full" onClick={() => navigate('login')}> 
+                    <Button size="lg" className="w-full" onClick={() => navigate('/login')}>
                         Cancel
                     </Button>
                 </CardFooter>
@@ -52,8 +87,4 @@ function Onboarding() {
     )
 }
 
-
-
-
-
-export default Onboarding
+export default ResetPassword
