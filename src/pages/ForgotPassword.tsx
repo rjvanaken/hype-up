@@ -58,7 +58,7 @@ function ForgotPassword() {
 
                     {!error && sent && (
                         <Badge variant={'success'}>
-                            <CheckCircle /> An email has been sent for password recovery
+                            <CheckCircle /> An email has been sent for password reset.
                         </Badge>
                     )}
 
