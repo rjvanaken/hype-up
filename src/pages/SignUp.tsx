@@ -108,6 +108,5 @@ function SignUp() {
     </CenteredPage>
   )
 }
-}
 
 export default SignUp
