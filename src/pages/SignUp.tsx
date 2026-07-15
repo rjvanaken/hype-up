@@ -36,7 +36,7 @@ function SignUp() {
             setError (<AlertCircle /> + "Sign up failed. Please try again later.")
   }
 
-
+  }
 
   return (
     <CenteredPage>
