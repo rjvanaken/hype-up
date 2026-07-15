@@ -9,10 +9,13 @@ import { useNavigate } from 'react-router-dom'
 import { AlertCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
+import { validateLoginFields } from '@/lib/validation'
 
 function Onboarding() {
     const navigate = useNavigate()
     const [error, setError] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     
 
     
@@ -24,7 +27,12 @@ function Onboarding() {
     async function handleLogin() {
         // reset error
         setError('')
-    
+
+        const validationError = validateLoginFields(email, password)
+        if (validationError) {
+            setError(validationError)
+            return
+        }
 
         // TODO: get the error here (see other examples) and use conditionals (add to below), set condotionals to each message scenario below
         
@@ -59,12 +67,16 @@ function Onboarding() {
                         label="Email"
                         type="email"
                         placeholder="Enter your email address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <FormField
                         id="password"
                         label="Password"
                         type="password"
                         placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
                         Forgot Password?
