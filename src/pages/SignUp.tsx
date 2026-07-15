@@ -9,6 +9,12 @@ import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
   const navigate = useNavigate()
+  const [first, setFirst] = useState('')
+  const [last, setLast] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [error, setError] = useState('')
 
   return (
     <CenteredPage>
@@ -27,12 +33,16 @@ function SignUp() {
             label="First Name"
             type="text"
             placeholder="Enter your first name"
+value={first}
+            onChange={(e) => setFirst(e.target.value)}            
           />
             <FormField
             id="lastname"
             label="Last Name"
             type="text"
             placeholder="Enter your last name"
+value={last}
+            onChange={(e) => setLast(e.target.value)}            
           />
             </div>
             <FormField
@@ -40,18 +50,24 @@ function SignUp() {
             label="Email"
             type="email"
             placeholder="Enter your email address"
+value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <FormField
             id="password"
             label="Password"
             type="password"
             placeholder="Enter a password"
+value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormField
             id="password-confirm"
             label="Confirm Password"
             type="confirm"
             placeholder="Confirm the password"
+value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
           />
             <p className="w-full text-center text-sm text-primary font-semibold mb-0">
             Password must be at least 8 characters
