@@ -96,7 +96,7 @@ function SignUp() {
             </p>
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
-            <Button size="lg" className="w-full" onClick={() => navigate('/')}>
+            <Button size="lg" className="w-full" onClick={() => handleSignUp())}>
             Create Account
             </Button>
             <div className="flex items-center gap-1">
@@ -108,6 +108,6 @@ function SignUp() {
     </CenteredPage>
   )
 }
-
+}
 
 export default SignUp
