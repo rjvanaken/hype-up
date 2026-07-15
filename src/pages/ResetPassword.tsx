@@ -79,7 +79,7 @@ function ResetPassword() {
                     <Button size="lg" className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
                         {submitting ? 'Updating...' : 'Update Password'}
                     </Button>
-                    <Button size="lg" variant="outline" className="flex-1" onClick={() => navigate('/password-success')}>
+                    <Button size="lg" variant="outline" className="flex-1" onClick={() => navigate('/login')}>
                         Cancel
                     </Button>
                 </CardFooter>
