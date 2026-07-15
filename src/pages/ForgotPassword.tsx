@@ -64,7 +64,7 @@ function ForgotPassword() {
 
                     {!sent && error && (
                         <Badge variant={'destructive'}>
-                            <AlertCircle /> email failed to send. Try again later.
+                            <AlertCircle /> Email failed to send. Try again later.
                         </Badge>
                     )}
 
