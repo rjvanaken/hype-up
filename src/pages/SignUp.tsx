@@ -45,7 +45,13 @@ function SignUp() {
             id="password"
             label="Password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Enter a password"
+          />
+          <FormField
+            id="password-confirm"
+            label="Confirm Password"
+            type="confirm"
+            placeholder="Confirm the password"
           />
             <p className="w-full text-center text-sm text-primary font-semibold mb-0">
             Password must be at least 8 characters
