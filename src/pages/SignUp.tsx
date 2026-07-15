@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { validateSignUpFields } from '@/lib/validation'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -15,6 +17,26 @@ function SignUp() {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
+
+
+  async function handleSignUp() {
+    // reset error
+    setError('')
+
+    const validationError = validateSignUpFields(first, last, email, password, confirm)
+    if (validationError) {
+      setError(validationError)
+      return
+  }
+
+  // TODO: get the error here (see other examples) and use conditionals (add to below), set condotionals to each message scenario below
+  
+          if (error) {
+            setError(error.message)
+            setError (<AlertCircle /> + "Sign up failed. Please try again later.")
+  }
+
+
 
   return (
     <CenteredPage>
@@ -33,7 +55,7 @@ function SignUp() {
             label="First Name"
             type="text"
             placeholder="Enter your first name"
-value={first}
+            value={first}
             onChange={(e) => setFirst(e.target.value)}            
           />
             <FormField
@@ -41,7 +63,7 @@ value={first}
             label="Last Name"
             type="text"
             placeholder="Enter your last name"
-value={last}
+            value={last}
             onChange={(e) => setLast(e.target.value)}            
           />
             </div>
@@ -50,7 +72,7 @@ value={last}
             label="Email"
             type="email"
             placeholder="Enter your email address"
-value={email}
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <FormField
@@ -58,7 +80,7 @@ value={email}
             label="Password"
             type="password"
             placeholder="Enter a password"
-value={password}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <FormField
@@ -66,7 +88,7 @@ value={password}
             label="Confirm Password"
             type="confirm"
             placeholder="Confirm the password"
-value={confirm}
+            value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
           />
             <p className="w-full text-center text-sm text-primary font-semibold mb-0">
