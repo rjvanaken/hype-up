@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Check, X } from 'lucide-react'
 import TopPage from './TopPage'
 import FormSelectField from './FormSelectField'
+import FormField from '@/components/custom/FormField'
 import { useState } from 'react'
 
 
@@ -43,6 +44,11 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
             { value: 'laundry', label: 'Laundry' },
             { value: 'email', label: "That email you've been avoiding" },
           ]}
+        />
+        <FormField
+          id="note"
+          multiline
+          label={<>Note <span className="text-primary">(optional)</span></>}
         />
       </CardContent>
       <CardFooter className="flex flex-col gap-3 mt-2">

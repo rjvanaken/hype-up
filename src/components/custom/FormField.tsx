@@ -3,7 +3,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 
 interface FormFieldProps extends React.ComponentProps<'input'> {
-  label: string
+  label: React.ReactNode
   id: string
   multiline?: boolean
 }
