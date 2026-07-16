@@ -11,7 +11,7 @@ function TopPage({ children, className}: TopPageProps) {
   return (
     <div 
     className={cn(
-      "flex w-full flex-col items-top justify-top gap-2",
+      "flex w-full flex-col items-start justify-start gap-2",
       className
     )}      
   >
