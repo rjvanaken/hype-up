@@ -16,24 +16,44 @@ function ForgotPassword() {
     const [sent, setSent] = useState(false)
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
+    // Loading state to prevent multiple reset email submissions
+    const [isLoading, setIsLoading] = useState(false)
     
     
     async function handleSendEmail() {
-    setError('')
-    // Save the error for error check
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-    })
+        const trimmedEmail = email.trim()
+        
+        setError('')
+        setSent(false) // Reset sent when starting new request
+
+        // Empty field check
+        if (!trimmedEmail) {
+            setError('Enter your email address.')
+            return
+        }
+
+        try {
+            setIsLoading(true)
+
+            // Save the error for error check
+            const { error: resetError } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
+                redirectTo: `${window.location.origin}/reset-password`,
+            })
 
 
-    if (error) {
-        setError(error.message)
-        return
+            if (resetError) {
+                setError('Email failed to send. Please try again later.')
+                return
+            }
+
+            setSent(true)
+        } catch (requestError) {
+            console.error('Password reset request failed:', requestError)
+            setError('Email failed to send. Please try again later.')
+        } finally {
+            setIsLoading(false)
+        }
     }
-
-    setSent(true)
-}
-
 
     return (
         <CenteredPage>
@@ -54,23 +74,26 @@ function ForgotPassword() {
                         placeholder="Enter your email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={isLoading}
                     />
 
-                    {!error && sent && (
-                        <Badge variant={'success'}>
-                            <CheckCircle /> An email has been sent for password reset.
+                    {sent && !error && (
+                        <Badge variant="success">
+                            <CheckCircle />
+                            An email has been sent for password reset.
                         </Badge>
                     )}
 
-                    {!sent && error && (
-                        <Badge variant={'destructive'}>
-                            <AlertCircle /> Email failed to send. Try again later.
+                    {error && (
+                        <Badge variant="destructive">
+                            <AlertCircle />
+                            {error}
                         </Badge>
                     )}
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="flex-1" onClick={() => handleSendEmail()}>
+                    <Button size="lg" className="flex-1" onClick={handleSendEmail} disabled={isLoading}>
                         Send Email
                     </Button>
                     <Button variant="outline" className="flex-1" size="lg" onClick={() => navigate('/login')}> 
