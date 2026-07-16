@@ -1,5 +1,6 @@
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import type { SelectRootChangeEventDetails } from '@base-ui/react/select'
 
 interface FormSelectFieldOption {
   value: string
@@ -13,7 +14,7 @@ interface FormSelectFieldProps {
   options: FormSelectFieldOption[]
   value?: string
   defaultValue?: string
-  onValueChange?: (value: string) => void
+  onValueChange?: (value: string | null, eventDetails: SelectRootChangeEventDetails) => void
 }
 
 function FormSelectField({ label, id, placeholder, options, value, defaultValue, onValueChange }: FormSelectFieldProps) {

@@ -1,11 +1,8 @@
 // import { useNavigate } from 'react-router-dom'
 import TopPage from '@/components/custom/TopPage'
 import Nav from '@/components/custom/Nav'
-import CenteredCard from '@/components/custom/CenteredCard'
 import PostOptions from '@/components/custom/PostOptions'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import { Button } from '@/components/ui/button'
-import { Plus, Check, LifeBuoy } from 'lucide-react'
 import { useState } from 'react'
 import HypePostEntry from '@/components/custom/HypePostEntry'
 import BoostPostEntry from '@/components/custom/BoostPostEntry'
@@ -31,8 +28,8 @@ function Home() {
 
                         {!activeMode && <PostOptions onSelect={setActiveMode} />}
 
-                        {activeMode === 'did-it' && <HypePostEntry></HypePostEntry>}
-                        {activeMode === 'need-help' && <BoostPostEntry></BoostPostEntry>}
+                        {activeMode === 'did-it' && <HypePostEntry onClose={() => setActiveMode(null)} />}
+                        {activeMode === 'need-help' && <BoostPostEntry onClose={() => setActiveMode(null)} />}
 
 
                     <TabsContent value="my-feed">Make changes to your account here.</TabsContent>
