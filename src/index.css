@@ -60,6 +60,9 @@
   --text-sm: 0.875rem;
   --text-xs: 0.75rem;
 
+  /* My Ccolors Display*/
+  --color-dark-hover: var(--dark-hover);
+
   }
 
 :root {
@@ -74,6 +77,7 @@
 --secondary: oklch(0.35712502439458393 0.03840100819983442 250.36075790997927);/*edited*/
 --secondary-foreground:  oklch(0.9700346731479628 0.00838925803625134 168.75516223431006); /*edited*/
 --my-muted: oklch(0.5499154363575358 0.04438103530369831 162.80821579108317);
+--dark-hover: oklch(98.511% 0.00011 271.152 / 0.123);
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
     --accent: oklch(0.97 0 0);
