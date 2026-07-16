@@ -1,10 +1,16 @@
 import CenteredCard from '@/components/custom/CenteredCard'
 import { CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import { X, LifeBuoy } from 'lucide-react'
 import TopPage from './TopPage'
 
-function BoostPostEntry() {
+
+type BoostPostEntryProps = {
+    onClose: () => void
+}
+
+function BoostPostEntry({ onClose}: BoostPostEntryProps) {
   return (
     <TopPage>
     <CenteredCard>
@@ -15,7 +21,9 @@ function BoostPostEntry() {
           </span>
           <CardTitle className='text-md font-semibold'>Asking for a boost</CardTitle>
         </span>
+          <Button variant='ghost' className='w-5 h-5' aria-label="Close" onClick={() => onClose()} >
         <X className="size-5" aria-hidden="true" />
+            </Button>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
         <Label>What do you need to do?</Label>
