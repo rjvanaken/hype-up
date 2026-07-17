@@ -38,7 +38,7 @@ function Onboarding() {
                     </Button>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                    <Button size="lg" className="w-full" onClick={() => navigate('/')}>
+                    <Button size="lg" className="w-full" onClick={() => navigate('/home')}>
                         Log In
                     </Button>
                     <div className="flex items-center gap-1">

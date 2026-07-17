@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { useState } from 'react'
 import HypePostEntry from '@/components/custom/HypePostEntry'
 import BoostPostEntry from '@/components/custom/BoostPostEntry'
+import { Dropdown } from '@/components/custom/Dropdown'
 function Home() {
     // const navigate = useNavigate()
     
@@ -25,6 +26,10 @@ function Home() {
                         <TabsTrigger value="my-feed">My Feed</TabsTrigger>
                         <TabsTrigger value="global-feed">Global Feed</TabsTrigger>
                     </TabsList>
+
+                    <div className='flex flex-1 justify-end mb-1'>
+                    <Dropdown></Dropdown>
+                    </div>
 
                         {!activeMode && <PostOptions onSelect={setActiveMode} />}
 
