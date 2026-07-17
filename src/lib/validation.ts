@@ -7,3 +7,30 @@ export function validatePassword(password: string, confirm: string): string | nu
     }
     return null
 }
+
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+export function validateEmail(email: string): boolean {
+    return EMAIL_REGEX.test(email)
+}
+
+export function validateSignUpFields(first: string, last: string, email: string, password: string, confirm: string): string | null {
+    if (!first || !last || !email || !password || !confirm) {
+        return 'Please fill in all fields.'
+    }
+    if (!validateEmail(email)) {
+        return 'Please enter a valid email address.'
+    }
+    return validatePassword(password, confirm)
+}
+
+export function validateLoginFields(email: string, password: string): string | null {
+    if (!email || !password) {
+        return 'Please fill in all fields.'
+    }
+    if (!validateEmail(email)) {
+        return 'Please enter a valid email address.'
+    }
+    return null
+}
