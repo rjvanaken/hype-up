@@ -28,7 +28,7 @@ function ForgotPassword() {
 
         // Empty field check
         if (!trimmedEmail) {
-            setError('Enter your email address.')
+            setError('Please enter a valid email address.')
             return
         }
 

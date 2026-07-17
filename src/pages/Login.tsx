@@ -28,7 +28,7 @@ function Onboarding() {
         // reset error
         setError('')
 
-        const validationError = validateLoginFields(email, password)
+        const validationError = await validateLoginFields(email, password)
         if (validationError) {
             setError(validationError)
             return
@@ -42,12 +42,12 @@ function Onboarding() {
             
             
             // no account
-            setError (<AlertCircle /> + "No account with that email or password exists.")
+            setError ("No account with that email or password exists.")
             // general login failed error
-            setError (<AlertCircle /> + "Login failed. Pleaes try again later.")
+            setError ("Login failed. Pleaes try again later.")
     }
 
-        useNavigate('/') // TODO (RVA): replace with home once screen added
+        navigate('/home') // TODO (RVA): replace with home once screen added
 }
     
 
@@ -84,7 +84,7 @@ function Onboarding() {
 
                     {error &&(
                         <Badge variant={'destructive'}>
-                           <AlertCircle /> + error
+                           <AlertCircle /> {error}
                         </Badge>
                     )}
 

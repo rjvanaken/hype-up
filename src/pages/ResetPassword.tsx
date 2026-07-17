@@ -33,7 +33,7 @@ function ResetPassword() {
         setSubmitting(false)
 
         if (error) {
-            setError(<AlertCircle /> + 'Something went wrong. Please try again.')
+            setError('Something went wrong. Please try again.')
             return
         }
 
@@ -70,7 +70,7 @@ function ResetPassword() {
 
                     {error && (
                         <Badge variant={'destructive'}>
-                            {error}
+                            <AlertCircle /> {error}
                         </Badge>
                     )}
 
