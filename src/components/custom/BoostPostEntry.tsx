@@ -53,24 +53,27 @@ function BoostPostEntry({ onClose }: BoostPostEntryProps) {
 
           {task === 'other' && (
             <FormField
+            className='border-1 placeholder:text-sm'
             id="description"
-            label={<>Note <span className="text-primary">(optional)</span></>}
+            label={<>Description</>}
             placeholder="Describe it"
             />
           )}
           
 
           <FormField
+            className='border-1 placeholder:text-sm'
             id="note"
             multiline
             label={<>Note <span className="text-primary text-sm">(optional)</span></>}
-            placeholder="How did it make you feel?"
+            placeholder="Ask for some encouragement..."
           />
 
           <FormField
+            className='border-1 placeholder:text-sm'
             id="picture"
             file
-            label={<>Note <span className="text-primary text-sm">(optional)</span></>}
+            label={<>Add an image <span className="text-primary text-sm">(optional)</span></>}
             value={image}
             onChange={(e) => uploadImage(e.target.value)}
           />

@@ -54,7 +54,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           ]}
         />
         <FormField
-        className='border-1'
+        className='border-1 placeholder:text-sm'
           id="note"
           multiline
           label={<>Note <span className="text-primary">(optional)</span></>}
@@ -62,10 +62,10 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           />
 
           <FormField
-          className='border-1'
+          className='border-1 placeholder:text-sm'
           id="picture"
           file
-          label={<>Note <span className="text-primary">(optional)</span></>}
+          label={<>Add an image <span className="text-primary">(optional)</span></>}
           value={image}
           onChange={(e) => uploadImage(e.target.value)}
           />
