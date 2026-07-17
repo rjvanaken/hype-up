@@ -20,19 +20,19 @@ function FormField({ label, id, className, multiline = false, file = false, ...p
           id={id}
           type="file"
           accept="image/*"
-          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2 h-11'}
+          className={className ?? 'mb-2 w-full border-1 border-input px-2.5 py-2 h-11'}
           {...props}
         />
       ) : multiline ? (
         <Textarea
           id={id}
-          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2'}
+          className={className ?? 'mb-2 w-full placeholder:text-sm border-1 border-input px-2.5 py-2'}
           {...(props as React.ComponentProps<'textarea'>)}
         />
       ) : (
         <Input
           id={id}
-          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2 h-11'}
+          className={className ?? 'mb-2 w-full placeholder:text-sm border-1 border-input px-2.5 py-2 h-11'}
           {...props}
         />
       )}

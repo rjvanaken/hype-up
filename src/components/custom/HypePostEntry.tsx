@@ -47,7 +47,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           ]}
         />
         <FormField
-        className='border=0.25'
+        className='border-1'
           id="note"
           multiline
           label={<>Note <span className="text-primary">(optional)</span></>}
@@ -55,7 +55,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           />
 
           <FormField
-          className='border-0.25'
+          className='border-1'
           id="picture"
           file
           label={<>Note <span className="text-primary">(optional)</span></>}
