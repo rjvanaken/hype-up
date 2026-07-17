@@ -2,7 +2,7 @@ import CenteredCard from '@/components/custom/CenteredCard'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
-import { Check, X } from 'lucide-react'
+import { Check, PartyPopper, X } from 'lucide-react'
 import TopPage from './TopPage'
 import FormSelectField from './FormSelectField'
 import FormField from '@/components/custom/FormField'
@@ -26,7 +26,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
       <CardHeader className="flex items-center justify-between border-b pb-4">
         <span className="flex items-center gap-2.5">
           <span className="flex items-center justify-center size-6.5 rounded-full bg-primary">
-            <Check className="size-4.5 text-primary-foreground"aria-hidden="true" />
+            <PartyPopper className="size-4 text-primary-foreground"aria-hidden="true" />
           </span>
           <CardTitle className='text-md font-semibold'>What did you do?</CardTitle>
         </span>

@@ -1,6 +1,6 @@
 import CenteredCard from '@/components/custom/CenteredCard'
 import { Button } from '@/components/ui/button'
-import { Plus, Check, LifeBuoy } from 'lucide-react'
+import { Plus, Check, LifeBuoy, PartyPopper } from 'lucide-react'
 
 type PostOptionsProps = {
     onSelect: (mode: 'did-it' | 'need-help') => void
@@ -13,7 +13,7 @@ function PostOptions({ onSelect }: PostOptionsProps) {
         <Button size="lg" variant='outline' className='text-sm font-medium w-full justify-between flex-1' onClick={() => onSelect('did-it')}>
             <span className="flex items-center gap-2.5">
                 <span className="flex items-center justify-center size-6.5 rounded-full bg-primary">
-                    <Check className="size-4.5 text-primary-foreground" aria-hidden="true" />
+                    <PartyPopper className="size-4 text-primary-foreground" aria-hidden="true" />
                 </span>
                 I did the thing!
             </span>
