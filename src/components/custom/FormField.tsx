@@ -13,7 +13,7 @@ interface FormFieldProps extends React.ComponentProps<'input'> {
 function FormField({ label, id, className, multiline = false, file = false, ...props }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={id} className="text-left text-sm font-medium text-secondary">
+      <Label htmlFor={id} className="text-left text-sm font-medium text-secondary placeholder:text-text-neutral-500">
         {label}
       </Label>
       {file ? (
@@ -21,19 +21,19 @@ function FormField({ label, id, className, multiline = false, file = false, ...p
           id={id}
           type="file"
           accept="image/*"
-          className={cn('mb-2 w-full border-[0.25px] border-neutral-300 px-2.5 py-2 h-11', className)}
+          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2 h-11'}
           {...props}
         />
       ) : multiline ? (
         <Textarea
           id={id}
-          className={cn('mb-2 w-full border-[0.25px] border-neutral-300 px-2.5 py-2 placeholder:text-sm', className)}
+          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2'}
           {...(props as React.ComponentProps<'textarea'>)}
         />
       ) : (
         <Input
           id={id}
-          className={cn('mb-2 w-full border-[0.25px] border-neutral-300 px-2.5 py-2 h-11', className)}
+          className={className ?? 'mb-2 w-full border-0.25 border-neutral-300 px-2.5 py-2 h-11'}
           {...props}
         />
       )}
