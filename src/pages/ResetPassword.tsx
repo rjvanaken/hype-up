@@ -24,7 +24,7 @@ function ResetPassword() {
 
         const validationError = validatePassword(password, confirm)
         if (validationError) {
-            setError(<AlertCircle /> + validationError)
+            setError(validationError)
             return
         }
 
