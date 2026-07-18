@@ -21,7 +21,7 @@ function Home() {
         <Nav></Nav>
         <TopPage className='flex flex-col gap-8 mt-6'>
             <TopPage className='items-center'>
-                <Tabs defaultValue="account" className="w-[640px]">
+                <Tabs defaultValue="my-feed" className="w-[640px]">
                     <TabsList className="w-full mb-4" variant="line">
                         <TabsTrigger value="my-feed">My Feed</TabsTrigger>
                         <TabsTrigger value="global-feed">Global Feed</TabsTrigger>

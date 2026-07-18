@@ -1,10 +1,7 @@
-"use client"
-
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
-import { LayoutGrid, ListFilter, PartyPopper } from 'lucide-react'
-import { Plus, Check, LifeBuoy } from 'lucide-react'
+import { LayoutGrid, ListFilter, PartyPopper, LifeBuoy} from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,

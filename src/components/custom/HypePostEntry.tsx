@@ -18,6 +18,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
 
   const navigate = useNavigate()
   const [task, setTask] = useState('')
+  const [note, setNote] = useState('')
   const [image, uploadImage] = useState('')
 
   return (
@@ -59,6 +60,8 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           multiline
           label={<>Note <span className="text-primary">(optional)</span></>}
           placeholder="How did it feel?"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
           />
 
           <FormField

@@ -16,6 +16,8 @@ type BoostPostEntryProps = {
 function BoostPostEntry({ onClose }: BoostPostEntryProps) {
   const navigate = useNavigate()
   const [task, setTask] = useState('')
+  const [note, setNote] = useState('')
+  const [description, setDescription] = useState('')
   const [image, uploadImage] = useState('')
   return (
     <TopPage>
@@ -57,6 +59,8 @@ function BoostPostEntry({ onClose }: BoostPostEntryProps) {
             id="description"
             label={<>Description</>}
             placeholder="Describe it"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             />
           )}
           
@@ -67,6 +71,8 @@ function BoostPostEntry({ onClose }: BoostPostEntryProps) {
             multiline
             label={<>Note <span className="text-primary text-sm">(optional)</span></>}
             placeholder="Ask for some encouragement..."
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
           />
 
           <FormField

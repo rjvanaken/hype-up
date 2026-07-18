@@ -1,4 +1,3 @@
-// src/components/custom/CenteredPage.tsx
 import { cn } from '@/lib/utils'
 import type { ReactNode } from 'react'
 
