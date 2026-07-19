@@ -6,6 +6,7 @@ import SignUp from '@/pages/SignUp'
 import ForgotPassword from '@/pages/ForgotPassword'
 import ResetPassword from '@/pages/ResetPassword'
 import PasswordSuccess from './pages/PasswordSuccess'
+import Home from './pages/Home'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-success" element={<PasswordSuccess />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   )
