@@ -44,7 +44,7 @@ function SignUp() {
             return
           }
 
-          navigate('/login')
+          navigate('/home')
   }
 
   return (
