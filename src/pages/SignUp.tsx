@@ -8,6 +8,7 @@ import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { validateSignUpFields } from '@/lib/validation'
+import { supabase } from '@/lib/client'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -33,12 +34,9 @@ function SignUp() {
   const { error: signUpError } = await supabase.auth.signUp({email:email.trim(), password, options: { data: { first_name: first.trim(), last_name: last.trim() } }})
   
           if (signUpError) {
-            const message = signUpError.message.toLowerCase()
-
-            if (message.includes('already registered')) {
+            
+            if (signUpError.code==='user_already_exists'){ 
               setError("An account with this email already exists.")
-            } else if (message.includes('password')) {
-              setError("Password must be at least 8 characters.")
             } else {
               setError("Sign up failed. Please try again later.")
             }
