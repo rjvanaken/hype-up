@@ -8,6 +8,7 @@ import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { validateSignUpFields } from '@/lib/validation'
+import { supabase } from '@/lib/client'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -29,13 +30,21 @@ function SignUp() {
       return
   }
 
-  // TODO: get the error here (see other examples) and use conditionals (add to below), set condotionals to each message scenario below
+  // Creates new user account and saves metadata to database, else request is rejected with error message
+  const { error: signUpError } = await supabase.auth.signUp({email:email.trim(), password, options: { data: { first_name: first.trim(), last_name: last.trim() } }})
   
-          if (error) {
-            setError(error.message)
-            setError (<AlertCircle /> + "Sign up failed. Please try again later.")
-  }
+          if (signUpError) {
+            
+            if (signUpError.code==='user_already_exists'){ 
+              setError("An account with this email already exists.")
+            } else {
+              setError("Sign up failed. Please try again later.")
+            }
 
+            return
+          }
+
+          navigate('/home')
   }
 
   return (
@@ -86,7 +95,7 @@ function SignUp() {
           <FormField
             id="password-confirm"
             label="Confirm Password"
-            type="confirm"
+            type="password"
             placeholder="Confirm the password"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
@@ -94,6 +103,16 @@ function SignUp() {
             <p className="w-full text-center text-sm text-primary font-semibold mb-0">
             Password must be at least 8 characters
             </p>
+
+            {error && (
+            <p
+              role="alert"
+              className="w-full text-center text-sm font-medium text-destructive"
+            >
+              {error}
+            </p>
+          )}
+
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
             <Button size="lg" className="w-full" onClick={() => handleSignUp()}>

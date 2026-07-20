@@ -10,6 +10,7 @@ import { AlertCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { validateLoginFields } from '@/lib/validation'
+import { supabase } from '@/lib/client'
 
 function Onboarding() {
     const navigate = useNavigate()
@@ -17,39 +18,33 @@ function Onboarding() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     
-
-    
-    // TODO: base this off of similar logic in the ForgotPassword screen
-    // likely the error message will come through with diff ids
-    // we want one for no account in database and for failed login
-    
-
     async function handleLogin() {
         // reset error
         setError('')
 
-        const validationError = validateLoginFields(email, password)
+        const validationError = validateLoginFields(email.trim(), password)
         if (validationError) {
             setError(validationError)
             return
         }
 
-        // TODO: get the error here (see other examples) and use conditionals (add to below), set condotionals to each message scenario below
+        // Error handling for no account found and general login
+        const { error: loginError } = await supabase.auth.signInWithPassword({ email: email.trim(), password: password })
         
-        
-        if (error) {
-            setError(error.message)
-            
-            
-            // no account
-            setError (<AlertCircle /> + "No account with that email or password exists.")
-            // general login failed error
-            setError (<AlertCircle /> + "Login failed. Pleaes try again later.")
-    }
+        if (loginError) {
+            if (loginError.code === 'invalid_credentials') {
+                // no account
+                setError ("No account matching that email and password was found.")
+            } else {
+                // general login failed error
+                setError ("Login failed. Please try again later.")
+            }
 
-        useNavigate('/') // TODO (RVA): replace with home once screen added
-}
-    
+            return
+        }
+
+        navigate('/home') 
+    }
 
     return (
         <CenteredPage>
@@ -84,13 +79,14 @@ function Onboarding() {
 
                     {error &&(
                         <Badge variant={'destructive'}>
-                           <AlertCircle /> + error
+                           <AlertCircle />
+                           {error}
                         </Badge>
                     )}
 
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                    <Button size="lg" className="w-full" onClick={() => navigate('/home')}>
+                    <Button size="lg" className="w-full" onClick={handleLogin}>
                         Log In
                     </Button>
                     <div className="flex items-center gap-1">
@@ -102,6 +98,5 @@ function Onboarding() {
         </CenteredPage>
     )
 }
-
 
 export default Onboarding
