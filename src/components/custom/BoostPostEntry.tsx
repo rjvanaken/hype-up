@@ -1,4 +1,4 @@
-import CenteredCard from '@/components/custom/CenteredCard'
+import CustomCard from '@/components/custom/CustomCard'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import FormSelectField from '@/components/custom/FormSelectField'
 import FormField from '@/components/custom/FormField'
@@ -21,7 +21,7 @@ function BoostPostEntry({ onClose }: BoostPostEntryProps) {
   const [image, uploadImage] = useState('')
   return (
     <TopPage>
-      <CenteredCard>
+      <CustomCard>
         <CardHeader className="flex items-center justify-between border-b pb-4">
           <span className="flex items-center gap-2.5">
             <span className="flex items-center justify-center size-6.5 rounded-full bg-primary">
@@ -91,7 +91,7 @@ function BoostPostEntry({ onClose }: BoostPostEntryProps) {
             Post
           </Button>
         </CardFooter>
-      </CenteredCard>
+      </CustomCard>
     </TopPage>
   )
 }

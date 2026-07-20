@@ -1,5 +1,5 @@
-import CenteredPage from '@/components/custom/CenteredPage'
-import CenteredCard from '@/components/custom/CenteredCard'
+import PageLayout from '@/components/custom/PageLayout'
+import CustomCard from '@/components/custom/CustomCard'
 import FormField from '@/components/custom/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -58,12 +58,12 @@ function ForgotPassword() {
     }
 
     return (
-        <CenteredPage>
+        <PageLayout centerPage maxWidth={380}>
             <div>
                 <img src={logo} alt="" className="mx-auto h-16 w-16 object-contain !rounded-none" />
                 <img src={text_logo_large} alt="" className="mx-auto h-35 object-contain" />
             </div>
-            <CenteredCard>
+            <CustomCard>
                 <CardHeader>
                     <CardTitle className='text-xl font-semibold text-left'>Forgot Password</CardTitle>
                     <CardDescription className='text-sm mb-0 mt-2 font-regular text-left text-neutral-500'>Enter your email and we will send you an email to update your password.</CardDescription>
@@ -102,8 +102,8 @@ function ForgotPassword() {
                         Cancel
                     </Button>
                 </CardFooter>
-            </CenteredCard>
-        </CenteredPage>
+            </CustomCard>
+        </PageLayout>
     )
 }
 

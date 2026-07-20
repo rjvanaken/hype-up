@@ -1,5 +1,5 @@
-import CenteredCard from '@/components/custom/CenteredCard'
-import CenteredPage from '@/components/custom/CenteredPage'
+import CustomCard from '@/components/custom/CustomCard'
+import PageLayout from '@/components/custom/PageLayout'
 import FormField from '@/components/custom/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -50,12 +50,12 @@ function SignUp() {
   }
 
   return (
-    <CenteredPage>
+      <PageLayout centerPage maxWidth={380}>
         <div>
         <img src={logo} alt="" className="mx-auto mb-0 h-14 object-contain !rounded-none" />
         <img src={text_logo_large} alt="" className="mx-auto mt-0 h-28 object-contain" />
         </div>
-        <CenteredCard>
+        <CustomCard>
         <CardHeader>
             <CardTitle className='text-xl font-semibold text-left'>Create an account</CardTitle>
         </CardHeader>
@@ -123,8 +123,8 @@ function SignUp() {
             <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
             </div>
         </CardFooter>
-        </CenteredCard>
-    </CenteredPage>
+        </CustomCard>
+    </PageLayout>
   )
 }
 
