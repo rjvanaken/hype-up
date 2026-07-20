@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { supabase } from '@/lib/client'
 import { CheckCircle, AlertCircle } from 'lucide-react'
+import { validateEmail } from '@/lib/validation'
 
 function ForgotPassword() {
     const navigate = useNavigate()
@@ -19,18 +20,19 @@ function ForgotPassword() {
     // Loading state to prevent multiple reset email submissions
     const [isLoading, setIsLoading] = useState(false)
     
-    
+
+
     async function handleSendEmail() {
         const trimmedEmail = email.trim()
         
         setError('')
         setSent(false) // Reset sent when starting new request
-
-        // Empty field check
-        if (!trimmedEmail) {
+        
+        if (!validateEmail(trimmedEmail)) {
             setError('Please enter a valid email address.')
             return
         }
+        
 
         try {
             setIsLoading(true)
