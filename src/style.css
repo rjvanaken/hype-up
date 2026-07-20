@@ -3,6 +3,7 @@
 .page-layout {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .page-layout-centered {
@@ -11,6 +12,14 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+
+
+.page-content {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* TwoColumnLayout */
@@ -78,12 +87,4 @@
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
   transform: translateZ(0);
   will-change: transform;
-}
-
-
-.page-content {
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
 }
