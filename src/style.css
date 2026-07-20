@@ -1,0 +1,64 @@
+/* PageLayout */
+
+.page-layout {
+  position: relative;
+  min-height: 100vh;
+}
+
+
+/* TwoColumnLayout */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px;
+  align-items: start;
+  max-width: 1000px;
+}
+
+.main-col {
+  min-width: 0;
+  padding: 24px;
+}
+
+.sidebar-col {
+  min-width: 0;
+  padding: 24px
+}
+
+
+/* Glassomorphism */
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-blob.one {
+  width: 300px; height: 300px;
+  background: #7BC8AA;
+  opacity: 0.35;
+  top: -40px; left: 20%;
+}
+
+.bg-blob.two {
+  width: 260px; height: 260px;
+  background: #4A907A;
+  opacity: 0.2;
+  top: 300px; right: 5%;
+}
+
+.bg-blob.three {
+  width: 240px; height: 240px;
+  background: #B8D4C8;
+  opacity: 0.4;
+  top: 700px; left: 40%;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
