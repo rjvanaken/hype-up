@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:home": "vite --open /home",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

@@ -24,20 +24,26 @@ function ResetPassword() {
 
         const validationError = validatePassword(password, confirm)
         if (validationError) {
-            setError(<AlertCircle /> + validationError)
+            setError(validationError)
             return
         }
 
-        setSubmitting(true)
-        const { error } = await supabase.auth.updateUser({ password })
-        setSubmitting(false)
+        try {
+            setSubmitting(true)
+            const { error } = await supabase.auth.updateUser({ password })
 
-        if (error) {
-            setError(<AlertCircle /> + 'Something went wrong. Please try again.')
-            return
+            if (error) {
+                setError('Something went wrong. Please try again.')
+                return
+            }
+
+            navigate('/password-success')
+        } catch (requestError) {
+            console.error('Password update failed:', requestError)
+            setError('Something went wrong. Please try again.')
+        } finally {
+            setSubmitting(false)
         }
-
-        navigate('/password-success')
     }
 
     return (
@@ -58,6 +64,7 @@ function ResetPassword() {
                         placeholder="Enter your new password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={submitting}
                     />
                     <FormField
                         id="new-password-confirm"
@@ -66,11 +73,12 @@ function ResetPassword() {
                         placeholder="Confirm your new password"
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
+                        disabled={submitting}
                     />
 
                     {error && (
                         <Badge variant={'destructive'}>
-                            {error}
+                            <AlertCircle /> {error}
                         </Badge>
                     )}
 
