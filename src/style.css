@@ -19,19 +19,25 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
   gap: 24px;
-  align-items: start;
+  padding: 24px;
+  align-items: stretch;
   max-width: 1000px;
 }
 
 .main-col {
   min-width: 0;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.sidebar-col {
+.right-col {
   min-width: 0;
-  padding: 24px
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
+
 
 
 /* Glassomorphism */
@@ -77,6 +83,7 @@
 
 .page-content {
   width: 100%;
+  margin: 0 auto;
   position: relative;
   z-index: 1;
 }
