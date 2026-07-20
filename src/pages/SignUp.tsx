@@ -3,12 +3,14 @@ import CenteredPage from '@/components/custom/CenteredPage'
 import FormField from '@/components/custom/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { validateSignUpFields } from '@/lib/validation'
 import { supabase } from '@/lib/client'
+import { AlertCircle} from 'lucide-react'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -104,14 +106,12 @@ function SignUp() {
             Password must be at least 8 characters
             </p>
 
-            {error && (
-            <p
-              role="alert"
-              className="w-full text-center text-sm font-medium text-destructive"
-            >
-              {error}
-            </p>
-          )}
+                    {error &&(
+                        <Badge variant= {'destructive'}>
+                           <AlertCircle />
+                           {error}
+                        </Badge>
+                    )}
 
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
