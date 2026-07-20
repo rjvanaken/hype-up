@@ -1,5 +1,3 @@
-import CenteredPage from '@/components/custom/CenteredPage'
-import CenteredCard from '@/components/custom/CenteredCard'
 import FormField from '@/components/custom/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -11,6 +9,8 @@ import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { validateLoginFields } from '@/lib/validation'
 import { supabase } from '@/lib/client'
+import CustomCard from '@/components/custom/CustomCard'
+import PageLayout from '@/components/custom/PageLayout'
 
 function Onboarding() {
     const navigate = useNavigate()
@@ -47,12 +47,12 @@ function Onboarding() {
     }
 
     return (
-        <CenteredPage>
+            <PageLayout centerPage maxWidth={380}>
             <div>
                 <img src={logo} alt="" className="mx-auto h-16 w-16 object-contain !rounded-none" />
                 <img src={text_logo_large} alt="" className="mx-auto h-35 object-contain" />
             </div>
-            <CenteredCard>
+            <CustomCard>
                 <CardHeader>
                     <CardTitle className='text-xl font-semibold text-left'>Log into your account</CardTitle>
                 </CardHeader>
@@ -94,8 +94,8 @@ function Onboarding() {
                         <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </Button>
                     </div>
                 </CardFooter>
-            </CenteredCard>
-        </CenteredPage>
+            </CustomCard>
+        </PageLayout>
     )
 }
 
