@@ -34,7 +34,7 @@ function Onboarding() {
         if (loginError) {
             if (loginError.code === 'invalid_credentials') {
                 // no account
-                setError ("No account matching that email and password was found.")
+                setError ("No account with that email or password exists.")
             } else {
                 // general login failed error
                 setError ("Login failed. Please try again later.")
