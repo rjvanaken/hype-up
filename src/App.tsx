@@ -7,11 +7,13 @@ import ForgotPassword from '@/pages/ForgotPassword'
 import ResetPassword from '@/pages/ResetPassword'
 import PasswordSuccess from './pages/PasswordSuccess'
 import Home from './pages/Home'
+import AppNav from './components/custom/AppNav'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Onboarding and Login - no navigation */}
         <Route path="/" element={<Onboarding />} />
         <Route path="/onboarding-step-2" element={<OnboardingStep2 />} />
         <Route path="/login" element={<Login />} />
@@ -19,7 +21,11 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-success" element={<PasswordSuccess />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* Main app - navigation applied */}
+        <Route element={<AppNav />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

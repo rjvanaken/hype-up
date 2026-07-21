@@ -13,11 +13,8 @@ function Home() {
 
     return (
         <>
-            <Nav></Nav>
             <div>
-                {/* Insert sidebar here */}
                 <PageLayout maxWidth={1000}>
-
                     <TwoColumnLayout
                         main={
                             <>
