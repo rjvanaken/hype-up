@@ -16,20 +16,20 @@ export function validateEmail(email: string): boolean {
 }
 
 export function validateSignUpFields(first: string, last: string, email: string, password: string, confirm: string): string | null {
-    if (!first || !last || !email || !password || !confirm) {
+    if (!first?.trim() || !last?.trim() || !email?.trim() || !password || !confirm) {
         return 'Please fill in all fields.'
     }
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
         return 'Please enter a valid email address.'
     }
     return validatePassword(password, confirm)
 }
 
 export function validateLoginFields(email: string, password: string): string | null {
-    if (!email || !password) {
+    if (!email?.trim() || !password) {
         return 'Please fill in all fields.'
     }
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
         return 'Please enter a valid email address.'
     }
     return null
