@@ -1,8 +1,8 @@
-import CenteredCard from '@/components/custom/CenteredCard'
+import CustomCard from '@/components/custom/CustomCard'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
-import { Check, PartyPopper, X } from 'lucide-react'
+import { PartyPopper, X } from 'lucide-react'
 import TopPage from './TopPage'
 import FormSelectField from './FormSelectField'
 import FormField from '@/components/custom/FormField'
@@ -23,7 +23,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
 
   return (
     <TopPage>
-    <CenteredCard>
+    <CustomCard>
       <CardHeader className="flex items-center justify-between border-b pb-4">
         <span className="flex items-center gap-2.5">
           <span className="flex items-center justify-center size-6.5 rounded-full bg-primary">
@@ -81,7 +81,7 @@ function HypePostEntry({ onClose}: HypePostEntryProps) {
           Post
         </Button>
       </CardFooter>
-    </CenteredCard>
+    </CustomCard>
     </TopPage>
   )
 }

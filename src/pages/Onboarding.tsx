@@ -1,16 +1,17 @@
-import CenteredCard from '@/components/custom/CenteredCard'
-import CenteredPage from '@/components/custom/CenteredPage'
+import CustomCard from '@/components/custom/CustomCard'
+import PageLayout from '@/components/custom/PageLayout'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import { useNavigate } from 'react-router-dom'
 
+
 function Onboarding() {
   const navigate = useNavigate()
 
   return (
-    <CenteredPage>
-    <CenteredCard>
+  <PageLayout centerPage maxWidth={380}>
+    <CustomCard>
         <img src={logo} alt="" className="mx-auto mt-6 h-15 object-contain !rounded-none" />
       <CardHeader></CardHeader>
       <CardHeader>
@@ -28,8 +29,8 @@ function Onboarding() {
             <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
             </div>
       </CardFooter>
-    </CenteredCard>
-    </CenteredPage>
+    </CustomCard>
+    </PageLayout>
   )
 }
 

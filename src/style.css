@@ -1,0 +1,146 @@
+
+/* Navigation */
+
+.app-shell {
+  display: flex;
+}
+
+.page-scroll-area {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+
+.sidebar-header{
+  position: fixed;
+  padding: 24px;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+
+.floating {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+}
+
+/* PageLayout */
+
+
+
+.page-layout {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  top:72px
+}
+
+.reverse-corner-top-left {
+  --r: 50px;
+  width: var(--r);
+  height: var(--r);
+  position: fixed;
+  z-index: 9999;
+  top: 72px;
+  left: 254px;
+  background: radial-gradient(circle at 100% 100%, transparent var(--r), var(--secondary) calc(var(--r) + 1px));
+
+}
+
+.page-layout-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+
+.page-content {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* TwoColumnLayout */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  padding: 24px;
+  align-items: stretch;
+  max-width: 1000px;
+}
+
+.main-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+/* Glassomorphism */
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-blob.one {
+  width: 300px; height: 300px;
+  background: #7BC8AA;
+  opacity: 0.35;
+  top: -40px; left: 20%;
+}
+
+.bg-blob.two {
+  width: 260px; height: 260px;
+  background: #4A907A;
+  opacity: 0.2;
+  top: 300px; right: 5%;
+}
+
+.bg-blob.three {
+  width: 240px; height: 240px;
+  background: #B8D4C8;
+  opacity: 0.4;
+  top: 700px; left: 40%;
+}
+
+.card-glass {
+  background:  var(--card-glass) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .fab {
+    display: none;
+  }
+  .reverse-corner-top-left {
+    display: none;
+  }
+}
