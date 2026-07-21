@@ -5,11 +5,11 @@ import { Outlet } from "react-router-dom"
 function AppNav() {
   return (
       <div className="app-shell flex-col">
-        <SidebarHeader className="sidebar-header text-white bg-secondary">TESTINGTESTING123</SidebarHeader>
-    
-    <SidebarProvider className="">
-      <Sidebar>
-        <SidebarContent className="bg-secondary">
+        {/* <SidebarHeader className="card-glass sidebar-header text-white">TESTINGTESTING123</SidebarHeader> */}
+
+    <SidebarProvider className="card-glass">
+      <Sidebar className="card-glass">
+        <SidebarContent className="card-glass">
           {/* your nav items go here */}
         </SidebarContent>
       </Sidebar>
@@ -20,7 +20,7 @@ function AppNav() {
     </SidebarProvider>
 
 
-      <div className="page-scroll-area">
+      <div className="page-scroll-area transparent">
       </div>
       <div className="reverse-corner-top-left"></div>
             {/* <FAB /> */}

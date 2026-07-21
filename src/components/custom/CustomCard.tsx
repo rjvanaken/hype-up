@@ -10,7 +10,7 @@ interface CardProps {
 
 function CustomCard({ className = '', padding = 'py-6 px-6', glass=true, children }: CardProps) {
   return (
-    <Card className={`w-full flex flex-col ${padding} shadow-lg !border-none ${glass ? 'card-glass' : ''} ${className}`}>
+    <Card className={`w-full flex flex-col ${padding} shadow-lg text-white !border-none ${glass ? 'card-glass' : ''} ${className}`}>
       {children}
     </Card>
   )
