@@ -63,7 +63,7 @@ function ProfileStat({ value, label }: ProfileStatProps) {
         {value}
       </span>
 
-      <span className="text-xs uppercase text-muted-foreground">
+      <span className="text-xxs uppercase text-muted-foreground">
         {label}
       </span>
     </div>
