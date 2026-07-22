@@ -21,7 +21,6 @@ function ProfileSummaryCard({
 }: ProfileSummaryCardProps) {
   return (
     <CustomCard>
-      className="flex flex-col items-center"
 
     <div className='items-center flex flex-col gap-3 w-full'>  
       <Avatar className="size-16">
