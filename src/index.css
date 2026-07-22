@@ -77,6 +77,7 @@
   --text-md: 1rem;
   --text-sm: 0.875rem;
   --text-xs: 0.75rem;
+  --text-xxs: 0.65rem;
 
   /* My Ccolors Display*/
   --color-dark-hover: var(--dark-hover);
