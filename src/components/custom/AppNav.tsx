@@ -65,7 +65,7 @@ function AppNav() {
 
         </div>
       </SidebarHeader>
-      <SidebarProvider className="">
+      <SidebarProvider className="" style={{ "--sidebar-width": "12rem" } as React.CSSProperties}>
         <Sidebar>
           <SidebarContent className="bg-secondary px-3">
             <div className="flex flex-col flex-1 justify-between mb-15">
@@ -121,7 +121,7 @@ function AppNav() {
             </div>
           </SidebarContent>
         </Sidebar>
-        <main className="w-full ">
+        <main className="w-full pt-[72px]">
           <Outlet />
           {/* rest of your app */}
         </main>

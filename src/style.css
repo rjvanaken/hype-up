@@ -56,7 +56,6 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  top:72px
 }
 
 .reverse-corner-top-left {
@@ -66,7 +65,7 @@
   position: fixed;
   z-index: 9999;
   top: 72px;
-  left: 254px;
+  left: 190px;
   background: radial-gradient(circle at 100% 100%, transparent var(--r), var(--secondary) calc(var(--r) + 1px));
 
 }
