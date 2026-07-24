@@ -14,7 +14,8 @@
 
 .sidebar-header{
   position: fixed;
-  padding: 24px;
+  height: 72px;
+  padding: 0 24px;
   left: 0;
   right: 0;
   z-index: 9999;
