@@ -28,9 +28,28 @@
   z-index: 9999;
 }
 
+
+.nav-link {
+  padding-left: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: left;
+  justify-content: start;
+  gap: 12px;
+}
+
 /* PageLayout */
 
-
+.nav-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: left;
+  gap: 12px;
+}
 
 .page-layout {
   position: relative;

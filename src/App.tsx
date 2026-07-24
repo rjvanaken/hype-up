@@ -8,6 +8,9 @@ import ResetPassword from '@/pages/ResetPassword'
 import PasswordSuccess from './pages/PasswordSuccess'
 import Home from './pages/Home'
 import AppNav from './components/custom/AppNav'
+import Profile from './pages/Profile'
+import Todos from './pages/Todos'
+import Reminders from './pages/Reminders'
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-success" element={<PasswordSuccess />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/todos" element={<Todos />} />
+        <Route path="/" element={<Reminders />} />
 
         {/* Main app - navigation applied */}
         <Route element={<AppNav />}>
