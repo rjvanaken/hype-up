@@ -9,32 +9,25 @@ export type Todo = {
   completed: boolean
 }
 
-type HomeTodosProps = {
-  todos?: Todo[]
+type TodoCardProps = {
+  todos: Todo[]
   onAddTodo?: () => void
   onViewAll?: () => void
   onToggleTodo?: (id: string) => void
 }
 
-const mockTodos: Todo[] = [
-  {
-    id: '1',
-    text: 'Pack gym bag',
-    completed: false,
-  },
-]
-
 function HomeTodos({
-  todos = mockTodos,
+  todos,
   onAddTodo,
   onViewAll,
   onToggleTodo,
-}: HomeTodosProps) {
+}: TodoCardProps) {
   const activeTodos = todos.filter((todo) => !todo.completed)
+  const completedTodos = todos.filter((todo) => todo.completed)
 
   return (
     <CustomCard padding="p-5">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-medium uppercase text-neutral-600">
             Todos
@@ -50,25 +43,55 @@ function HomeTodos({
           </Button>
         </div>
 
-        {activeTodos.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No active todos.
-          </p>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {activeTodos.slice(0, 3).map((todo) => (
-              <label
+        {/* Active todos */}
+        <div className="flex flex-col">
+          {activeTodos.length === 0 ? (
+            <p className="py-2 text-sm text-muted-foreground">
+              You’re all caught up! Add a todo when you’re ready.
+            </p>
+          ) : (
+            activeTodos.slice(0, 3).map((todo) => (
+              <div
                 key={todo.id}
-                className="flex cursor-pointer items-center gap-2"
+                className="flex items-center gap-2 border-b py-2"
               >
                 <Checkbox
-                  checked={todo.completed}
+                  checked={false}
+                  aria-label={`Mark ${todo.text} as complete`}
                   onCheckedChange={() => onToggleTodo?.(todo.id)}
                 />
 
                 <span className="text-sm">{todo.text}</span>
-              </label>
-            ))}
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Completed todos */}
+        {completedTodos.length > 0 && (
+          <div>
+            <p className="mb-1 text-xs font-medium uppercase text-neutral-600">
+              Completed
+            </p>
+
+            <div className="flex flex-col">
+              {completedTodos.slice(0, 2).map((todo) => (
+                <div
+                  key={todo.id}
+                  className="flex items-center gap-2 border-b py-2"
+                >
+                  <Checkbox
+                    checked
+                    aria-label={`Mark ${todo.text} as incomplete`}
+                    onCheckedChange={() => onToggleTodo?.(todo.id)}
+                  />
+
+                  <span className="text-sm text-muted-foreground line-through">
+                    {todo.text}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
