@@ -56,7 +56,7 @@ function HomeTodos({
                 className="flex items-center gap-2 border-b py-2"
               >
                 <Checkbox
-                  checked={false}
+                  checked={todo.completed}
                   aria-label={`Mark ${todo.text} as complete`}
                   onCheckedChange={() => onToggleTodo?.(todo.id)}
                 />

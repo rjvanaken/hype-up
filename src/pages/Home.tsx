@@ -1,13 +1,15 @@
 
 
-import HomeTodos from '@/components/custom/HomeTodos'
+import HomeTodos, { type Todo } from '@/components/custom/HomeTodos'
 import CustomCard from '@/components/custom/CustomCard'
 import PageLayout from '@/components/custom/PageLayout'
 import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
 import FeedBox from '@/components/custom/FeedBox'
 
-const mockTodos = [
+import { useState } from 'react'
+
+const mockTodos: Todo[] = [
   {
     id: '1',
     text: 'Pack gym bag for tomorrow',
@@ -39,6 +41,19 @@ const mockTodos = [
 function Home() {
     // const navigate = useNavigate()
 
+
+  const [todos, setTodos] = useState<Todo[]>(mockTodos)
+
+  function handleToggleTodo(id: string) {
+    setTodos((currentTodos) =>
+      currentTodos.map((todo) =>
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    )
+  }
+
     return (
         <>
             <div>
@@ -53,7 +68,7 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <HomeTodos todos={mockTodos} /> {/*placeholder*/}
+                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
