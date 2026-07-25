@@ -1,5 +1,6 @@
 
-import Nav from '@/components/custom/Nav'
+
+import HomeTodos from '@/components/custom/HomeTodos'
 import CustomCard from '@/components/custom/CustomCard'
 import PageLayout from '@/components/custom/PageLayout'
 import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
@@ -25,7 +26,7 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <CustomCard><p>HomeTodos</p></CustomCard> {/*placeholder*/}
+                                    <HomeTodos /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
