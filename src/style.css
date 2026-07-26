@@ -14,7 +14,8 @@
 
 .sidebar-header{
   position: fixed;
-  padding: 24px;
+  height: 72px;
+  padding: 0 24px;
   left: 0;
   right: 0;
   z-index: 9999;
@@ -28,15 +29,33 @@
   z-index: 9999;
 }
 
+
+.nav-link {
+  padding-left: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: left;
+  justify-content: start;
+  gap: 12px;
+}
+
 /* PageLayout */
 
-
+.nav-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: left;
+  gap: 12px;
+}
 
 .page-layout {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  top:72px
 }
 
 .reverse-corner-top-left {
@@ -46,7 +65,7 @@
   position: fixed;
   z-index: 9999;
   top: 72px;
-  left: 254px;
+  left: 190px;
   background: radial-gradient(circle at 100% 100%, transparent var(--r), var(--secondary) calc(var(--r) + 1px));
 
 }
