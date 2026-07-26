@@ -2,7 +2,7 @@ import CustomCard from '@/components/custom/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Plus } from 'lucide-react'
-import { Tooltip, TooltipContent, TooltipTrigger, } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 export type Todo = {
   id: string
@@ -32,7 +32,7 @@ function HomeTodos({
         {/* Card header */}
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-medium uppercase text-neutral-600">
-            Todos
+            Todos ({activeTodos.length})
           </h2>
 
           <Button
@@ -60,15 +60,21 @@ function HomeTodos({
                 <Tooltip>
                   <TooltipTrigger
                     render={
-                      <Checkbox
-                        checked={todo.completed}
-                        aria-label={`Mark ${todo.text} as complete`}
-                        onCheckedChange={() => onToggleTodo?.(todo.id)}
-                      />
+                      <span className="inline-flex size-6 shrink-0 items-center justify-center">
+                        <Checkbox
+                          checked={todo.completed}
+                          aria-label={`Mark ${todo.text} as complete`}
+                          onCheckedChange={() => onToggleTodo?.(todo.id)}
+                        />
+                     </span>
                     }
                   />
 
-                  <TooltipContent>
+                  <TooltipContent
+                    side="top"
+                    sideOffset={8}
+                    className="pointer-events-none"
+                  >
                     Mark Complete
                   </TooltipContent>
                 </Tooltip>
@@ -85,7 +91,7 @@ function HomeTodos({
         {completedTodos.length > 0 && (
           <div>
             <p className="mb-1 text-xs font-medium uppercase text-neutral-600">
-              Completed
+              Completed ({completedTodos.length})
             </p>
 
             <div className="flex flex-col">
@@ -97,15 +103,21 @@ function HomeTodos({
                   <Tooltip>
                     <TooltipTrigger
                       render={
-                        <Checkbox
-                          checked={todo.completed}
-                          aria-label={`Mark ${todo.text} as incomplete`}
-                          onCheckedChange={() => onToggleTodo?.(todo.id)}
-                        />
-                      }
-                    />
+                        <span className="inline-flex size-6 shrink-0 items-center justify-center">
+                          <Checkbox
+                            checked={todo.completed}
+                            aria-label={`Mark ${todo.text} as incomplete`}
+                            onCheckedChange={() => onToggleTodo?.(todo.id)}
+                          />
+                       </span>
+                        }
+                      />
 
-                    <TooltipContent>
+                    <TooltipContent
+                      side="top"
+                      sideOffset={8}
+                      className="pointer-events-none"
+                      >
                       Mark Incomplete
                     </TooltipContent>
                   </Tooltip>
