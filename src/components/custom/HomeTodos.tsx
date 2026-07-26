@@ -1,11 +1,48 @@
+import { useState, type FormEvent } from 'react'
+import {
+  Bell,
+  EllipsisVertical,
+  Plus,
+  Trash2,
+} from 'lucide-react'
+
 import CustomCard from '@/components/custom/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Plus } from 'lucide-react'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { useState, type FormEvent } from 'react'
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export type Todo = {
   id: string
@@ -16,6 +53,8 @@ export type Todo = {
 type TodoCardProps = {
   todos: Todo[]
   onAddTodo?: (text: string) => void
+  onDeleteTodo?: (id: string) => void
+  onSetReminder?: (todo: Todo) => void
   onViewAll?: () => void
   onToggleTodo?: (id: string) => void
 }
@@ -23,14 +62,19 @@ type TodoCardProps = {
 function HomeTodos({
   todos,
   onAddTodo,
+  onDeleteTodo,
+  onSetReminder,
   onViewAll,
   onToggleTodo,
 }: TodoCardProps) {
-  const activeTodos = todos.filter((todo) => !todo.completed)
-  const completedTodos = todos.filter((todo) => todo.completed)
-
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [newTodoText, setNewTodoText] = useState('')
+  const [todoToDelete, setTodoToDelete] = useState<Todo | null>(
+    null
+  )
+
+  const activeTodos = todos.filter((todo) => !todo.completed)
+  const completedTodos = todos.filter((todo) => todo.completed)
 
   function handleAddTodo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -57,6 +101,21 @@ function HomeTodos({
     if (!open) {
       setNewTodoText('')
     }
+  }
+
+  function handleDeleteDialogOpenChange(open: boolean) {
+    if (!open) {
+      setTodoToDelete(null)
+    }
+  }
+
+  function handleConfirmDelete() {
+    if (!todoToDelete) {
+      return
+    }
+
+    onDeleteTodo?.(todoToDelete.id)
+    setTodoToDelete(null)
   }
 
   return (
@@ -97,9 +156,11 @@ function HomeTodos({
                         <Checkbox
                           checked={todo.completed}
                           aria-label={`Mark ${todo.text} as complete`}
-                          onCheckedChange={() => onToggleTodo?.(todo.id)}
+                          onCheckedChange={() =>
+                            onToggleTodo?.(todo.id)
+                          }
                         />
-                     </span>
+                      </span>
                     }
                   />
 
@@ -115,6 +176,39 @@ function HomeTodos({
                 <span className="min-w-0 flex-1 break-words text-sm leading-5">
                   {todo.text}
                 </span>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="size-7 shrink-0 text-muted-foreground"
+                        aria-label={`More options for ${todo.text}`}
+                      >
+                        <EllipsisVertical className="size-4" />
+                      </Button>
+                    }
+                  />
+
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => onSetReminder?.(todo)}
+                    >
+                      <Bell className="size-4" />
+                      Set Reminder
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem
+                      className="text-destructive focus:text-destructive"
+                      onClick={() => setTodoToDelete(todo)}
+                    >
+                      <Trash2 className="size-4" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ))
           )}
@@ -140,24 +234,59 @@ function HomeTodos({
                           <Checkbox
                             checked={todo.completed}
                             aria-label={`Mark ${todo.text} as incomplete`}
-                            onCheckedChange={() => onToggleTodo?.(todo.id)}
+                            onCheckedChange={() =>
+                              onToggleTodo?.(todo.id)
+                            }
                           />
-                       </span>
-                        }
-                      />
+                        </span>
+                      }
+                    />
 
                     <TooltipContent
                       side="top"
                       sideOffset={8}
                       className="pointer-events-none"
-                      >
+                    >
                       Mark Incomplete
                     </TooltipContent>
                   </Tooltip>
 
-                  <span className="min-w-0 flex-1 break-words text-sm text-muted-foreground line-through">
+                  <span className="min-w-0 flex-1 break-words text-sm leading-5 text-muted-foreground line-through">
                     {todo.text}
                   </span>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="size-7 shrink-0 text-muted-foreground"
+                          aria-label={`More options for ${todo.text}`}
+                        >
+                          <EllipsisVertical className="size-4" />
+                        </Button>
+                      }
+                    />
+
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => onSetReminder?.(todo)}
+                      >
+                        <Bell className="size-4" />
+                        Set Reminder
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={() => setTodoToDelete(todo)}
+                      >
+                        <Trash2 className="size-4" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               ))}
             </div>
@@ -165,12 +294,15 @@ function HomeTodos({
         )}
 
         {/* Add todo shortcut */}
-        <Button type="button" onClick={() => setIsAddDialogOpen(true)}>
+        <Button
+          type="button"
+          onClick={() => setIsAddDialogOpen(true)}
+        >
           <Plus />
           Add Todo
         </Button>
 
-         {/* Add todo dialog */}
+        {/* Add todo dialog */}
         <Dialog
           open={isAddDialogOpen}
           onOpenChange={handleDialogOpenChange}
@@ -178,7 +310,9 @@ function HomeTodos({
           <DialogContent className="sm:max-w-sm">
             <form onSubmit={handleAddTodo}>
               <DialogHeader>
-                <DialogTitle>Add todo</DialogTitle>
+                <DialogTitle className="text-lg font-semibold">
+                  Add todo
+                </DialogTitle>
 
                 <DialogDescription className="sr-only">
                   Enter a new task for your todo list.
@@ -210,6 +344,7 @@ function HomeTodos({
                 <Button
                   type="button"
                   variant="outline"
+                  className="font-semibold"
                   onClick={handleCancel}
                 >
                   Cancel
@@ -217,6 +352,7 @@ function HomeTodos({
 
                 <Button
                   type="submit"
+                  className="font-semibold"
                   disabled={!newTodoText.trim()}
                 >
                   Save
@@ -225,6 +361,41 @@ function HomeTodos({
             </form>
           </DialogContent>
         </Dialog>
+
+        {/* Delete confirmation dialog */}
+        <AlertDialog
+          open={todoToDelete !== null}
+          onOpenChange={handleDeleteDialogOpenChange}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Delete todo?
+              </AlertDialogTitle>
+
+              <AlertDialogDescription>
+                Are you sure you want to delete
+                {todoToDelete
+                  ? ` “${todoToDelete.text}”?`
+                  : ' this todo?'}{' '}
+                This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                Cancel
+              </AlertDialogCancel>
+
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={handleConfirmDelete}
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </CustomCard>
   )

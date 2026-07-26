@@ -65,6 +65,12 @@ function Home() {
   ])
 }
 
+  function handleDeleteTodo(id: string) {
+    setTodos((currentTodos) =>
+      currentTodos.filter((todo) => todo.id !== id)
+    )
+  }
+
     return (
         <>
             <div>
@@ -79,7 +85,7 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} /> {/*placeholder*/}
+                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} onDeleteTodo={handleDeleteTodo} /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
