@@ -2,6 +2,7 @@ import CustomCard from '@/components/custom/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Plus } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipTrigger, } from '@/components/ui/tooltip'
 
 export type Todo = {
   id: string
@@ -28,6 +29,7 @@ function HomeTodos({
   return (
     <CustomCard padding="p-5">
       <div className="flex flex-col gap-3">
+        {/* Card header */}
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-medium uppercase text-neutral-600">
             Todos
@@ -55,13 +57,25 @@ function HomeTodos({
                 key={todo.id}
                 className="flex items-center gap-2 border-b py-2"
               >
-                <Checkbox
-                  checked={todo.completed}
-                  aria-label={`Mark ${todo.text} as complete`}
-                  onCheckedChange={() => onToggleTodo?.(todo.id)}
-                />
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Checkbox
+                        checked={todo.completed}
+                        aria-label={`Mark ${todo.text} as complete`}
+                        onCheckedChange={() => onToggleTodo?.(todo.id)}
+                      />
+                    }
+                  />
 
-                <span className="text-sm">{todo.text}</span>
+                  <TooltipContent>
+                    Mark Complete
+                  </TooltipContent>
+                </Tooltip>
+
+                <span className="text-sm">
+                  {todo.text}
+                </span>
               </div>
             ))
           )}
@@ -80,11 +94,21 @@ function HomeTodos({
                   key={todo.id}
                   className="flex items-center gap-2 border-b py-2"
                 >
-                  <Checkbox
-                    checked
-                    aria-label={`Mark ${todo.text} as incomplete`}
-                    onCheckedChange={() => onToggleTodo?.(todo.id)}
-                  />
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <Checkbox
+                          checked={todo.completed}
+                          aria-label={`Mark ${todo.text} as incomplete`}
+                          onCheckedChange={() => onToggleTodo?.(todo.id)}
+                        />
+                      }
+                    />
+
+                    <TooltipContent>
+                      Mark Incomplete
+                    </TooltipContent>
+                  </Tooltip>
 
                   <span className="text-sm text-muted-foreground line-through">
                     {todo.text}
@@ -95,6 +119,7 @@ function HomeTodos({
           </div>
         )}
 
+        {/* Add todo shortcut */}
         <Button type="button" onClick={onAddTodo}>
           <Plus />
           Add Todo
