@@ -22,7 +22,7 @@ const mockTodos: Todo[] = [
   },
   {
     id: '3',
-    text: 'Reply to Maya about weekend plans',
+    text: 'Reply to Maya about weekend plans as;fghnawejlkgbhajs;gwa;gja;fawuefh;lwa',
     completed: false,
   },
   {
@@ -54,6 +54,17 @@ function Home() {
     )
   }
 
+  function handleAddTodo(text: string) {
+  setTodos((currentTodos) => [
+    {
+      id: crypto.randomUUID(),
+      text,
+      completed: false,
+    },
+    ...currentTodos,
+  ])
+}
+
     return (
         <>
             <div>
@@ -68,7 +79,7 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} /> {/*placeholder*/}
+                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>

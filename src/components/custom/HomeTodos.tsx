@@ -3,6 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Plus } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { useState, type FormEvent } from 'react'
 
 export type Todo = {
   id: string
@@ -12,7 +15,7 @@ export type Todo = {
 
 type TodoCardProps = {
   todos: Todo[]
-  onAddTodo?: () => void
+  onAddTodo?: (text: string) => void
   onViewAll?: () => void
   onToggleTodo?: (id: string) => void
 }
@@ -25,6 +28,36 @@ function HomeTodos({
 }: TodoCardProps) {
   const activeTodos = todos.filter((todo) => !todo.completed)
   const completedTodos = todos.filter((todo) => todo.completed)
+
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [newTodoText, setNewTodoText] = useState('')
+
+  function handleAddTodo(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const trimmedText = newTodoText.trim()
+
+    if (!trimmedText) {
+      return
+    }
+
+    onAddTodo?.(trimmedText)
+    setNewTodoText('')
+    setIsAddDialogOpen(false)
+  }
+
+  function handleCancel() {
+    setNewTodoText('')
+    setIsAddDialogOpen(false)
+  }
+
+  function handleDialogOpenChange(open: boolean) {
+    setIsAddDialogOpen(open)
+
+    if (!open) {
+      setNewTodoText('')
+    }
+  }
 
   return (
     <CustomCard padding="p-5">
@@ -55,7 +88,7 @@ function HomeTodos({
             activeTodos.slice(0, 3).map((todo) => (
               <div
                 key={todo.id}
-                className="flex items-center gap-2 border-b py-2"
+                className="flex min-w-0 items-center gap-2 border-b py-2"
               >
                 <Tooltip>
                   <TooltipTrigger
@@ -79,7 +112,7 @@ function HomeTodos({
                   </TooltipContent>
                 </Tooltip>
 
-                <span className="text-sm">
+                <span className="min-w-0 flex-1 break-words text-sm leading-5">
                   {todo.text}
                 </span>
               </div>
@@ -98,7 +131,7 @@ function HomeTodos({
               {completedTodos.slice(0, 2).map((todo) => (
                 <div
                   key={todo.id}
-                  className="flex items-center gap-2 border-b py-2"
+                  className="flex min-w-0 items-center gap-2 border-b py-2"
                 >
                   <Tooltip>
                     <TooltipTrigger
@@ -122,7 +155,7 @@ function HomeTodos({
                     </TooltipContent>
                   </Tooltip>
 
-                  <span className="text-sm text-muted-foreground line-through">
+                  <span className="min-w-0 flex-1 break-words text-sm text-muted-foreground line-through">
                     {todo.text}
                   </span>
                 </div>
@@ -132,10 +165,66 @@ function HomeTodos({
         )}
 
         {/* Add todo shortcut */}
-        <Button type="button" onClick={onAddTodo}>
+        <Button type="button" onClick={() => setIsAddDialogOpen(true)}>
           <Plus />
           Add Todo
         </Button>
+
+         {/* Add todo dialog */}
+        <Dialog
+          open={isAddDialogOpen}
+          onOpenChange={handleDialogOpenChange}
+        >
+          <DialogContent className="sm:max-w-sm">
+            <form onSubmit={handleAddTodo}>
+              <DialogHeader>
+                <DialogTitle>Add todo</DialogTitle>
+
+                <DialogDescription className="sr-only">
+                  Enter a new task for your todo list.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="py-5">
+                <label
+                  htmlFor="new-todo"
+                  className="text-sm font-medium"
+                >
+                  What do you need to do?
+                </label>
+
+                <Input
+                  id="new-todo"
+                  value={newTodoText}
+                  placeholder="e.g. Pack gym bag"
+                  className="mt-2"
+                  maxLength={200}
+                  autoFocus
+                  onChange={(event) =>
+                    setNewTodoText(event.target.value)
+                  }
+                />
+              </div>
+
+              <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  type="submit"
+                  disabled={!newTodoText.trim()}
+                >
+                  Save
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </CustomCard>
   )
