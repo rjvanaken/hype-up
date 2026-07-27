@@ -1,31 +1,11 @@
-import { useState, type FormEvent } from 'react'
-import {
-  Bell,
-  EllipsisVertical,
-  Plus,
-  Trash2,
-} from 'lucide-react'
-
+import { useState, useEffect, useRef, type FormEvent } from 'react'
+import { Bell, Check, EllipsisVertical, Plus, Trash2, } from 'lucide-react'
 import CustomCard from '@/components/custom/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-
+import { Tooltip, TooltipContent, TooltipTrigger, } from '@/components/ui/tooltip'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,13 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export type Todo = {
   id: string
@@ -75,6 +49,13 @@ function HomeTodos({
 
   const activeTodos = todos.filter((todo) => !todo.completed)
   const completedTodos = todos.filter((todo) => todo.completed)
+
+  const [pendingCompletionIds, setPendingCompletionIds] =
+  useState<Set<string>>(new Set())
+
+  const completionTimers = useRef<
+  Map<string, ReturnType<typeof setTimeout>>
+  >(new Map())
 
   function handleAddTodo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -118,6 +99,32 @@ function HomeTodos({
     setTodoToDelete(null)
   }
 
+  function handleMarkComplete(id: string) {
+  if (pendingCompletionIds.has(id)) {
+    return
+  }
+
+  setPendingCompletionIds((currentIds) => {
+    const updatedIds = new Set(currentIds)
+    updatedIds.add(id)
+    return updatedIds
+  })
+
+  const timer = setTimeout(() => {
+    onToggleTodo?.(id)
+
+    setPendingCompletionIds((currentIds) => {
+      const updatedIds = new Set(currentIds)
+      updatedIds.delete(id)
+      return updatedIds
+    })
+
+    completionTimers.current.delete(id)
+  }, 1000)
+
+  completionTimers.current.set(id, timer)
+}
+
   return (
     <CustomCard padding="p-5">
       <div className="flex flex-col gap-3">
@@ -154,12 +161,19 @@ function HomeTodos({
                     render={
                       <span className="inline-flex size-6 shrink-0 items-center justify-center">
                         <Checkbox
-                          checked={todo.completed}
+                          checked={todo.completed || pendingCompletionIds.has(todo.id)}
                           aria-label={`Mark ${todo.text} as complete`}
                           onCheckedChange={() =>
-                            onToggleTodo?.(todo.id)
+                            handleMarkComplete(todo.id)
                           }
                         />
+
+                        {!pendingCompletionIds.has(todo.id) && (
+                          <Check
+                            aria-hidden="true"
+                            className="pointer-events-none absolute size-3 opacity-0 transition-opacity group-hover/check:opacity-60 group-focus-within/check:opacity-60"
+                          />
+                        )}
                       </span>
                     }
                   />
@@ -173,9 +187,15 @@ function HomeTodos({
                   </TooltipContent>
                 </Tooltip>
 
-                <span className="min-w-0 flex-1 break-words text-sm leading-5">
-                  {todo.text}
-                </span>
+                <span
+                  className={`min-w-0 flex-1 break-words text-sm leading-5 transition-opacity ${
+                    pendingCompletionIds.has(todo.id)
+                      ? 'opacity-60 line-through'
+                      : ''
+                    }`}
+                  >
+                    {todo.text}
+                  </span>
 
                 <DropdownMenu>
                   <DropdownMenuTrigger
