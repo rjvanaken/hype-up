@@ -14,7 +14,7 @@ function Home() {
     // const navigate = useNavigate()
 
 
-  const [todos, setTodos] = useState<Todo[]>(mockTodos)
+  const [todos, setTodos] = useState<Todo[]>([])
 
   function handleToggleTodo(id: string) {
     setTodos((currentTodos) =>
