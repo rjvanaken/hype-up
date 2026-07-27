@@ -6,13 +6,14 @@ import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
 import FeedBox from '@/components/custom/FeedBox'
 
-import { useState } from 'react'
+import { useTodos } from '@/hooks/useTodos'
 
 
 
 function Home() {
     // const navigate = useNavigate()
 
+    const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
   const [todos, setTodos] = useState<Todo[]>([])
 
