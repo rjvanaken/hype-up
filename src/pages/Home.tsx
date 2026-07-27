@@ -8,34 +8,6 @@ import FeedBox from '@/components/custom/FeedBox'
 
 import { useState } from 'react'
 
-// temp for testing
-const mockTodos: Todo[] = [
-  {
-    id: '1',
-    text: 'Pack gym bag for tomorrow',
-    completed: false,
-  },
-  {
-    id: '2',
-    text: 'Schedule dentist appointment',
-    completed: false,
-  },
-  {
-    id: '3',
-    text: 'Reply to Maya about weekend plans as;fghnawejlkgbhajs;gwa;gja;fawuefh;lwa',
-    completed: false,
-  },
-  {
-    id: '4',
-    text: 'Laundry',
-    completed: true,
-  },
-  {
-    id: '5',
-    text: 'Gym',
-    completed: true,
-  },
-]
 
 
 function Home() {
