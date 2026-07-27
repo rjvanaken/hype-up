@@ -13,49 +13,10 @@ import { useTodos } from '@/hooks/useTodos'
 function Home() {
     // const navigate = useNavigate()
 
-    const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
-
-  const [todos, setTodos] = useState<Todo[]>([])
-
-  function handleToggleTodo(id: string) {
-    setTodos((currentTodos) =>
-      currentTodos.map((todo) =>
-        todo.id === id
-          ? { ...todo, completed: !todo.completed }
-          : todo
-      )
-    )
-  }
-
-  function handleAddTodo(text: string) {
-  setTodos((currentTodos) => [
-    {
-      id: crypto.randomUUID(),
-      text,
-      completed: false,
-    },
-    ...currentTodos,
-  ])
-}
-
-  function handleDeleteTodo(id: string) {
-    setTodos((currentTodos) =>
-      currentTodos.filter((todo) => todo.id !== id)
-    )
-  }
+  const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
   function handleSetReminder(todo: Todo) {
-  console.log('Set reminder for:', todo.text)
-}
-
-  function handleEditTodo(id: string, text: string) {
-  setTodos((currentTodos) =>
-    currentTodos.map((todo) =>
-      todo.id === id
-        ? { ...todo, text }
-        : todo
-    )
-  )
+    console.log('Set reminder for:', todo.text)
 }
 
     return (
@@ -72,7 +33,13 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} onDeleteTodo={handleDeleteTodo} onSetReminder={handleSetReminder} onEditTodo={handleEditTodo} /> {/*placeholder*/}
+                                    <HomeTodos 
+                                      todos={todos} 
+                                      onToggleTodo={toggleTodo} 
+                                      onAddTodo={addTodo} 
+                                      onDeleteTodo={deleteTodo} 
+                                      onSetReminder={handleSetReminder} 
+                                      onEditTodo={editTodo} /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
