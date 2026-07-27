@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, type FormEvent } from 'react'
-import { Bell, Check, EllipsisVertical, Plus, Trash2, } from 'lucide-react'
+import { useState, useRef, type FormEvent } from 'react'
+import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
 import CustomCard from '@/components/custom/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -27,6 +27,7 @@ export type Todo = {
 type TodoCardProps = {
   todos: Todo[]
   onAddTodo?: (text: string) => void
+  onEditTodo?: (id: string, text: string) => void
   onDeleteTodo?: (id: string) => void
   onSetReminder?: (todo: Todo) => void
   onViewAll?: () => void
@@ -36,6 +37,7 @@ type TodoCardProps = {
 function HomeTodos({
   todos,
   onAddTodo,
+  onEditTodo,
   onDeleteTodo,
   onSetReminder,
   onViewAll,
@@ -56,6 +58,9 @@ function HomeTodos({
   const completionTimers = useRef<
   Map<string, ReturnType<typeof setTimeout>>
   >(new Map())
+
+  const [todoToEdit, setTodoToEdit] = useState<Todo | null>(null)
+  const [editedTodoText, setEditedTodoText] = useState('')
 
   function handleAddTodo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -123,6 +128,32 @@ function HomeTodos({
   }, 1000)
 
   completionTimers.current.set(id, timer)
+}
+
+  function handleOpenEditDialog(todo: Todo) {
+  setTodoToEdit(todo)
+  setEditedTodoText(todo.text)
+}
+
+function handleEditDialogOpenChange(open: boolean) {
+  if (!open) {
+    setTodoToEdit(null)
+    setEditedTodoText('')
+  }
+}
+
+function handleEditTodo(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+
+  const trimmedText = editedTodoText.trim()
+
+  if (!todoToEdit || !trimmedText) {
+    return
+  }
+
+  onEditTodo?.(todoToEdit.id, trimmedText)
+  setTodoToEdit(null)
+  setEditedTodoText('')
 }
 
   return (
@@ -218,6 +249,13 @@ function HomeTodos({
                     >
                       <Bell className="size-4" />
                       Set Reminder
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem
+                      onClick={() => handleOpenEditDialog(todo)}
+                    >
+                      <Pencil className="size-4" />
+                      Edit
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
@@ -416,6 +454,68 @@ function HomeTodos({
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        {/* Edit todo dialog */}
+        <Dialog
+          open={todoToEdit !== null}
+          onOpenChange={handleEditDialogOpenChange}
+      >
+        <DialogContent className="sm:max-w-sm">
+          <form onSubmit={handleEditTodo}>
+            <DialogHeader>
+              <DialogTitle className="text-lg font-semibold">
+                Edit todo
+              </DialogTitle>
+
+              <DialogDescription className="sr-only">
+                Edit the text of your todo.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="py-5">
+              <label
+                htmlFor="edit-todo"
+                className="text-sm font-medium"
+              >
+                What do you need to do?
+              </label>
+
+            <Input
+              id="edit-todo"
+              value={editedTodoText}
+              className="mt-2"
+              maxLength={200}
+              autoFocus
+              onChange={(event) =>
+                setEditedTodoText(event.target.value)
+              }
+            />
+          </div>
+
+          <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="font-semibold"
+              onClick={() => handleEditDialogOpenChange(false)}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              type="submit"
+              className="font-semibold"
+              disabled={
+                !editedTodoText.trim() ||
+                editedTodoText.trim() === todoToEdit?.text
+              }
+            >
+              Save
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
       </div>
     </CustomCard>
   )

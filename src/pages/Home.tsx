@@ -71,6 +71,20 @@ function Home() {
     )
   }
 
+  function handleSetReminder(todo: Todo) {
+  console.log('Set reminder for:', todo.text)
+}
+
+  function handleEditTodo(id: string, text: string) {
+  setTodos((currentTodos) =>
+    currentTodos.map((todo) =>
+      todo.id === id
+        ? { ...todo, text }
+        : todo
+    )
+  )
+}
+
     return (
         <>
             <div>
@@ -85,7 +99,7 @@ function Home() {
                         rightColumn={
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
-                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} onDeleteTodo={handleDeleteTodo} /> {/*placeholder*/}
+                                    <HomeTodos todos={todos} onToggleTodo={handleToggleTodo} onAddTodo={handleAddTodo} onDeleteTodo={handleDeleteTodo} onSetReminder={handleSetReminder} onEditTodo={handleEditTodo} /> {/*placeholder*/}
                                     <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
