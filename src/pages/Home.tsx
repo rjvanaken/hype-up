@@ -1,5 +1,4 @@
-
-
+import Nav from '@/components/custom/Nav'
 import HomeTodos, { type Todo } from '@/components/custom/HomeTodos'
 import CustomCard from '@/components/custom/CustomCard'
 import PageLayout from '@/components/custom/PageLayout'
