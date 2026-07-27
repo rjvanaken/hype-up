@@ -330,13 +330,6 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
 
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() => onSetReminder?.(todo)}
-                      >
-                        <Bell className="size-4" />
-                        Set Reminder
-                      </DropdownMenuItem>
-
-                      <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         onClick={() => setTodoToDelete(todo)}
                       >
