@@ -157,12 +157,12 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
 }
 
   return (
-    <CustomCard padding="p-5">
+    <CustomCard>
       <div className="flex flex-col gap-3">
         {/* Card header */}
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-medium uppercase text-neutral-600">
-            Todos ({activeTodos.length})
+            Todos
           </h2>
 
           <Button
@@ -276,7 +276,7 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
         {completedTodos.length > 0 && (
           <div>
             <p className="mb-1 text-xs font-medium uppercase text-neutral-600">
-              Completed ({completedTodos.length})
+              Completed
             </p>
 
             <div className="flex flex-col">
