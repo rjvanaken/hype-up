@@ -47,7 +47,7 @@ function Onboarding() {
     }
 
     return (
-            <PageLayout centerPage maxWidth={380}>
+            <PageLayout centerPage maxWidth={340}>
             <div>
                 <img src={logo} alt="" className="mx-auto h-16 w-16 object-contain !rounded-none" />
                 <img src={text_logo_large} alt="" className="mx-auto h-35 object-contain" />
