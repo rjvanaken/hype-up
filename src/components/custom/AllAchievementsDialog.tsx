@@ -1,3 +1,5 @@
+// Modal opened from AchievementsCard's "View all" button. Shows every badge in
+// a grid and, on click, stacks AchievementDetailDialog on top for that badge.
 import { useState } from 'react'
 import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'

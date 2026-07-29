@@ -1,3 +1,6 @@
+// Looks up which of the current user's accepted follows have earned a given
+// badge (follows -> user_badges -> profiles), for AchievementDetailDialog's
+// friends row.
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 

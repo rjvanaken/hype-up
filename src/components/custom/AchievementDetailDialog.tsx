@@ -1,3 +1,5 @@
+// Stacked dialog opened from AllAchievementsDialog when a badge is clicked.
+// Shows unlock progress toward that badge and which friends already have it.
 import { useRef } from 'react'
 import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
