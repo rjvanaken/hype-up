@@ -5,11 +5,11 @@ import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
 import FeedBox from '@/components/custom/FeedBox'
 import AchievementsCard from '@/components/custom/AchievementsCard'
-import { useAchievements } from '@/hooks/useAchievements'
+import { useAchievements } from '@/hooks/use-Achievements'
 
 function Home() {
     // const navigate = useNavigate()
-    const achievements = useAchievements()
+    const { achievements, tasksCompleted } = useAchievements()
 
     return (
         <>
@@ -26,7 +26,7 @@ function Home() {
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeTodos</p></CustomCard> {/*placeholder*/}
-                                    <AchievementsCard achievements={achievements} />
+                                    <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
                         }>

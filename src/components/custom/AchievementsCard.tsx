@@ -1,11 +1,12 @@
+import { useState } from 'react'
 import CustomCard from '@/components/custom/CustomCard'
 import { Separator } from '@/components/ui/separator'
-import { Link } from 'react-router-dom'
+import AllAchievementsDialog from '@/components/custom/AllAchievementsDialog'
 import { cn } from '@/lib/utils'
 
 // Shape mirrors the `badges` table in Supabase (key, label, emoji, description, task_threshold).
-// `unlocked` isn't a column on that table — it should be derived by joining against
-// `user_badges` for the current user. Defaults to true until that join is wired in.
+// `unlocked` isn't a column on that table — it's derived in useAchievements by joining
+// against `user_badges` for the current user.
 export interface Achievement {
   key: string
   label: string
@@ -17,17 +18,23 @@ export interface Achievement {
 
 interface AchievementsCardProps {
   achievements: Achievement[]
-  viewAllHref?: string
+  tasksCompleted?: number
 }
 
-function AchievementsCard({ achievements, viewAllHref = '/achievements' }: AchievementsCardProps) {
+function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCardProps) {
+  const [showAll, setShowAll] = useState(false)
+
   return (
     <CustomCard padding="">
       <div className="flex flex-1 items-center justify-between h-auto px-6">
         <p className="font-semibold text-md text-secondary">ACHIEVEMENTS</p>
-        <Link to={viewAllHref} className="text-sm font-medium text-primary hover:underline">
+        <button
+          type="button"
+          onClick={() => setShowAll(true)}
+          className="text-sm font-medium text-primary hover:underline cursor-pointer"
+        >
           View all
-        </Link>
+        </button>
       </div>
 
       <Separator />
@@ -37,6 +44,13 @@ function AchievementsCard({ achievements, viewAllHref = '/achievements' }: Achie
           <AchievementItem key={key} {...achievement} />
         ))}
       </div>
+
+      <AllAchievementsDialog
+        open={showAll}
+        onOpenChange={setShowAll}
+        achievements={achievements}
+        tasksCompleted={tasksCompleted}
+      />
     </CustomCard>
   )
 }
@@ -47,7 +61,7 @@ function AchievementItem({ label, emoji, unlocked = true }: Achievement) {
       <div
         className={cn(
           'flex items-center justify-center size-12 rounded-full bg-accent text-xl',
-          !unlocked && 'opacity-40 grayscale'
+          !unlocked && 'opacity-40'
         )}
       >
         <span role="img" aria-label={label}>{emoji}</span>
