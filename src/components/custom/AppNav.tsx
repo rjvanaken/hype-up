@@ -26,11 +26,11 @@ function AppNav() {
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   const settingsTabs = [
-    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login details', content: <AccountSettingsContent /> },
-    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Update your name and photo', content: null },
-    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts', content: null },
+    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
+    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Customize how you appear to others', content: null },
+    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts and activity', content: null },
     { key: 'reminders', label: 'Reminders', title: 'Reminders', description: 'Manage default reminder behavior', content: null },
-    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what notifies you', content: null },
+    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what you get notified about', content: null },
   ]
 
   const handleLogout = () => {
