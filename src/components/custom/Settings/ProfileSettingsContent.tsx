@@ -141,6 +141,7 @@ function ProfileSettingsContent() {
     const path = `${userId}/avatar.${ext}`
     const { error: uploadError } = await supabase.storage.from(AVATAR_BUCKET).upload(path, file, { upsert: true })
     if (uploadError) {
+      console.error('Error uploading avatar:', uploadError)
       setAvatarBusy(false)
       setAvatarError('Something went wrong uploading your photo.')
       return
@@ -150,6 +151,7 @@ function ProfileSettingsContent() {
     setAvatarBusy(false)
 
     if (error) {
+      console.error('Error saving avatar path:', error)
       setAvatarError('Something went wrong. Please try again.')
       return
     }
