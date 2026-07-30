@@ -1,5 +1,3 @@
-// Fetches the current user's accepted followers and following lists
-// (follows -> profiles), for the Profile page's Connections card.
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 

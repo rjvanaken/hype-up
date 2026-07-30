@@ -1,7 +1,5 @@
-// Profile page's Next Achievement card: the first locked badge (by
-// task_threshold) and progress toward it, derived from useAchievements.
 import CustomCard from '@/components/custom/CustomCard'
-import type { Achievement } from '@/components/custom/AchievementsCard'
+import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
 
 interface NextAchievementCardProps {
   achievements: Achievement[]

@@ -1,5 +1,3 @@
-// Reads and updates the current user's pinned badge (profiles.pinned_badge_key),
-// for the Pin/Unpin action in AchievementDetailDialog and its display in ProfileBanner.
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 

@@ -4,7 +4,7 @@ import PageLayout from '@/components/custom/PageLayout'
 import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
 import FeedBox from '@/components/custom/FeedBox'
-import AchievementsCard from '@/components/custom/AchievementsCard'
+import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
 
 function Home() {

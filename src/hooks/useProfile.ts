@@ -1,5 +1,3 @@
-// Fetches the current user's own profile row for the Profile page banner
-// (name, initials, avatar color, streak count).
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 

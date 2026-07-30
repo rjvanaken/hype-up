@@ -1,8 +1,6 @@
-// Fetches the current user's badges (with derived unlocked state) and
-// all-time completed task count, for the Achievements card and its dialogs.
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import type { Achievement } from '@/components/custom/AchievementsCard'
+import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
 
 export function useAchievements() {
     const [achievements, setAchievements] = useState<Achievement[]>([])

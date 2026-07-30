@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import CustomCard from '@/components/custom/CustomCard'
-import { Separator } from '@/components/ui/separator'
-import AllAchievementsDialog from '@/components/custom/AllAchievementsDialog'
+import AllAchievementsDialog from '@/components/custom/Achievements/AllAchievementsDialog'
 import { cn } from '@/lib/utils'
 
 // Shape mirrors the `badges` table in Supabase (key, label, emoji, description, task_threshold).
@@ -37,10 +36,8 @@ function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCard
         </button>
       </div>
 
-      <Separator />
-
       <div className="grid grid-cols-3 gap-y-4 px-6">
-        {achievements.map(({ key, ...achievement }) => (
+        {achievements.slice(0, 6).map(({ key, ...achievement }) => (
           <AchievementItem key={key} {...achievement} />
         ))}
       </div>
