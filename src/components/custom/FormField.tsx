@@ -72,8 +72,10 @@ function FormField({
 
   if (horizontal) {
     return (
-      <div className="flex items-center justify-between gap-4">
-        <SettingsRowLabel id={id} label={label} subtitle={subtitle} />
+      <div className="flex items-center gap-6">
+        <div className="w-56 shrink-0">
+          <SettingsRowLabel id={id} label={label} subtitle={subtitle} />
+        </div>
         {controlWithIcons}
       </div>
     )

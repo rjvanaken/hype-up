@@ -8,7 +8,7 @@ function AppButton({
   children,
   ...props
 }: {
-  variant?: 'default' | 'outline' | 'alternate'
+  variant?: 'default' | 'outline' | 'alternate' | 'primary'
   icon?: LucideIcon
   className?: string
   children: React.ReactNode
@@ -19,8 +19,9 @@ function AppButton({
         'flex-1 h-11 rounded-md text-sm font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
         'flex items-center justify-center gap-2',
         variant === 'default' && 'bg-secondary text-white hover:bg-secondary/90 border-0',
-        variant === 'outline' && 'bg-transparent border border-secondary text-secondary hover:bg-secondary/10',
-        variant === 'alternate' && 'bg-transparent border border-neutral-300 text-neutral-600 hover:bg-neutral-100',
+        variant === 'outline' && 'bg-transparent border border-primary text-primary font-semibold hover:bg-primary/10',
+        variant === 'alternate' && 'bg-neutral-200 text-secondary font-semibold border-0 hover:bg-neutral-300',
+        variant === 'primary' && 'bg-primary text-white font-semibold border-0 hover:bg-primary/90',
         className
       )}
       {...props}
