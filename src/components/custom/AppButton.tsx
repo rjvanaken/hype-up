@@ -14,13 +14,13 @@ function AppButton({
   children: React.ReactNode
 } & React.ComponentProps<'button'>) {
   return (
-    <button
+    <button 
       className={cn(
-        'flex-1 h-11 rounded-md text-sm font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
-        'flex items-center justify-center gap-2',
-        variant === 'default' && 'bg-secondary text-white hover:bg-secondary/90 border-0',
-        variant === 'outline' && 'bg-transparent border border-secondary text-secondary hover:bg-secondary/10',
-        variant === 'alternate' && 'bg-transparent border border-neutral-300 text-neutral-600 hover:bg-neutral-100',
+        'app-button flex-1 h-11 rounded-md text-sm font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed',
+        'flex items-center justify-center gap-2 px-4 py-3 cursor-pointer',
+        variant === 'default' && 'bg-primary text-primary-foreground hover:bg-cool-brand-600/80 border-0 active:bg-cool-brand-700',
+        variant === 'outline' && 'bg-transparent border-2 border-primary text-primary hover:bg-primary/20 active:bg-primary/30 active:text-cool-brand-700',
+        variant === 'alternate' && 'bg-neutral-300 border-2 border-neutral-400 text-neutral-600 hover:bg-neutral-400/50 active:bg-neutral-400/80',
         className
       )}
       {...props}
