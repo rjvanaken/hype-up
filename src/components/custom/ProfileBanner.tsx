@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import AllAchievementsDialog from '@/components/custom/AllAchievementsDialog'
 import { AchievementItem, type Achievement } from '@/components/custom/AchievementsCard'
+import { usePinnedBadge } from '@/hooks/usePinnedBadge'
 
 interface ProfileBannerProps {
   name: string
@@ -18,6 +19,8 @@ interface ProfileBannerProps {
 
 function ProfileBanner({ name, initials, avatarColor, achievements, tasksCompleted }: ProfileBannerProps) {
   const [showAll, setShowAll] = useState(false)
+  const { pinnedBadgeKey, setPinned } = usePinnedBadge()
+  const pinnedAchievement = achievements.find((achievement) => achievement.key === pinnedBadgeKey)
 
   return (
     <CustomCard padding="">
@@ -41,7 +44,15 @@ function ProfileBanner({ name, initials, avatarColor, achievements, tasksComplet
           </AvatarFallback>
         </Avatar>
 
-        <p className="mt-2 text-lg font-semibold text-secondary">{name}</p>
+        <div className="mt-2 flex items-center gap-2">
+          <p className="text-lg font-semibold text-secondary">{name}</p>
+          {pinnedAchievement && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-xs font-medium text-primary">
+              <span role="img" aria-label={pinnedAchievement.label}>{pinnedAchievement.emoji}</span>
+              {pinnedAchievement.label}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="mt-4 flex items-center justify-between px-6">
@@ -77,6 +88,8 @@ function ProfileBanner({ name, initials, avatarColor, achievements, tasksComplet
         onOpenChange={setShowAll}
         achievements={achievements}
         tasksCompleted={tasksCompleted}
+        pinnedBadgeKey={pinnedBadgeKey}
+        onTogglePin={(key) => setPinned(pinnedBadgeKey === key ? null : key)}
       />
     </CustomCard>
   )

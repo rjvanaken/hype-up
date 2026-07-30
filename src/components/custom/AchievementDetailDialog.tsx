@@ -5,7 +5,7 @@ import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarFallback, AvatarGroup } from '@/components/ui/avatar'
-import { XIcon } from 'lucide-react'
+import { Pin, XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { Achievement } from '@/components/custom/AchievementsCard'
 import { useBadgeFriends } from '@/hooks/useBadgeFriends'
@@ -15,9 +15,18 @@ interface AchievementDetailDialogProps {
   onOpenChange: (open: boolean) => void
   achievement: Achievement | null
   tasksCompleted?: number
+  pinnedBadgeKey?: string | null
+  onTogglePin?: (key: string) => void
 }
 
-function AchievementDetailDialog({ open, onOpenChange, achievement, tasksCompleted = 0 }: AchievementDetailDialogProps) {
+function AchievementDetailDialog({
+  open,
+  onOpenChange,
+  achievement,
+  tasksCompleted = 0,
+  pinnedBadgeKey,
+  onTogglePin
+}: AchievementDetailDialogProps) {
   const lastAchievement = useRef<Achievement | null>(null)
   if (achievement) lastAchievement.current = achievement
   const shown = achievement ?? lastAchievement.current
@@ -25,6 +34,7 @@ function AchievementDetailDialog({ open, onOpenChange, achievement, tasksComplet
   const friends = useBadgeFriends(shown?.key ?? '', open && !!shown)
 
   const unlocked = shown?.unlocked ?? true
+  const isPinned = !!shown && pinnedBadgeKey === shown.key
   const tasksToGo = shown?.task_threshold !== undefined ? Math.max(shown.task_threshold - tasksCompleted, 0) : undefined
 
   return (
@@ -70,6 +80,20 @@ function AchievementDetailDialog({ open, onOpenChange, achievement, tasksComplet
                       ? `Locked · ${tasksToGo} ${tasksToGo === 1 ? 'task' : 'tasks'} to go`
                       : 'Locked'}
                 </div>
+
+                {unlocked && onTogglePin && (
+                  <button
+                    type="button"
+                    onClick={() => onTogglePin(shown.key)}
+                    className={cn(
+                      'flex items-center gap-1.5 text-sm font-medium cursor-pointer',
+                      isPinned ? 'text-primary' : 'text-muted-foreground'
+                    )}
+                  >
+                    <Pin className={cn('size-4', isPinned && 'fill-primary')} />
+                    {isPinned ? 'Pinned' : 'Pin to profile'}
+                  </button>
+                )}
               </div>
 
               <Separator className="my-5" />

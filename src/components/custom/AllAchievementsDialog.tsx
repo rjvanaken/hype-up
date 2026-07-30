@@ -14,9 +14,18 @@ interface AllAchievementsDialogProps {
   onOpenChange: (open: boolean) => void
   achievements: Achievement[]
   tasksCompleted?: number
+  pinnedBadgeKey?: string | null
+  onTogglePin?: (key: string) => void
 }
 
-function AllAchievementsDialog({ open, onOpenChange, achievements, tasksCompleted = 0 }: AllAchievementsDialogProps) {
+function AllAchievementsDialog({
+  open,
+  onOpenChange,
+  achievements,
+  tasksCompleted = 0,
+  pinnedBadgeKey,
+  onTogglePin
+}: AllAchievementsDialogProps) {
   const [selected, setSelected] = useState<Achievement | null>(null)
 
   return (
@@ -62,6 +71,8 @@ function AllAchievementsDialog({ open, onOpenChange, achievements, tasksComplete
         onOpenChange={(next) => !next && setSelected(null)}
         achievement={selected}
         tasksCompleted={tasksCompleted}
+        pinnedBadgeKey={pinnedBadgeKey}
+        onTogglePin={onTogglePin}
       />
     </>
   )
