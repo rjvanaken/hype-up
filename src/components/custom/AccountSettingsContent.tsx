@@ -130,7 +130,7 @@ function AccountSettingsContent() {
         </div>
         <div className="shrink-0">
           <AppButton variant="outline" onClick={openPasswordDialog}>
-            Change password
+            Change Password
           </AppButton>
         </div>
       </div>
@@ -138,21 +138,21 @@ function AccountSettingsContent() {
       <ActionDialog
         open={passwordOpen}
         onOpenChange={setPasswordOpen}
-        title="Change password"
+        title="Change Password"
         footer={
           <>
             <AppButton variant="alternate" onClick={() => setPasswordOpen(false)} disabled={savingPassword}>
               Cancel
             </AppButton>
-            <AppButton variant="primary" onClick={handleSavePassword} disabled={savingPassword}>
-              {savingPassword ? 'Updating...' : 'Update password'}
+            <AppButton onClick={handleSavePassword} disabled={savingPassword}>
+              {savingPassword ? 'Updating...' : 'Update Password'}
             </AppButton>
           </>
         }
       >
         <FormField
           id="current-password"
-          label="Current password"
+          label="Current Password"
           type={showCurrentPassword ? 'text' : 'password'}
           placeholder="Enter your current password"
           value={currentPassword}
@@ -163,7 +163,7 @@ function AccountSettingsContent() {
         />
         <FormField
           id="new-password"
-          label="New password"
+          label="New Password"
           type={showNewPassword ? 'text' : 'password'}
           placeholder="Enter your new password"
           value={newPassword}
@@ -174,7 +174,7 @@ function AccountSettingsContent() {
         />
         <FormField
           id="confirm-password"
-          label="Confirm new password"
+          label="Confirm New Password"
           type={showConfirmPassword ? 'text' : 'password'}
           placeholder="Confirm your new password"
           value={confirmPassword}
