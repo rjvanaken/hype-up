@@ -55,7 +55,7 @@ function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCard
   )
 }
 
-function AchievementItem({ label, emoji, unlocked = true }: Achievement) {
+export function AchievementItem({ label, emoji, unlocked = true }: Achievement) {
   return (
     <div className="flex flex-col items-center gap-1.5 text-center">
       <div
