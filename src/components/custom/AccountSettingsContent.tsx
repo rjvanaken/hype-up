@@ -1,4 +1,3 @@
-// Password change re-authenticates with the current password via signInWithPassword before calling updateUser, since Supabase doesn't verify it otherwise.
 import { useEffect, useState } from 'react'
 import { AlertCircle, Check, Eye, EyeOff } from 'lucide-react'
 import FormField from '@/components/custom/FormField'
