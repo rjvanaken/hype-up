@@ -1,9 +1,9 @@
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import { useNavigate } from 'react-router-dom'
-import PageLayout from '@/components/custom/PageLayout'
+import PageLayout from '@/components/custom/Shared/PageLayout'
 
 function OnboardingStep2() {
   const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import PageLayout from '@/components/custom/PageLayout'
+import PageLayout from '@/components/custom/Shared/PageLayout'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import { useAchievements } from '@/hooks/use-Achievements'
 

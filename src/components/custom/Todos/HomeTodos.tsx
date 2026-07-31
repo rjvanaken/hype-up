@@ -1,6 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'

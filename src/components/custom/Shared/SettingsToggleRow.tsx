@@ -1,5 +1,5 @@
 import { Switch } from '@/components/ui/switch'
-import SettingsRowLabel from '@/components/custom/SettingsRowLabel'
+import SettingsRowLabel from '@/components/custom/Shared/SettingsRowLabel'
 
 function SettingsToggleRow({
   id,

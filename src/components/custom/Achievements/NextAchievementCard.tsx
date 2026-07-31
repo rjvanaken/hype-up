@@ -1,4 +1,4 @@
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
 
 interface NextAchievementCardProps {

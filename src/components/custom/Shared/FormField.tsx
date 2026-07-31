@@ -3,7 +3,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import SettingsRowLabel from '@/components/custom/SettingsRowLabel'
+import SettingsRowLabel from '@/components/custom/Shared/SettingsRowLabel'
 
 interface FormFieldProps extends React.ComponentProps<'input'> {
   label: React.ReactNode

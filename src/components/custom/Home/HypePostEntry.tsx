@@ -1,11 +1,11 @@
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom'
 import { PartyPopper, X } from 'lucide-react'
-import TopPage from './TopPage'
-import FormSelectField from './FormSelectField'
-import FormField from '@/components/custom/FormField'
+import TopPage from '../Shared/TopPage'
+import FormSelectField from '../Shared/FormSelectField'
+import FormField from '@/components/custom/Shared/FormField'
 import { useState } from 'react'
 
 
