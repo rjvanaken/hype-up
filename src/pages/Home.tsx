@@ -1,10 +1,10 @@
 import Nav from '@/components/custom/Nav'
-import HomeTodos, { type Todo } from '@/components/custom/HomeTodos'
-import CustomCard from '@/components/custom/CustomCard'
-import PageLayout from '@/components/custom/PageLayout'
-import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
+import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
+import CustomCard from '@/components/custom/Shared/CustomCard'
+import PageLayout from '@/components/custom/Shared/PageLayout'
+import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
-import FeedBox from '@/components/custom/FeedBox'
+import FeedBox from '@/components/custom/Shared/FeedBox'
 
 import { useTodos } from '@/hooks/useTodos'
 
@@ -35,7 +35,7 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
+                                    <Profile><p>HomeStats</p></CustomCard> {/*placeholder*/}
                                     <HomeTodos 
                                       todos={todos} 
                                       onToggleTodo={toggleTodo} 
@@ -43,8 +43,6 @@ function Home() {
                                       onDeleteTodo={deleteTodo} 
                                       onSetReminder={handleSetReminder} 
                                       onEditTodo={editTodo} /> {/*placeholder*/}
-                                    <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
-                                    <CustomCard><p>HomeTodos</p></CustomCard> {/*placeholder*/}
                                     <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>

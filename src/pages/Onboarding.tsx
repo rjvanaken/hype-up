@@ -1,5 +1,5 @@
-import CustomCard from '@/components/custom/CustomCard'
-import PageLayout from '@/components/custom/PageLayout'
+import CustomCard from '@/components/custom/Shared/CustomCard'
+import PageLayout from '@/components/custom/Shared/PageLayout'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'

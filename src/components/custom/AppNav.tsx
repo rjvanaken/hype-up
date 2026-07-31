@@ -13,8 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
-import SettingsDialog from "@/components/custom/SettingsDialog"
-import AccountSettingsContent from "@/components/custom/AccountSettingsContent"
+import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
+import AccountSettingsContent from "@/components/custom/Settings/AccountSettingsContent"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${

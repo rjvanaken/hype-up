@@ -1,4 +1,4 @@
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Plus, LifeBuoy, PartyPopper } from 'lucide-react'
 

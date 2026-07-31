@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import type { Todo } from '@/components/custom/HomeTodos'
+import type { Todo } from '@/components/custom/Todos/HomeTodos'
 
 type TodoRow = {
   id: string
