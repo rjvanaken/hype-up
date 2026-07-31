@@ -1,4 +1,3 @@
-// Assumes a public Supabase Storage bucket named "avatars", one file per user at `${userId}/avatar.<ext>`.
 import { useEffect, useRef, useState } from 'react'
 import { AlertCircle } from 'lucide-react'
 import FormField from '@/components/custom/Shared/FormField'
