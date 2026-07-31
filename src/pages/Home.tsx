@@ -11,10 +11,13 @@ import { useTodos } from '@/hooks/useTodos'
 
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
+import ProfileSummaryCard from '@/components/custom/ProfileSummaryCard'
+import { useProfileSummary } from '@/hooks/useProfileSummary'
 
 function Home() {
     // const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
+    const profileSummary = useProfileSummary()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -35,7 +38,16 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
+                                    {profileSummary && (
+                                        <ProfileSummaryCard
+                                            name={profileSummary.name}
+                                            initials={profileSummary.initials}
+                                            streak={profileSummary.streak}
+                                            tasks={profileSummary.tasks}
+                                            following={profileSummary.following}
+                                            followers={profileSummary.followers}
+                                        />
+                                    )}
                                     <HomeTodos 
                                       todos={todos} 
                                       onToggleTodo={toggleTodo} 
