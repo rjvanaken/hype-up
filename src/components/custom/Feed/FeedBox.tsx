@@ -1,5 +1,5 @@
-import { Dropdown } from '@/components/custom/Dropdown'
-import CustomCard from '@/components/custom/CustomCard'
+import { Dropdown } from '@/components/custom/Feed/FeedFilterDropdown'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Separator } from '@/components/ui/separator'
 
 type FeedProps = {

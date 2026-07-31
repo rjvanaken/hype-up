@@ -39,7 +39,9 @@
   flex: 1;
   align-items: left;
   justify-content: start;
-  gap: 12px;
+  gap: 28px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 
@@ -65,11 +67,16 @@
   width: var(--r);
   height: var(--r);
   position: fixed;
-  z-index: 9999;
+  z-index: 200;
   top: 72px;
-  left: 190px;
+  left: 199px;
+  transition: left 200ms linear;
   background: radial-gradient(circle at 100% 100%, transparent var(--r), var(--secondary) calc(var(--r) + 1px));
 
+}
+
+.reverse-corner-top-left.collapsed {
+  left: calc(4.5rem - 1px);
 }
 
 .page-layout-centered {

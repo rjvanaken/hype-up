@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import type { ProfileSummaryCardProps } from '@/components/custom/ProfileSummaryCard'
+import type { ProfileSummaryCardProps } from '@/components/custom/Home/ProfileSummaryCard'
 
 export function useProfileSummary() {
     const [summary, setSummary] = useState<ProfileSummaryCardProps | null>(null)

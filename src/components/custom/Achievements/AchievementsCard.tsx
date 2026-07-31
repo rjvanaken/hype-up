@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import AllAchievementsDialog from '@/components/custom/Achievements/AllAchievementsDialog'
 import { cn } from '@/lib/utils'
 

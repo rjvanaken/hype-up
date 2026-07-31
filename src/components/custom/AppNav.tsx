@@ -1,6 +1,6 @@
-import { SidebarProvider, Sidebar, SidebarContent, SidebarTrigger, SidebarHeader } from "@/components/ui/sidebar"
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
-import { Clock, House, Search, User, Settings, LogOut, SquareCheck, Bell, ChevronDown } from "lucide-react"
+import { Clock, House, Search, User, Settings, LogOut, SquareCheck, Bell, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import { Separator } from "../ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -13,8 +13,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
-import SettingsDialog from "@/components/custom/SettingsDialog"
-import AccountSettingsContent from "@/components/custom/AccountSettingsContent"
+import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
+import AccountSettingsContent from "@/components/custom/Settings/AccountSettingsContent"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -24,6 +24,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 function AppNav() {
   const unreadCount = 3 // wire this to real notification state later
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   const settingsTabs = [
     { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
@@ -38,10 +39,10 @@ function AppNav() {
   }
 
   return (
-    <div className="app-shell flex-col">
+    <div className="app-shell flex-col z-200">
       <SidebarHeader className="sidebar-header text-white bg-secondary flex-row items-center justify-between">
               <div>
-        <img src={logo} alt="" className="h-8" />  
+        <img src={logo} alt="" className="h-8" />
       </div>
 
         <div className="flex items-center gap-4">
@@ -76,11 +77,15 @@ function AppNav() {
 
         </div>
       </SidebarHeader>
-      <SidebarProvider className="" style={{ "--sidebar-width": "12rem" } as React.CSSProperties}>
-        <Sidebar>
+      <SidebarProvider
+        open={sidebarOpen}
+        onOpenChange={setSidebarOpen}
+        style={{ "--sidebar-width": "12.5rem", "--sidebar-width-icon": "4.5rem" } as React.CSSProperties}
+      >
+        <Sidebar collapsible="icon">
           <SidebarContent className="bg-secondary px-3">
-            <div className="flex flex-col flex-1 justify-between mb-15">
-            <div className="mt-25 flex flex-col justify-start gap-1 text-neutral-200 font-regular text-sm">
+            <div className="flex flex-col flex-1 justify-between mb-5">
+            <div className="mt-28 flex flex-col justify-start gap-3 text-neutral-200 font-regular text-sm">
               <NavLink to="/home" className={navLinkClass}>
               <span className="flex items-center size-4.5">
                 <House/>
@@ -109,7 +114,7 @@ function AppNav() {
               <span className="flex items-center size-4.5">
                 <Search/>
                 </span>
-                Find Friends (DO NOT CLICK)
+                Find Friends
               </NavLink>
             </div>
               <div className="nav-div gap-1">
@@ -127,11 +132,16 @@ function AppNav() {
               {/* TODO add log out here, need to make sure all credentials are wiped so they are logged out? */}
                 <LogOut/>
                 </span>
-                Log Out (DO NOT CLICK)
+                Log Out
               </NavLink>
               </div>
             </div>
           </SidebarContent>
+          <SidebarRail>
+            <span className="pointer-events-none absolute top-1/2 left-1/2 flex size-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground shadow-sm">
+              {sidebarOpen ? <ChevronLeft className="size-3.5" /> : <ChevronRight className="size-3.5" />}
+            </span>
+          </SidebarRail>
         </Sidebar>
         <main className="w-full pt-[72px]">
           <Outlet />
@@ -142,7 +152,7 @@ function AppNav() {
 
       <div className="page-scroll-area">
       </div>
-      <div className="reverse-corner-top-left"></div>
+      <div className={`reverse-corner-top-left ${sidebarOpen ? "" : "collapsed"}`}></div>
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} tabs={settingsTabs} />
       {/* <FAB /> */}
     </div>

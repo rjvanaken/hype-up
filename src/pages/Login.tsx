@@ -1,4 +1,4 @@
-import FormField from '@/components/custom/FormField'
+import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
@@ -9,8 +9,8 @@ import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { validateLoginFields } from '@/lib/validation'
 import { supabase } from '@/lib/client'
-import CustomCard from '@/components/custom/CustomCard'
-import PageLayout from '@/components/custom/PageLayout'
+import CustomCard from '@/components/custom/Shared/CustomCard'
+import PageLayout from '@/components/custom/Shared/PageLayout'
 
 function Onboarding() {
     const navigate = useNavigate()

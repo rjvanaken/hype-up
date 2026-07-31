@@ -1,4 +1,4 @@
-import CustomCard from '@/components/custom/CustomCard'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 
