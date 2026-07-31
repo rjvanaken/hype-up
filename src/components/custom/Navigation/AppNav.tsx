@@ -1,7 +1,7 @@
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { Clock, House, Search, User, Settings, LogOut, SquareCheck, Bell, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
-import { Separator } from "../ui/separator"
+import { Separator } from "../../ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
