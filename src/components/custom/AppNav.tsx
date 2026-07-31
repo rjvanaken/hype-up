@@ -12,15 +12,26 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
+import { useState } from "react"
+import SettingsDialog from "@/components/custom/SettingsDialog"
+import AccountSettingsContent from "@/components/custom/AccountSettingsContent"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `nav-link text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
+  `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
     isActive ? "bg-dark-hover text-neutral-100 font-medium" : ""
   }`
 
 function AppNav() {
-  const navigate = useNavigate()
   const unreadCount = 3 // wire this to real notification state later
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
+  const settingsTabs = [
+    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
+    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Customize how you appear to others', content: null },
+    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts and activity', content: null },
+    { key: 'reminders', label: 'Reminders', title: 'Reminders', description: 'Manage default reminder behavior', content: null },
+    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what you get notified about', content: null },
+  ]
 
   const handleLogout = () => {
     // TODO: wire to supabase.auth.signOut(), then navigate('/login')
@@ -52,7 +63,7 @@ function AppNav() {
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => navigate('/settings')}>
+              <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -103,16 +114,17 @@ function AppNav() {
             </div>
               <div className="nav-div gap-1">
             <Separator/>
-              <NavLink to="/" className={navLinkClass}>
+            
+            <button onClick={() => setSettingsOpen(true)} className={`${navLinkClass({ isActive: false })} cursor-pointer`}>
               <span className="flex items-center size-4.5">
                 <Settings/>
-                </span>
-                Settings (DO NOT CLICK)
-              </NavLink>
-              {/* TODO when we have modal working for settings, fix this here */}
+              </span>
+              Settings
+            </button>
 
               <NavLink to="/" className={navLinkClass}>
               <span className="flex items-center size-4.5">
+              {/* TODO add log out here, need to make sure all credentials are wiped so they are logged out? */}
                 <LogOut/>
                 </span>
                 Log Out (DO NOT CLICK)
@@ -131,6 +143,7 @@ function AppNav() {
       <div className="page-scroll-area">
       </div>
       <div className="reverse-corner-top-left"></div>
+      <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} tabs={settingsTabs} />
       {/* <FAB /> */}
     </div>
   )
