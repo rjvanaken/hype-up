@@ -35,7 +35,7 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <Profile><p>HomeStats</p></CustomCard> {/*placeholder*/}
+                                    <ProfileSummaryCard></ProfileSummaryCard>
                                     <HomeTodos 
                                       todos={todos} 
                                       onToggleTodo={toggleTodo} 
