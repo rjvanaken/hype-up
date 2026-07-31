@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-
-export interface ProfileSummary {
-    name: string
-    initials: string
-    streak: number
-    tasks: number
-    following: number
-    followers: number
-}
+import type { ProfileSummaryCardProps } from '@/components/custom/ProfileSummaryCard'
 
 export function useProfileSummary() {
-    const [summary, setSummary] = useState<ProfileSummary | null>(null)
+    const [summary, setSummary] = useState<ProfileSummaryCardProps | null>(null)
 
     useEffect(() => {
         async function fetchSummary() {
