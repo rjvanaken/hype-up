@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
 import SettingsDialog from "@/components/custom/SettingsDialog"
+import AccountSettingsContent from "@/components/custom/AccountSettingsContent"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -25,11 +26,11 @@ function AppNav() {
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   const settingsTabs = [
-    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login details', content: null },
-    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Update your name and photo', content: null },
-    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts', content: null },
+    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
+    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Customize how you appear to others', content: null },
+    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts and activity', content: null },
     { key: 'reminders', label: 'Reminders', title: 'Reminders', description: 'Manage default reminder behavior', content: null },
-    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what notifies you', content: null },
+    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what you get notified about', content: null },
   ]
 
   const handleLogout = () => {
