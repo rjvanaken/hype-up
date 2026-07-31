@@ -1,15 +1,15 @@
-
 import Nav from '@/components/custom/Nav'
 import CustomCard from '@/components/custom/CustomCard'
 import PageLayout from '@/components/custom/PageLayout'
 import TwoColumnLayout from '@/components/custom/TwoColumnLayout'
 // import { Sidebar } from '@/components/ui/sidebar'
 import FeedBox from '@/components/custom/FeedBox'
-
-
+import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
+import { useAchievements } from '@/hooks/use-Achievements'
 
 function Home() {
     // const navigate = useNavigate()
+    const { achievements, tasksCompleted } = useAchievements()
 
     return (
         <>
@@ -26,7 +26,7 @@ function Home() {
                             <>
                                     <CustomCard><p>HomeStats</p></CustomCard> {/*placeholder*/}
                                     <CustomCard><p>HomeTodos</p></CustomCard> {/*placeholder*/}
-                                    <CustomCard><p>HomeAchievements</p></CustomCard> {/*placeholder*/}
+                                    <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                     <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
                             </>
                         }>
