@@ -15,6 +15,8 @@ import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
 import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
 import AccountSettingsContent from "@/components/custom/Settings/AccountSettingsContent"
+import FAB from "@/components/custom/Shared/FAB"
+import CreatePost from "@/components/custom/Home/CreatePost"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -25,6 +27,13 @@ function AppNav() {
   const unreadCount = 3 // wire this to real notification state later
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [createPostOpen, setCreatePostOpen] = useState(false)
+  const [boostMode, setBoostMode] = useState(false)
+
+  const handleFabSelect = (selectedBoostMode: boolean) => {
+    setBoostMode(selectedBoostMode)
+    setCreatePostOpen(true)
+  }
 
   const settingsTabs = [
     { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
@@ -154,7 +163,8 @@ function AppNav() {
       </div>
       <div className={`reverse-corner-top-left ${sidebarOpen ? "" : "collapsed"}`}></div>
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} tabs={settingsTabs} />
-      {/* <FAB /> */}
+      <CreatePost boostMode={boostMode} open={createPostOpen} onOpenChange={setCreatePostOpen} />
+      <FAB onSelect={handleFabSelect} />
     </div>
   )
 }         
