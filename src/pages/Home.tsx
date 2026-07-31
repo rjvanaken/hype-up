@@ -1,16 +1,15 @@
-import Nav from '@/components/custom/Nav'
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
-// import { Sidebar } from '@/components/ui/sidebar'
-import FeedBox from '@/components/custom/Shared/FeedBox'
+import FeedBox from '@/components/custom/Feed/FeedBox'
 
 import { useTodos } from '@/hooks/useTodos'
 
 
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
+import ProfileSummaryCard from '@/components/custom/Home/ProfileSummaryCard'
 
 function Home() {
     // const navigate = useNavigate()
@@ -35,7 +34,7 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <ProfileSummaryCard></ProfileSummaryCard>
+                                    <ProfileSummaryCard name={''} initials={''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
                                     <HomeTodos 
                                       todos={todos} 
                                       onToggleTodo={toggleTodo} 

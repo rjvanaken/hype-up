@@ -38,7 +38,7 @@ function AppNav() {
   }
 
   return (
-    <div className="app-shell flex-col">
+    <div className="app-shell flex-col z-200">
       <SidebarHeader className="sidebar-header text-white bg-secondary flex-row items-center justify-between">
               <div>
         <img src={logo} alt="" className="h-8" />  

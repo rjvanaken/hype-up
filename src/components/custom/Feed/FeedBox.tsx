@@ -1,4 +1,4 @@
-import { Dropdown } from '@/components/custom/FeedFilterDropdown'
+import { Dropdown } from '@/components/custom/Feed/FeedFilterDropdown'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Separator } from '@/components/ui/separator'
 
