@@ -10,15 +10,13 @@ import type { PostData } from '@/hooks/usePosts'
 type FeedProps = {
     title?: string
     posts: PostData[]
-    firstname: string
-    lastname: string
 
     // taskCategory : string
 }
 
 const taskCategory = "Laundry"
 
-function FeedBox({ title = "title", posts, firstname, lastname }: FeedProps) {
+function FeedBox({ title = "title", posts }: FeedProps) {
 
     return (
         <CustomCard padding="">
@@ -31,8 +29,8 @@ function FeedBox({ title = "title", posts, firstname, lastname }: FeedProps) {
                 <Post
                     key={post.id}
                     userId={post.userId}
-                    firstname={firstname}
-                    lastname={lastname}
+                    firstname={post.authorFirstName}
+                    lastname={post.authorLastName}
                     subtitle=""
                     taskType={post.taskType}
                     postNote={post.postNote ?? undefined}

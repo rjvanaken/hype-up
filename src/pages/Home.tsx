@@ -34,14 +34,14 @@ function Home() {
                         main={
                             <>
                                 <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/} 
-                                <FeedBox title='YOUR FEED' posts={posts} firstname={profile?.firstName ?? ''} lastname={profile?.lastName ?? ''}></FeedBox>
+                                <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
                                     
 
                             </>
                         }
                         rightColumn={
                             <>
-                                    <ProfileSummaryCard name={''} initials={''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
+                                    <ProfileSummaryCard name={profile ? `${profile.firstName} ${profile.lastName}` : ''} initials={profile?.initials ?? ''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
                                     <HomeTodos 
                                       todos={todos} 
                                       onToggleTodo={toggleTodo} 

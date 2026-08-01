@@ -29,7 +29,7 @@ function Post({
     <div>
 
 
-            <div className='px-6 flex flex-col gap-2'>
+            <div className='px-6 flex flex-col gap-2 mb-2'>
                 <div className='flex flex-col w-auto gap-2'>
                 <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle}></AvatarNameSubtitle>
                 <div>

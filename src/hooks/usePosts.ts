@@ -4,6 +4,8 @@ import { supabase } from '@/lib/client'
 export interface PostData {
     id: string
     userId: string
+    authorFirstName: string
+    authorLastName: string
     taskType: string
     customTask: string | null
     postNote: string | null
@@ -23,7 +25,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
             let query = supabase
                 .from('posts')
-                .select('id, user_id, task_type, custom_task, note, like_count, comments_enabled, created_at')
+                .select('id, user_id, task_type, custom_task, note, like_count, comments_enabled, created_at, profiles(first_name, last_name)')
                 .order('created_at', { ascending: false })
 
             // 'own' scopes to the current user's posts; 'feed' relies on the
@@ -39,16 +41,22 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
                 return
             }
 
-            setPosts(data.map((row) => ({
-                id: row.id,
-                userId: row.user_id,
-                taskType: row.task_type,
-                customTask: row.custom_task,
-                postNote: row.note,
-                likeCount: row.like_count,
-                commentsEnabled: row.comments_enabled,
-                createdAt: row.created_at,
-            })))
+            setPosts(data.map((row) => {
+                const author = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
+
+                return {
+                    id: row.id,
+                    userId: row.user_id,
+                    authorFirstName: author?.first_name ?? '',
+                    authorLastName: author?.last_name ?? '',
+                    taskType: row.task_type,
+                    customTask: row.custom_task,
+                    postNote: row.note,
+                    likeCount: row.like_count,
+                    commentsEnabled: row.comments_enabled,
+                    createdAt: row.created_at,
+                }
+            }))
         }
 
         fetchPosts()
