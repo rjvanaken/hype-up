@@ -30,9 +30,11 @@ function FeedBox({ title = "title", posts }: FeedProps) {
                     firstname={post.authorFirstName}
                     lastname={post.authorLastName}
                     subtitle=""
+                    postType={post.postType}
                     taskType={post.taskType}
                     postNote={post.postNote ?? undefined}
                     customTask={post.customTask ?? undefined}
+                    imageUrl={post.imageUrl ?? undefined}
                     likeCount={post.likeCount}
                 />
             ))}

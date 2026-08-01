@@ -8,9 +8,11 @@ interface postProps {
     firstname: string
     lastname: string
     subtitle?: string
+    postType: 'share' | 'ask'
     taskType: string
     postNote?: string
     customTask?: string
+    imageUrl?: string
     likeCount: number
 }
 
@@ -19,9 +21,11 @@ function Post({
     firstname,
     lastname,
     subtitle,
+    postType,
     taskType,
     postNote,
     customTask,
+    imageUrl,
     likeCount
 }: postProps) {
 
@@ -33,14 +37,23 @@ function Post({
                 <div className='flex flex-col w-auto gap-2'>
                 <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle}></AvatarNameSubtitle>
                 <div>
-                <Badge className='w-auto'>
-                    <p>{customTask || taskType}</p>
-                </Badge>
+                {postType === 'ask' ? (
+                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-sm font-semibold text-secondary">
+                        <span role="img" aria-label="needs help">🙋</span>
+                        Needs help: {customTask || taskType}
+                    </span>
+                ) : (
+                    <Badge className='w-auto'>
+                        <p>{customTask || taskType}</p>
+                    </Badge>
+                )}
                 </div>
                 <p>{postNote}</p>
                 </div>
 
-                <image>Image placeholder</image>
+                {imageUrl && (
+                    <img src={imageUrl} alt="" className="w-full rounded-md object-cover" />
+                )}
                 <div className='flex flex-row gap-4 pt-2 text-xs'>
 
                 <div className='flex flex-row gap-2 items-center '>
