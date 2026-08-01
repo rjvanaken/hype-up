@@ -1,4 +1,4 @@
-import { Avatar } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
 interface AvatarNameSubtitleProps {
@@ -20,7 +20,9 @@ function AvatarNameSubtitle ({
     
 return(
     <div className="flex flex-row gap-2 justify-start w-full">
-<Avatar className="h-9 w-9"></Avatar>
+<Avatar className="h-9 w-9">
+    <AvatarFallback>{firstname.charAt(0).toUpperCase()}{lastname.charAt(0).toUpperCase()}</AvatarFallback>
+</Avatar>
     <div className="flex flex-col gap-0 w-full justify-center">
 <p className="font-medium text-sm text-secondary items-center mb-0">{firstname} {lastname.charAt(0).toUpperCase()}.</p>
 <p className='text-xs text-muted-foreground'>{subtitle}</p> 
