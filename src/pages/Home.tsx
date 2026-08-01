@@ -5,15 +5,20 @@ import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import FeedBox from '@/components/custom/Feed/FeedBox'
 
 import { useTodos } from '@/hooks/useTodos'
+import { usePosts } from '@/hooks/usePosts'
+import { useProfile } from '@/hooks/useProfile'
 
-
+import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
 import ProfileSummaryCard from '@/components/custom/Home/ProfileSummaryCard'
+import { Avatar } from '@/components/ui/avatar'
 
 function Home() {
     // const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
+    const posts = usePosts('feed')
+    const profile = useProfile()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -28,8 +33,10 @@ function Home() {
                     <TwoColumnLayout
                         main={
                             <>
-                                <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/}
-                                <FeedBox title='YOUR FEED'></FeedBox>
+                                <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/} 
+                                <FeedBox title='YOUR FEED' posts={posts} firstname={profile?.firstName ?? ''} lastname={profile?.lastName ?? ''}></FeedBox>
+                                    
+
                             </>
                         }
                         rightColumn={

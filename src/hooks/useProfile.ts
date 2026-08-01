@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 
 export interface Profile {
-    name: string
+    firstName: string
+    lastName: string
     initials: string
     avatarColor: string | null
     streakCount: number
@@ -18,7 +19,7 @@ export function useProfile() {
 
             const { data, error } = await supabase
                 .from('profiles')
-                .select('name, initials, avatar_color, streak_count')
+                .select('first_name, last_name, initials, avatar_color, streak_count')
                 .eq('id', user.id)
                 .single()
 
@@ -28,7 +29,8 @@ export function useProfile() {
             }
 
             setProfile({
-                name: data.name,
+                firstName: data.first_name,
+                lastName: data.last_name,
                 initials: data.initials ?? '?',
                 avatarColor: data.avatar_color,
                 streakCount: data.streak_count ?? 0
