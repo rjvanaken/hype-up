@@ -14,8 +14,6 @@ type FeedProps = {
     // taskCategory : string
 }
 
-const taskCategory = "Laundry"
-
 function FeedBox({ title = "title", posts }: FeedProps) {
 
     return (

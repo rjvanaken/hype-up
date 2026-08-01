@@ -3,9 +3,10 @@ import FormField from '@/components/custom/Shared/FormField'
 import AppButton from '@/components/custom/Shared/AppButton'
 import { LifeBuoy, PartyPopper } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ActionDialog from '../Shared/ActionDialog'
 import { cn } from '@/lib/utils'
+import { taskOptions } from '@/lib/taskOptions'
+import { useCreatePost } from '@/hooks/useCreatePost'
 
 
 const generalTaskPlaceholder = "Pick a task...";
@@ -20,11 +21,11 @@ type CreatePostProps = {
 }
 
 function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
-  const navigate = useNavigate()
+  const { createPost, isSubmitting } = useCreatePost()
   const [task, setTask] = useState('')
   const [note, setNote] = useState('')
   const [description, setDescription] = useState('')
-  const [image, uploadImage] = useState('')
+  const [image, setImage] = useState<File | null>(null)
 
   const title = boostMode ? "Asking for a boost" : "What did you do?"
   const taskLabel = boostMode ? "What do you need to do?" : "Task type"
@@ -32,6 +33,18 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
   const notePlaceholder = boostMode ? "Ask for some encouragement..." : "How does it feel?"
   const photoSubtext = boostMode ? "optional, if it helps explain" : "optional proof of the deed"
   const submitLabel = boostMode ? "Ask for hype" : "Post it"
+
+  async function handleSubmit() {
+    const success = await createPost({ boostMode, task, description, note, image })
+
+    if (success) {
+      setTask('')
+      setNote('')
+      setDescription('')
+      setImage(null)
+      onOpenChange(false)
+    }
+  }
 
 
   return (
@@ -58,7 +71,7 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
           <AppButton variant="alternate" onClick={() => onOpenChange(false)}>
             Cancel
           </AppButton>
-          <AppButton variant="default" disabled={!task} onClick={() => navigate('/home')}>  {/* temporary */}
+          <AppButton variant="default" disabled={!task || isSubmitting} onClick={handleSubmit}>
             {submitLabel}
           </AppButton>
         </>
@@ -69,18 +82,7 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
         label={taskLabel}
         id="task"
         placeholder={generalTaskPlaceholder}
-        options={[
-          { value: 'laundry', label: 'Laundry' },
-          { value: 'dishes', label: 'Dishes' },
-          { value: 'cleaning', label: 'Cleaning' },
-          { value: 'grocery-shopping', label: 'Grocery shopping' },
-          { value: 'exercise', label: 'Exercise' },
-          { value: 'studying', label: 'Studying' },
-          { value: 'cooking', label: 'Cooking' },
-          { value: 'taking-out-trash', label: 'Taking out trash' },
-          { value: 'send-email', label: 'Sent an email' },
-          { value: 'other', label: 'Other' },
-        ]}
+        options={taskOptions}
       />
 
       {task === 'other' && (
@@ -109,8 +111,7 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
         id="picture"
         file
         label={<>{generalPhotoLabel} <span className="text-primary text-sm">{photoSubtext}</span></>}
-        value={image}
-        onChange={(e) => uploadImage(e.target.value)}
+        onChange={(e) => setImage(e.target.files?.[0] ?? null)}
       />
     </ActionDialog>
   )
