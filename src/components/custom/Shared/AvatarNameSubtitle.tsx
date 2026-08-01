@@ -24,7 +24,7 @@ return(
     <AvatarFallback>{firstname.charAt(0).toUpperCase()}{lastname.charAt(0).toUpperCase()}</AvatarFallback>
 </Avatar>
     <div className="flex flex-col gap-0 w-full justify-center">
-<p className="font-medium text-sm text-secondary items-center mb-0">{firstname} {lastname.charAt(0).toUpperCase()}.</p>
+<p className="font-semibold text-sm text-secondary items-center mb-0">{firstname} {lastname.charAt(0).toUpperCase()}.</p>
 <p className='text-xs text-muted-foreground'>{subtitle}</p> 
 </div>
     </div>

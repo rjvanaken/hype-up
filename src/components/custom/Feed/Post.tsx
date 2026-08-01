@@ -1,6 +1,6 @@
-import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import AvatarNameSubtitle from "../Shared/AvatarNameSubtitle";
-import { MessageCircle, ThumbsUp } from "lucide-react";
+import { Check, LifeBuoy, MessageCircle, ThumbsUp } from "lucide-react";
 
 
 interface postProps {
@@ -33,19 +33,20 @@ function Post({
     <div>
 
 
-            <div className='px-6 flex flex-col gap-2 mb-2'>
+            <div className='px-6 flex flex-col gap-2 mb-4'>
                 <div className='flex flex-col w-auto gap-2'>
                 <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle}></AvatarNameSubtitle>
                 <div>
                 {postType === 'ask' ? (
-                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-sm font-semibold text-secondary">
-                        <span role="img" aria-label="needs help">🙋</span>
+                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-neutral-200 px-3 py-1 text-sm font-semibold text-secondary">
+                        <LifeBuoy className="size-4" />
                         Needs help: {customTask || taskType}
                     </span>
                 ) : (
-                    <Badge className='w-auto'>
-                        <p>{customTask || taskType}</p>
-                    </Badge>
+                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-cool-brand-200/20 px-3 py-1 text-sm font-semibold text-primary">
+                        <Check className="size-4" />
+                        {customTask || taskType}
+                        </span>
                 )}
                 </div>
                 <p>{postNote}</p>
@@ -66,6 +67,7 @@ function Post({
                 </div>
                 
                 </div>
+                <Separator className="mt-3"></Separator>
 </div>
 </div>
     )    

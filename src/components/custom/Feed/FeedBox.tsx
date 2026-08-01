@@ -1,9 +1,7 @@
-import { Dropdown } from '@/components/custom/Feed/FeedFilterDropdown'
+import { useState } from 'react'
+import { Dropdown, type FeedFilter } from '@/components/custom/Feed/FeedFilterDropdown'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Separator } from '@/components/ui/separator'
-import AvatarNameSubtitle from '../Shared/AvatarNameSubtitle'
-import { Badge } from '@/components/ui/badge'
-import { Command, MessageCircle, ThumbsUp } from 'lucide-react'
 import Post from './Post'
 import type { PostData } from '@/hooks/usePosts'
 
@@ -15,21 +13,28 @@ type FeedProps = {
 }
 
 function FeedBox({ title = "title", posts }: FeedProps) {
+    const [filter, setFilter] = useState<FeedFilter>('all')
+
+    const filteredPosts = posts.filter((post) => {
+        if (filter === 'hypes') return post.postType === 'share'
+        if (filter === 'helps') return post.postType === 'ask'
+        return true
+    })
 
     return (
         <CustomCard padding="">
             <div className='flex flex-1 justify-between h-auto px-6'>
                 <p className='font-medium text-md text-neutral-600 '>{title}</p>
-                <Dropdown></Dropdown>
+                <Dropdown value={filter} onValueChange={setFilter} />
             </div>
             <Separator />
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
                 <Post
                     key={post.id}
                     userId={post.userId}
                     firstname={post.authorFirstName}
                     lastname={post.authorLastName}
-                    subtitle=""
+                    subtitle={post.createdAt}
                     postType={post.postType}
                     taskType={post.taskType}
                     postNote={post.postNote ?? undefined}
@@ -38,6 +43,7 @@ function FeedBox({ title = "title", posts }: FeedProps) {
                     likeCount={post.likeCount}
                 />
             ))}
+            <Separator className="m-3"></Separator>
             </CustomCard>
     )
 }
