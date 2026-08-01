@@ -4,6 +4,7 @@ import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Separator } from '@/components/ui/separator'
 import Post from './Post'
 import type { PostData } from '@/hooks/usePosts'
+import { getTimestamp } from '@/lib/formatRelativeTime'
 
 type FeedProps = {
     title?: string
@@ -22,7 +23,7 @@ function FeedBox({ title = "title", posts }: FeedProps) {
     })
 
     return (
-        <CustomCard padding="">
+        <CustomCard className='px-0 pt-6 pb-0'>
             <div className='flex flex-1 justify-between h-auto px-6'>
                 <p className='font-medium text-md text-neutral-600 '>{title}</p>
                 <Dropdown value={filter} onValueChange={setFilter} />
@@ -34,7 +35,7 @@ function FeedBox({ title = "title", posts }: FeedProps) {
                     userId={post.userId}
                     firstname={post.authorFirstName}
                     lastname={post.authorLastName}
-                    subtitle={post.createdAt}
+                    subtitle={getTimestamp(post.createdAt)}
                     postType={post.postType}
                     taskType={post.taskType}
                     postNote={post.postNote ?? undefined}
@@ -43,7 +44,7 @@ function FeedBox({ title = "title", posts }: FeedProps) {
                     likeCount={post.likeCount}
                 />
             ))}
-            <Separator className="m-3"></Separator>
+            {/* <Separator className="m-3"></Separator> */}
             </CustomCard>
     )
 }

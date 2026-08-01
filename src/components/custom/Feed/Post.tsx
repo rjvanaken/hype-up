@@ -30,11 +30,13 @@ function Post({
     likeCount
 }: postProps) {
 
+
+
     return (
     <div>
 
 
-            <div className='px-6 py-2 flex flex-col gap-4 mb-0'>
+            <div className='px-6 pt-1 pb-2 flex flex-col gap-4 mb-0'>
                 <div className='flex flex-col w-auto'>
                 <div className='flex flex-col gap-2.5'>
                 <div className="flex flex-row flex-1">
