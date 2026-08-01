@@ -10,7 +10,6 @@ subtitle?: string
 }
 
 function AvatarNameSubtitle ({
-    user_id,
     firstname,
     lastname,
     subtitle

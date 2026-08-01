@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import AvatarNameSubtitle from "../Shared/AvatarNameSubtitle";
-import { Check, LifeBuoy, MessageCircle, ThumbsUp } from "lucide-react";
+import { Check, LifeBuoy, MessageCircle, MoreHorizontal, ThumbsUp } from "lucide-react";
+import AppButton from "../Shared/AppButton";
 
 
 interface postProps {
@@ -33,23 +34,31 @@ function Post({
     <div>
 
 
-            <div className='px-6 flex flex-col gap-2 mb-4'>
-                <div className='flex flex-col w-auto gap-2'>
+            <div className='px-6 py-2 flex flex-col gap-4 mb-0'>
+                <div className='flex flex-col w-auto'>
+                <div className='flex flex-col gap-2.5'>
+                <div className="flex flex-row flex-1">
                 <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle}></AvatarNameSubtitle>
+                <AppButton className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent">
+                <MoreHorizontal className="text-secondary size-3.5"/>
+                </AppButton>
+                </div>
+
                 <div>
                 {postType === 'ask' ? (
-                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-neutral-200 px-3 py-1 text-sm font-semibold text-secondary">
-                        <LifeBuoy className="size-4" />
+                    <span className="inline-flex w-auto items-center gap-1 rounded-full bg-neutral-200 px-2 py-0.5 text-xs font-semibold text-secondary">
+                        <LifeBuoy className="size-3" />
                         Needs help: {customTask || taskType}
                     </span>
                 ) : (
-                    <span className="inline-flex w-auto items-center gap-1.5 rounded-full bg-cool-brand-200/20 px-3 py-1 text-sm font-semibold text-primary">
-                        <Check className="size-4" />
+                    <span className="inline-flex w-auto items-center gap-1 rounded-full bg-cool-brand-200/20 px-2 py-0.5 text-xs font-semibold text-primary">
+                        <Check className="size-3" />
                         {customTask || taskType}
                         </span>
                 )}
                 </div>
-                <p>{postNote}</p>
+                </div>
+                <p className='mt-3'>{postNote}</p>
                 </div>
 
                 {imageUrl && (
@@ -67,8 +76,8 @@ function Post({
                 </div>
                 
                 </div>
-                <Separator className="mt-3"></Separator>
 </div>
+                <Separator className="mt-4"></Separator>
 </div>
     )    
     }
