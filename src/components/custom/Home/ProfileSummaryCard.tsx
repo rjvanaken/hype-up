@@ -2,7 +2,7 @@ import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 
-interface ProfileSummaryCardProps {
+export interface ProfileSummaryCardProps {
   name: string
   initials: string
   streak: number
