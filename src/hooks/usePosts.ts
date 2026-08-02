@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { usePostsRefresh } from '@/hooks/usePostsRefresh'
 
 export interface PostData {
     id: string
@@ -19,6 +20,7 @@ export interface PostData {
 export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
     const [posts, setPosts] = useState<PostData[]>([])
+    const { version } = usePostsRefresh()
 
     useEffect(() => {
         async function fetchPosts() {
@@ -64,7 +66,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
         }
 
         fetchPosts()
-    }, [])
+    }, [version])
 
     return posts
 }

@@ -17,6 +17,7 @@ import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
 import AccountSettingsContent from "@/components/custom/Settings/AccountSettingsContent"
 import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
+import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -48,6 +49,7 @@ function AppNav() {
   }
 
   return (
+    <PostsRefreshProvider>
     <div className="app-shell flex-col z-200">
       <SidebarHeader className="sidebar-header text-white bg-secondary flex-row items-center justify-between">
               <div>
@@ -166,8 +168,9 @@ function AppNav() {
       <CreatePost boostMode={boostMode} open={createPostOpen} onOpenChange={setCreatePostOpen} />
       <FAB onSelect={handleFabSelect} />
     </div>
+    </PostsRefreshProvider>
   )
-}         
+}
 
 
 

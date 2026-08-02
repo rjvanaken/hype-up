@@ -24,5 +24,6 @@ for (const [name, secondsInUnit] of UNITS) {
     }
 }
 
+return 'just now'
 
 }

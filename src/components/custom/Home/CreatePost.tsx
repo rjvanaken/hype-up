@@ -7,6 +7,7 @@ import ActionDialog from '../Shared/ActionDialog'
 import { cn } from '@/lib/utils'
 import { taskOptions } from '@/lib/taskOptions'
 import { useCreatePost } from '@/hooks/useCreatePost'
+import { usePostsRefresh } from '@/hooks/usePostsRefresh'
 
 
 const generalTaskPlaceholder = "Pick a task...";
@@ -22,6 +23,7 @@ type CreatePostProps = {
 
 function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
   const { createPost, isSubmitting } = useCreatePost()
+  const { triggerRefresh } = usePostsRefresh()
   const [task, setTask] = useState('')
   const [note, setNote] = useState('')
   const [description, setDescription] = useState('')
@@ -43,6 +45,7 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
       setDescription('')
       setImage(null)
       onOpenChange(false)
+      triggerRefresh()
     }
   }
 
