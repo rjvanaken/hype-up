@@ -43,11 +43,11 @@ function FormField({
   )
 
   const control = file ? (
-    <Input id={id} type="file" accept="image/*" className={className ?? baseInputClass} {...props} />
+    <Input id={id} type="file" accept="image/*" className={cn(baseInputClass, className)} {...props} />
   ) : multiline ? (
-    <Textarea id={id} className={className ?? baseInputClass} {...(props as React.ComponentProps<'textarea'>)} />
+    <Textarea id={id} className={cn(baseInputClass, className)} {...(props as React.ComponentProps<'textarea'>)} />
   ) : (
-    <Input id={id} className={className ?? baseInputClass} {...props} />
+    <Input id={id} className={cn(baseInputClass, className)} {...props} />
   )
 
   const controlWithIcons = (hasLeadingIcon || hasTrailingIcon) ? (

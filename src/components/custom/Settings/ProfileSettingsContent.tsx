@@ -11,11 +11,6 @@ import { supabase } from '@/lib/client'
 
 const AVATAR_BUCKET = 'avatars'
 
-function splitName(name: string): [string, string] {
-  const [first, ...rest] = name.trim().split(/\s+/)
-  return [first ?? '', rest.join(' ')]
-}
-
 function ProfileSettingsContent() {
   const [userId, setUserId] = useState<string | null>(null)
 
@@ -24,6 +19,7 @@ function ProfileSettingsContent() {
   const [savedFirstName, setSavedFirstName] = useState('')
   const [savedLastName, setSavedLastName] = useState('')
   const [nameError, setNameError] = useState('')
+  const [nameIsFallback, setNameIsFallback] = useState(false)
 
   const [location, setLocation] = useState('')
   const [savedLocation, setSavedLocation] = useState('')
@@ -49,17 +45,24 @@ function ProfileSettingsContent() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('name, bio, location, avatar_storage_path, avatar_color, show_streak')
+        .select('first_name, last_name, bio, location, avatar_storage_path, avatar_color, show_streak')
         .eq('id', user.id)
         .maybeSingle()
 
+      // Retains metadata reference to first and last names
+      const fallbackFirstName = typeof user.user_metadata?.first_name === 'string' ? user.user_metadata.first_name : ''
+      const fallbackLastName = typeof user.user_metadata?.last_name === 'string' ? user.user_metadata.last_name : ''
+      const resolvedFirstName = profile?.first_name || fallbackFirstName
+      const resolvedLastName = profile?.last_name || fallbackLastName
+
+      setFirstName(resolvedFirstName)
+      setLastName(resolvedLastName)
+      setSavedFirstName(resolvedFirstName)
+      setSavedLastName(resolvedLastName)
+      setNameIsFallback((!profile?.first_name && !!fallbackFirstName) || (!profile?.last_name && !!fallbackLastName))
+
       if (!profile) return
 
-      const [first, last] = splitName(profile.name ?? '')
-      setFirstName(first)
-      setLastName(last)
-      setSavedFirstName(first)
-      setSavedLastName(last)
       setLocation(profile.location ?? '')
       setSavedLocation(profile.location ?? '')
       setBio(profile.bio ?? '')
@@ -89,16 +92,18 @@ function ProfileSettingsContent() {
     const initials = `${trimmedFirst[0]}${trimmedLast[0]}`.toUpperCase()
     const { error } = await supabase
       .from('profiles')
-      .update({ name: `${trimmedFirst} ${trimmedLast}`, initials })
+      .update({ first_name: trimmedFirst, last_name: trimmedLast, initials })
       .eq('id', userId)
 
     if (error) {
+      console.error('Error saving name:', error)
       setNameError('Something went wrong. Please try again.')
       return
     }
 
     setSavedFirstName(trimmedFirst)
     setSavedLastName(trimmedLast)
+    setNameIsFallback(false)
   }
 
   async function handleSaveLocation() {
@@ -106,7 +111,11 @@ function ProfileSettingsContent() {
     if (trimmed === savedLocation) return
 
     const { error } = await supabase.from('profiles').update({ location: trimmed }).eq('id', userId)
-    if (!error) setSavedLocation(trimmed)
+    if (error) {
+      console.error('Error saving location:', error)
+      return
+    }
+    setSavedLocation(trimmed)
   }
 
   async function handleSaveBio() {
@@ -114,7 +123,11 @@ function ProfileSettingsContent() {
     if (trimmed === savedBio) return
 
     const { error } = await supabase.from('profiles').update({ bio: trimmed }).eq('id', userId)
-    if (!error) setSavedBio(trimmed)
+    if (error) {
+      console.error('Error saving bio:', error)
+      return
+    }
+    setSavedBio(trimmed)
   }
 
   async function handleToggleStreak(checked: boolean) {
@@ -123,6 +136,7 @@ function ProfileSettingsContent() {
 
     const { error } = await supabase.from('profiles').update({ show_streak: checked }).eq('id', userId)
     if (error) {
+      console.error('Error saving streak visibility:', error)
       setShowStreak(!checked)
       setStreakError('Something went wrong. Please try again.')
     }
@@ -234,6 +248,7 @@ function ProfileSettingsContent() {
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           onBlur={handleSaveName}
+          className={nameIsFallback ? 'text-muted-foreground' : undefined}
         />
       </div>
 
@@ -246,6 +261,7 @@ function ProfileSettingsContent() {
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           onBlur={handleSaveName}
+          className={nameIsFallback ? 'text-muted-foreground' : undefined}
         />
         {nameError && (
           <Badge variant="destructive" className="mt-2">
