@@ -298,7 +298,7 @@ function ProfileSettingsContent() {
         }
       >
         <p className="text-sm text-secondary">
-          Are you sure you want to delete your avatar photo? This can't be undone — your profile will revert to showing your initials.
+          Delete your avatar photo? Your profile will revert to showing your initials.
         </p>
       </ActionDialog>
 
