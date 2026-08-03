@@ -11,23 +11,17 @@ export interface RecentPosterProps {
 function RecentPoster({ firstName, initials, avatarColor, latestPostType }: RecentPosterProps) {
     return (
         <div className="flex flex-col items-center gap-1">
-            <Avatar>
+            <Avatar className="size-12">
                 <AvatarFallback
                     className="font-medium text-primary-foreground"
                     style={avatarColor ? { backgroundColor: avatarColor } : undefined}
                 >
                     {initials}
                 </AvatarFallback>
-                <AvatarBadge>
-                    {latestPostType === 'ask' ? 
-                    
-                    <div className="rounded-full bg-secondary">
-                    <LifeBuoy className="text-secondary-foreground"/> 
-                    </div>
-                :   <div className="rounded-full bg-primary">
-                    <PartyPopper className="text-primary-foreground"/> 
-                    </div>}
-                
+                <AvatarBadge className={`!size-4.5 [&>svg]:!size-3 ${latestPostType === 'ask' ? 'bg-secondary' : 'bg-primary'}`}>
+                    {latestPostType === 'ask' ?
+                    <LifeBuoy className="text-secondary-foreground"/>
+                    : <PartyPopper className="text-primary-foreground"/>}
                 </AvatarBadge>
             </Avatar>
             <p className="text-xs text-muted-foreground">{firstName}</p>

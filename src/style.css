@@ -124,6 +124,11 @@
 
 
 
+/* General */
+.banner {
+  min-height: 233.56px;
+}
+
 /* Glassomorphism */
 
 .bg-blob {

@@ -37,7 +37,6 @@ function Home() {
                             <>
                                 <HomeBanner
                                 firstname={profile?.firstName ?? ''}
-                                quote="Idk here's a quote"
                                 recentPosters={recentPosters}
                                 ></HomeBanner>
                                 <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
