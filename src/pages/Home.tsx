@@ -8,12 +8,11 @@ import { useTodos } from '@/hooks/useTodos'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
 import HomeBanner from '@/components/custom/Home/HomeBanner'
-import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
 import ProfileSummaryCard from '@/components/custom/Home/ProfileSummaryCard'
-import { Avatar } from '@/components/ui/avatar'
 import { useProfileSummary } from '@/hooks/useProfileSummary'
+import { useHomeRecents } from '@/hooks/useHomeRecents'
 
 function Home() {
     // const navigate = useNavigate()
@@ -21,6 +20,7 @@ function Home() {
     const posts = usePosts('feed')
     const profile = useProfile()
     const profileSummary = useProfileSummary()
+    const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -36,9 +36,9 @@ function Home() {
                         main={
                             <>
                                 <HomeBanner
-                                firstname="name"
+                                firstname={profile?.firstName ?? ''}
                                 quote="Idk here's a quote"
-                                
+                                recentPosters={recentPosters}
                                 ></HomeBanner>
                                 <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
                                     
