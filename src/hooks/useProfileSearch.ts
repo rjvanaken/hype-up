@@ -16,8 +16,7 @@ export function useProfileSearch(searchTerm: string) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        // PostgREST's .or() treats `,()` as filter syntax, so strip them from
-        // user input to keep the search scoped to first_name/last_name ilike.
+        // Keeps user input search scoped to first_name/last_name 
         const safeTerm = searchTerm.trim().replace(/[,()%_]/g, '')
 
         if (!safeTerm) {
