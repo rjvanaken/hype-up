@@ -11,6 +11,7 @@ import AppNav from './components/custom/Navigation/AppNav'
 import Profile from './pages/Profile'
 import Todos from './pages/Todos'
 import Reminders from './pages/Reminders'
+import FindFriends from './pages/FindFriends'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route element={<AppNav />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/find-friends" element={<FindFriends />} />
         </Route>
       </Routes>
     </BrowserRouter>
