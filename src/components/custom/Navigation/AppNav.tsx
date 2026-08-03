@@ -54,7 +54,6 @@ function AppNav() {
 
     if (error) {
       console.error('Error logging out:', error.message)
-      return
     }
 
     navigate('/login', {replace: true})
