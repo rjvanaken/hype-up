@@ -45,11 +45,15 @@ function ProfileSettingsContent() {
       if (!user) return
       setUserId(user.id)
 
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('first_name, last_name, bio, location, avatar_storage_path, avatar_color, show_streak')
         .eq('id', user.id)
         .maybeSingle()
+
+      if (profileError) {
+        console.error('Error loading profile:', profileError)
+      }
 
       // Retains metadata reference to first and last names
       const fallbackFirstName = typeof user.user_metadata?.first_name === 'string' ? user.user_metadata.first_name : ''
