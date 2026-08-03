@@ -7,6 +7,7 @@ export interface SearchedProfile {
     lastName: string
     initials: string
     avatarColor: string | null
+    streakCount: number
 }
 
 const SEARCH_DEBOUNCE_MS = 300
@@ -16,14 +17,8 @@ export function useProfileSearch(searchTerm: string) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        // Keeps user input search scoped to first_name/last_name 
+        // Keeps user input search scoped to first_name/last_name
         const safeTerm = searchTerm.trim().replace(/[,()%_]/g, '')
-
-        if (!safeTerm) {
-            setResults([])
-            setLoading(false)
-            return
-        }
 
         let cancelled = false
         setLoading(true)
@@ -33,9 +28,12 @@ export function useProfileSearch(searchTerm: string) {
 
             let query = supabase
                 .from('profiles')
-                .select('id, first_name, last_name, initials, avatar_color')
-                .or(`first_name.ilike.%${safeTerm}%,last_name.ilike.%${safeTerm}%`)
-                .limit(20)
+                .select('id, first_name, last_name, initials, avatar_color, streak_count')
+                .order('first_name', { ascending: true })
+
+            if (safeTerm) {
+                query = query.or(`first_name.ilike.%${safeTerm}%,last_name.ilike.%${safeTerm}%`)
+            }
 
             if (user) {
                 query = query.neq('id', user.id)
@@ -56,7 +54,8 @@ export function useProfileSearch(searchTerm: string) {
                 firstName: profile.first_name,
                 lastName: profile.last_name,
                 initials: profile.initials ?? '?',
-                avatarColor: profile.avatar_color
+                avatarColor: profile.avatar_color,
+                streakCount: profile.streak_count ?? 0
             })))
         }
 
