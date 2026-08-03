@@ -3,7 +3,8 @@ import { supabase } from '@/lib/client'
 
 export interface ConnectionProfile {
     id: string
-    name: string
+    firstName: string
+    lastName: string
     initials: string
     avatarColor: string | null
 }
@@ -13,7 +14,7 @@ async function fetchProfiles(ids: string[]): Promise<ConnectionProfile[]> {
 
     const { data, error } = await supabase
         .from('profiles')
-        .select('id, name, initials, avatar_color')
+        .select('id, first_name, last_name, initials, avatar_color')
         .in('id', ids)
 
     if (error) {
@@ -23,7 +24,8 @@ async function fetchProfiles(ids: string[]): Promise<ConnectionProfile[]> {
 
     return (data ?? []).map((profile) => ({
         id: profile.id,
-        name: profile.name,
+        firstName: profile.first_name,
+        lastName: profile.last_name,
         initials: profile.initials ?? '?',
         avatarColor: profile.avatar_color
     }))

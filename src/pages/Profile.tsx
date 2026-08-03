@@ -3,6 +3,7 @@ import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import FeedBox from '@/components/custom/Feed/FeedBox'
+import ConnectionsCard from '@/components/custom/Profile/ConnectionsCard'
 
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
@@ -25,6 +26,7 @@ function Profile() {
                         rightColumn={
                             <>
                                 <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
+                                <ConnectionsCard />
                                 <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
                             </>
                         }>

@@ -43,10 +43,11 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <ProfileSummaryCard name={profile ? `${profile.firstName} ${profile.lastName}` : ''} initials={profile?.initials ?? ''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
+                                    <ProfileSummaryCard firstName={profile?.firstName ?? ''} lastName={profile?.lastName ?? ''} initials={profile?.initials ?? ''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
                                     {profileSummary && (
                                         <ProfileSummaryCard
-                                            name={profileSummary.name}
+                                            firstName={profileSummary.firstName}
+                                            lastName={profileSummary.lastName}
                                             initials={profileSummary.initials}
                                             streak={profileSummary.streak}
                                             tasks={profileSummary.tasks}

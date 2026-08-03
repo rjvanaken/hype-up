@@ -17,7 +17,7 @@ export function useProfileSummary() {
             ] = await Promise.all([
                 supabase
                     .from('profiles')
-                    .select('name, initials, streak_count, tasks_completed')
+                    .select('first_name, last_name, initials, streak_count, tasks_completed')
                     .eq('id', user.id)
                     .single(),
                 supabase
@@ -46,7 +46,8 @@ export function useProfileSummary() {
             }
 
             setSummary({
-                name: profile.name,
+                firstName: profile.first_name,
+                lastName: profile.last_name,
                 initials: profile.initials ?? '?',
                 streak: profile.streak_count ?? 0,
                 tasks: profile.tasks_completed ?? 0,

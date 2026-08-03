@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 
 export interface ProfileSummaryCardProps {
-  name: string
+  firstName: string
+  lastName: string
   initials: string
   streak: number
   tasks: number
@@ -12,7 +13,8 @@ export interface ProfileSummaryCardProps {
 }
 
 function ProfileSummaryCard({
-  name,
+  firstName,
+  lastName,
   initials,
   streak,
   tasks,
@@ -31,7 +33,7 @@ function ProfileSummaryCard({
 
       <div className="text-center">
         <p className="text-md font-semibold text-secondary">
-          {name}
+          {firstName} {lastName}
         </p>
 
         <p className="mt-1 text-sm text-muted-foreground">
