@@ -7,7 +7,7 @@ import FeedBox from '@/components/custom/Feed/FeedBox'
 import { useTodos } from '@/hooks/useTodos'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
-
+import HomeBanner from '@/components/custom/Home/HomeBanner'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
@@ -35,7 +35,11 @@ function Home() {
                     <TwoColumnLayout
                         main={
                             <>
-                                <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/} 
+                                <HomeBanner
+                                firstname="name"
+                                quote="Idk here's a quote"
+                                
+                                ></HomeBanner>
                                 <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
                                     
 
