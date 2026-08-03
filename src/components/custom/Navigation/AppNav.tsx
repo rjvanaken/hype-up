@@ -18,6 +18,7 @@ import AccountSettingsContent from "@/components/custom/Settings/AccountSettings
 import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
+import { supabase } from '@/lib/client'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -44,8 +45,18 @@ function AppNav() {
     { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what you get notified about', content: null },
   ]
 
-  const handleLogout = () => {
-    // TODO: wire to supabase.auth.signOut(), then navigate('/login')
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    const {error} = await supabase.auth.signOut({
+      scope:"local",
+    })
+
+    if (error) {
+      console.error('Error logging out:', error.message)
+    }
+
+    navigate('/login', {replace: true})
   }
 
   return (
@@ -138,13 +149,16 @@ function AppNav() {
               Settings
             </button>
 
-              <NavLink to="/" className={navLinkClass}>
-              <span className="flex items-center size-4.5">
-              {/* TODO add log out here, need to make sure all credentials are wiped so they are logged out? */}
-                <LogOut/>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className={`${navLinkClass({ isActive: false })} cursor-pointer`}
+              >
+                <span className="flex items-center size-4.5">
+                  <LogOut />
                 </span>
                 Log Out
-              </NavLink>
+              </button>
               </div>
             </div>
           </SidebarContent>
