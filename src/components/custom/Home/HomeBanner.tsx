@@ -17,7 +17,7 @@ function HomeBanner({
   return (
     <CustomCard>
         <div className="flex-col flex gap-1">
-        <p className="text-secondary text-lg font-semibold">Hey, {firstname}! <span role="img" aria-label="fire">🔥</span>
+        <p className="text-secondary text-lg font-semibold">Hey, {firstname}! <span role="img" aria-label="hand waving">👋</span>
         </p>
         <p className="text-muted-foreground text-sm">{quote}</p>
         </div>
