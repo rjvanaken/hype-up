@@ -7,13 +7,12 @@ import FeedBox from '@/components/custom/Feed/FeedBox'
 import { useTodos } from '@/hooks/useTodos'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
-
-import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
+import HomeBanner from '@/components/custom/Home/HomeBanner'
 import AchievementsCard from '@/components/custom/Achievements/AchievementsCard'
 import { useAchievements } from '@/hooks/use-Achievements'
 import ProfileSummaryCard from '@/components/custom/Home/ProfileSummaryCard'
-import { Avatar } from '@/components/ui/avatar'
 import { useProfileSummary } from '@/hooks/useProfileSummary'
+import { useHomeRecents } from '@/hooks/useHomeRecents'
 
 function Home() {
     // const navigate = useNavigate()
@@ -21,6 +20,7 @@ function Home() {
     const posts = usePosts('feed')
     const profile = useProfile()
     const profileSummary = useProfileSummary()
+    const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -35,7 +35,10 @@ function Home() {
                     <TwoColumnLayout
                         main={
                             <>
-                                <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/} 
+                                <HomeBanner
+                                firstname={profile?.firstName ?? ''}
+                                recentPosters={recentPosters}
+                                ></HomeBanner>
                                 <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
                                     
 
