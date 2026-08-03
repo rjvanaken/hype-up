@@ -37,7 +37,8 @@ function FormField({
   const baseInputClass = cn(
     horizontal ? 'w-64' : 'mb-2 w-full',
     'placeholder:text-sm border-1 border-input px-2.5 py-2',
-    !file && 'h-11',
+    !file && !multiline && 'h-11',
+    multiline && 'max-h-40 overflow-y-auto resize-none',
     hasLeadingIcon && !file && 'pl-10',
     hasTrailingIcon && !file && 'pr-10'
   )
@@ -72,7 +73,7 @@ function FormField({
 
   if (horizontal) {
     return (
-      <div className="flex items-center gap-6">
+      <div className={cn('flex gap-6', multiline ? 'items-start' : 'items-center')}>
         <div className="w-56 shrink-0">
           <SettingsRowLabel id={id} label={label} subtitle={subtitle} />
         </div>

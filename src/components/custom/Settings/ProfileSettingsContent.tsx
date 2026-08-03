@@ -12,8 +12,6 @@ import { supabase } from '@/lib/client'
 
 const AVATAR_BUCKET = 'avatars'
 
-const AVATAR_COLORS = ['#0d9488', '#2563eb', '#7c3aed', '#db2777', '#ea580c', '#16a34a']
-
 function ProfileSettingsContent() {
   const [userId, setUserId] = useState<string | null>(null)
 
@@ -199,21 +197,6 @@ function ProfileSettingsContent() {
     setDeleteAvatarOpen(false)
   }
 
-  async function handleSelectColor(color: string) {
-    if (color === avatarColor) return
-
-    const previous = avatarColor
-    setAvatarColor(color)
-    setAvatarError('')
-
-    const { error } = await supabase.from('profiles').update({ avatar_color: color }).eq('id', userId)
-    if (error) {
-      console.error('Error saving avatar color:', error)
-      setAvatarColor(previous)
-      setAvatarError('Something went wrong. Please try again.')
-    }
-  }
-
   const initials = `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase()
 
   return (
@@ -252,27 +235,6 @@ function ProfileSettingsContent() {
               Delete
             </button>
           )}
-        </div>
-      </div>
-
-      <div className="flex items-center gap-6">
-        <div className="w-56 shrink-0" />
-        <div className="flex items-center gap-2">
-          {AVATAR_COLORS.map((color) => (
-            <button
-              key={color}
-              type="button"
-              onClick={() => handleSelectColor(color)}
-              disabled={avatarBusy}
-              aria-label={`Use this color for your initials avatar`}
-              aria-pressed={avatarColor === color}
-              className={cn(
-                'size-6 rounded-full cursor-pointer transition-transform disabled:opacity-50 disabled:cursor-not-allowed',
-                avatarColor === color ? 'ring-2 ring-offset-2 ring-secondary' : 'hover:scale-110'
-              )}
-              style={{ backgroundColor: color }}
-            />
-          ))}
         </div>
       </div>
 
