@@ -15,6 +15,8 @@ interface postProps {
     customTask?: string
     imageUrl?: string
     likeCount: number
+    initials: string
+    avatarColor: string
 }
 
 function Post({
@@ -27,7 +29,9 @@ function Post({
     postNote,
     customTask,
     imageUrl,
-    likeCount
+    likeCount,
+    initials,
+    avatarColor
 }: postProps) {
 
 
@@ -40,7 +44,7 @@ function Post({
                 <div className='flex flex-col w-auto'>
                 <div className='flex flex-col gap-2.5'>
                 <div className="flex flex-row flex-1">
-                <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle}></AvatarNameSubtitle>
+                <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle} initials={initials} avatarColor={avatarColor}></AvatarNameSubtitle>
                 <AppButton className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent">
                 <MoreHorizontal className="text-secondary size-3.5"/>
                 </AppButton>
