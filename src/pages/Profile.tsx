@@ -3,7 +3,7 @@ import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import FeedBox from '@/components/custom/Feed/FeedBox'
-
+import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
 
@@ -18,7 +18,7 @@ function Profile() {
                     <TwoColumnLayout
                         main={
                             <>
-                                <CustomCard><p>IntroBox</p></CustomCard> {/*placeholder*/}
+                                <ProfileBanner firstname={''} lastname={''} avatarColor={''}></ProfileBanner>
                                 <FeedBox title='YOUR POSTS' posts={posts}></FeedBox>
                             </>
                         }
