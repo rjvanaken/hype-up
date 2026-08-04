@@ -12,7 +12,7 @@ function ActionDialog({
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  title: string
+  title: React.ReactNode
   children: React.ReactNode
   footer: React.ReactNode
 }) {
