@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
@@ -8,16 +9,18 @@ import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
 
-function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
-    const { achievements, tasksCompleted } = useAchievements()
-    const posts = usePosts('own')
-    const profile = useProfile()
+function Profile() {
+    const { userId } = useParams<{ userId?: string }>()
+    const { achievements, tasksCompleted } = useAchievements(userId)
+    const posts = usePosts(userId ? 'user' : 'own', userId)
+    const profile = useProfile(userId)
+
     if (!profile) {
     // decide what renders while data hasn't loaded yet — a spinner, null, a skeleton, etc.
     return null
     }
 
-    const {firstName, lastName, initials, avatarColor, streakCount, location, bio} = profile
+    const {firstName, lastName, initials, avatarColor, location, bio, isOwnProfile} = profile
 
     return (
         <>
@@ -26,8 +29,17 @@ function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
                     <TwoColumnLayout
                         main={
                             <>
-                                <ProfileBanner firstname={firstName} lastname={lastName} avatarColor={avatarColor} location={location} bio={bio} initials={initials}></ProfileBanner>
-                                <FeedBox title='YOUR POSTS' posts={posts}></FeedBox>
+                                <ProfileBanner
+                                    firstname={firstName}
+                                    lastname={lastName}
+                                    avatarColor={avatarColor}
+                                    location={location}
+                                    bio={bio}
+                                    initials={initials}
+                                    achievements={achievements}
+                                    tasksCompleted={tasksCompleted}
+                                ></ProfileBanner>
+                                <FeedBox title={isOwnProfile ? 'YOUR POSTS' : `${firstName}'s POSTS`} posts={posts}></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (
