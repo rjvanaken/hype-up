@@ -20,6 +20,7 @@ import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
 import { supabase } from '@/lib/client'
+import { useProfile } from "@/hooks/useProfile"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
@@ -32,6 +33,10 @@ function AppNav() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [createPostOpen, setCreatePostOpen] = useState(false)
   const [boostMode, setBoostMode] = useState(false)
+
+
+  const initials = useProfile()?.initials ?? '?'
+
 
   const handleFabSelect = (selectedBoostMode: boolean) => {
     setBoostMode(selectedBoostMode)
@@ -82,7 +87,10 @@ function AppNav() {
             <DropdownMenuTrigger className="flex items-center gap-1 outline-none">
               <Avatar className="h-8 w-8">
                 <AvatarImage src="" alt="Profile" />
-                <AvatarFallback>SM</AvatarFallback>
+                            <AvatarFallback
+                className="text-xs font-semibold text-foreground bg-card">
+                {initials}
+            </AvatarFallback>
               </Avatar>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </DropdownMenuTrigger>

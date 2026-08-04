@@ -46,7 +46,6 @@ function Home() {
                         }
                         rightColumn={
                             <>
-                                    <ProfileSummaryCard name={profile ? `${profile.firstName} ${profile.lastName}` : ''} initials={profile?.initials ?? ''} streak={0} tasks={0} following={0} followers={0}></ProfileSummaryCard>
                                     {profileSummary && (
                                         <ProfileSummaryCard
                                             name={profileSummary.name}

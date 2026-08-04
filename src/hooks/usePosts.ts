@@ -7,6 +7,8 @@ export interface PostData {
     userId: string
     authorFirstName: string
     authorLastName: string
+    authorInitials: string
+    authorAvatarColor: string
     postType: 'share' | 'ask'
     taskType: string
     customTask: string | null
@@ -29,7 +31,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
             let query = supabase
                 .from('posts')
-                .select('id, user_id, post_type, task_type, custom_task, note, image_url, like_count, comments_enabled, created_at, profiles(first_name, last_name)')
+                .select('id, user_id, post_type, task_type, custom_task, note, image_url, like_count, comments_enabled, created_at, profiles(first_name, last_name, initials, avatar_color)')
                 .order('created_at', { ascending: false })
 
             // 'own' scopes to the current user's posts; 'feed' relies on the
@@ -53,6 +55,8 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
                     userId: row.user_id,
                     authorFirstName: author?.first_name ?? '',
                     authorLastName: author?.last_name ?? '',
+                    authorInitials: author?.initials ?? '?',
+                    authorAvatarColor: author?.avatar_color as string,
                     postType: row.post_type,
                     taskType: row.task_type,
                     customTask: row.custom_task,
