@@ -51,6 +51,7 @@ function FindFriends() {
                                                     user_id={profile.id}
                                                     firstname={profile.firstName}
                                                     lastname={profile.lastName}
+                                                    initials={profile.initials}
                                                     subtitle={`🔥 ${profile.streakCount}-week streak`}
                                                     avatarColor={profile.avatarColor}
                                                     fullName

@@ -37,17 +37,18 @@ function FormField({
   const baseInputClass = cn(
     horizontal ? 'w-64' : 'mb-2 w-full',
     'placeholder:text-sm border-1 border-input px-2.5 py-2',
-    !file && 'h-11',
+    !file && !multiline && 'h-11',
+    multiline && 'max-h-40 overflow-y-auto resize-none',
     hasLeadingIcon && !file && 'pl-10',
     hasTrailingIcon && !file && 'pr-10'
   )
 
   const control = file ? (
-    <Input id={id} type="file" accept="image/*" className={className ?? baseInputClass} {...props} />
+    <Input id={id} type="file" accept="image/*" className={cn(baseInputClass, className)} {...props} />
   ) : multiline ? (
-    <Textarea id={id} className={className ?? baseInputClass} {...(props as React.ComponentProps<'textarea'>)} />
+    <Textarea id={id} className={cn(baseInputClass, className)} {...(props as React.ComponentProps<'textarea'>)} />
   ) : (
-    <Input id={id} className={className ?? baseInputClass} {...props} />
+    <Input id={id} className={cn(baseInputClass, className)} {...props} />
   )
 
   const controlWithIcons = (hasLeadingIcon || hasTrailingIcon) ? (
@@ -72,7 +73,7 @@ function FormField({
 
   if (horizontal) {
     return (
-      <div className="flex items-center gap-6">
+      <div className={cn('flex gap-6', multiline ? 'items-start' : 'items-center')}>
         <div className="w-56 shrink-0">
           <SettingsRowLabel id={id} label={label} subtitle={subtitle} />
         </div>

@@ -42,12 +42,12 @@ function SettingsDialog({
         <DialogPrimitive.Popup
         className={cn(
             "fixed top-1/2 left-1/2 z-500 -translate-x-1/2 -translate-y-1/2",
-            "min-w-[700px] max-w-[745px] rounded-xl border border-neutral-300 bg-popover shadow-md outline-none p-6",
+            "min-w-[700px] max-w-[745px] max-h-[85vh] flex flex-col rounded-xl border border-neutral-300 bg-popover shadow-md outline-none p-6",
             "data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
         )}
         >
 
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-6 shrink-0">
             <div>
               <p className="text-lg font-bold">Settings</p>
               <p className="text-sm text-secondary">Manage your account and profile settings</p>
@@ -58,7 +58,7 @@ function SettingsDialog({
             </DialogPrimitive.Close>
           </div>
 
-          <div className="flex items-start min-h-[520px]">
+          <div className="flex flex-1 min-h-[520px] overflow-hidden">
             <nav className="w-[160px] shrink-0 border-r border-neutral-200 pr- flex flex-col gap-1">
               {tabs.map((tab) => (
                 <button

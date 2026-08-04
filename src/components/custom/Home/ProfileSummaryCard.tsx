@@ -22,10 +22,10 @@ function ProfileSummaryCard({
   followers,
 }: ProfileSummaryCardProps) {
   return (
-    <CustomCard>
+    <CustomCard className='gap-4'>
 
     <div className='items-center flex flex-col gap-3 w-full'>  
-      <Avatar className="size-16">
+      <Avatar className="size-14">
         <AvatarFallback className="bg-primary text-lg font-semibold text-primary-foreground">
           {initials}
         </AvatarFallback>

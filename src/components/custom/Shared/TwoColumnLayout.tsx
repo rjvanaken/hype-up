@@ -5,12 +5,12 @@ function TwoColumnLayout({
   rightColumn,
 }: {
   main: ReactNode;
-  rightColumn: ReactNode;
+  rightColumn?: ReactNode;
 }) {
   return (
-    <div className="dashboard-grid">
+    <div className={`dashboard-grid${rightColumn ? "" : " dashboard-grid--single"}`}>
       <div className="main-col">{main}</div>
-      <div className="right-col">{rightColumn}</div>
+      {rightColumn && <div className="right-col">{rightColumn}</div>}
     </div>
   );
 }

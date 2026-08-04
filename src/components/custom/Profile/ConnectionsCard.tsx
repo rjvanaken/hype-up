@@ -99,6 +99,8 @@ function ConnectionsPreview({
           user_id={profile.id}
           firstname={profile.firstName}
           lastname={profile.lastName}
+          initials={profile.initials}
+          avatarColor={profile.avatarColor}
           fullName
         />
       ))}

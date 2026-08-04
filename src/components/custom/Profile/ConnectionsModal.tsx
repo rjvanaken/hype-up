@@ -78,6 +78,8 @@ function ConnectionsList({ profiles, emptyLabel }: { profiles: ConnectionProfile
               user_id={profile.id}
               firstname={profile.firstName}
               lastname={profile.lastName}
+              initials={profile.initials}
+              avatarColor={profile.avatarColor}
               fullName
             />
           </div>
