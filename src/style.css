@@ -108,6 +108,11 @@
   max-width: 1000px;
 }
 
+.dashboard-grid--single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 656px;
+}
+
 .main-col {
   min-width: 0;
   display: flex;
