@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
@@ -12,6 +13,7 @@ avatarColor: string
 }
 
 function AvatarNameSubtitle ({
+    user_id,
     firstname,
     lastname,
     subtitle,
@@ -19,11 +21,11 @@ function AvatarNameSubtitle ({
     avatarColor
 
 }: AvatarNameSubtitleProps) {
-    
-    
-    
+
+
+
 return(
-    <div className="flex flex-row gap-2 justify-start w-full">
+    <Link to={`/profile/${user_id}`} className="flex flex-row gap-2 justify-start w-full">
 <Avatar className="h-9 w-9">
             <AvatarFallback
                 className="text-xs font-semibold text-primary-foreground"
@@ -34,9 +36,9 @@ return(
 </Avatar>
     <div className="flex flex-col gap-0 w-full justify-center">
 <p className="font-semibold text-sm text-secondary items-center mb-0">{firstname} {lastname.charAt(0).toUpperCase()}.</p>
-<p className='text-xs text-muted-foreground'>{subtitle}</p> 
+<p className='text-xs text-muted-foreground'>{subtitle}</p>
 </div>
-    </div>
+    </Link>
 
 )
 }
