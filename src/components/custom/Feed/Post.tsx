@@ -1,11 +1,16 @@
 import { Separator } from "@/components/ui/separator";
 import AvatarNameSubtitle from "../Shared/AvatarNameSubtitle";
-import { Check, LifeBuoy, MessageCircle, MoreHorizontal, ThumbsUp } from "lucide-react";
+import { Check, LifeBuoy, MessageCircle, MoreHorizontal, Send, ThumbsUp } from "lucide-react";
 import AppButton from "../Shared/AppButton";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { useComments } from "@/hooks/useComments";
+import { useProfile } from "@/hooks/useProfile";
 
 
 interface postProps {
+    postId: string
     userId: string
     firstname: string
     lastname: string
@@ -21,6 +26,7 @@ interface postProps {
 }
 
 function Post({
+    postId,
     userId,
     firstname,
     lastname,
@@ -34,11 +40,22 @@ function Post({
     initials,
     avatarColor,
 
-    
+
 }: postProps) {
 
 
     const [showComments, setShowComments] = useState(false);
+    const [commentText, setCommentText] = useState('');
+    const { comments, addComment } = useComments(postId);
+    const profile = useProfile();
+
+    async function handleAddComment(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const trimmed = commentText.trim();
+        if (!trimmed) return;
+        await addComment(trimmed);
+        setCommentText('');
+    }
 
 
     return (
@@ -83,14 +100,48 @@ function Post({
                 </div>
                                 <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex flex-row gap-2 items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
-                    comments
+                    {comments.length} comments
                 </button>
                 
                 </div>
 
-                {showComments && 
-                    <div>
-                        <p>add map here to show comments</p>
+                {showComments &&
+                    <div className='flex flex-col gap-3 mt-3'>
+                        {comments.map((comment) => (
+                            <div key={comment.id} className='flex flex-row gap-2 items-start'>
+                                <Avatar className="h-7 w-7">
+                                    <AvatarFallback
+                                        className="text-xs font-semibold text-primary-foreground"
+                                        style={comment.authorAvatarColor ? { backgroundColor: comment.authorAvatarColor } : undefined}
+                                    >
+                                        {comment.authorInitials}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div className='flex flex-1 flex-col gap-0 bg-neutral-100 rounded-2xl px-3 py-1.5'>
+                                    <p className='font-semibold text-xs text-secondary'>{comment.authorFirstName} {comment.authorLastName.charAt(0).toUpperCase()}.</p>
+                                    <p className='text-xs text-secondary'>{comment.text}</p>
+                                </div>
+                            </div>
+                        ))}
+                        <form onSubmit={handleAddComment} className='flex flex-row gap-2 items-center'>
+                            <Avatar className="h-7 w-7">
+                                <AvatarFallback
+                                    className="text-xs font-semibold text-primary-foreground"
+                                    style={profile?.avatarColor ? { backgroundColor: profile.avatarColor } : undefined}
+                                >
+                                    {profile?.initials ?? '?'}
+                                </AvatarFallback>
+                            </Avatar>
+                            <Input
+                                value={commentText}
+                                onChange={(event) => setCommentText(event.target.value)}
+                                placeholder='Add a comment...'
+                                className='flex-1 rounded-full border-primary'
+                            />
+                            <AppButton type='submit' className='h-8 w-8 p-0 rounded-full flex-none'>
+                                <Send className='size-4' />
+                            </AppButton>
+                        </form>
                     </div>
                 }
 </div>
