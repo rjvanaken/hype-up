@@ -8,7 +8,7 @@ import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
 
-function Profile() {
+function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
     const { achievements, tasksCompleted } = useAchievements()
     const posts = usePosts('own')
     const profile = useProfile()
@@ -30,12 +30,12 @@ function Profile() {
                                 <FeedBox title='YOUR POSTS' posts={posts}></FeedBox>
                             </>
                         }
-                        rightColumn={
+                        rightColumn={isOwnProfile ? (
                             <>
                                 <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                 <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
                             </>
-                        }>
+                        ) : undefined}>
                     </TwoColumnLayout>
                 </PageLayout>
             </div>
