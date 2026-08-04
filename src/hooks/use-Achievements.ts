@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
 
-export function useAchievements() {
+export function useAchievements(userId?: string) {
     const [achievements, setAchievements] = useState<Achievement[]>([])
     const [tasksCompleted, setTasksCompleted] = useState(0)
 
     useEffect(() => {
         async function fetchBadges() {
             const { data: { user } } = await supabase.auth.getUser()
+            const targetId = userId ?? user?.id
 
             const [
                 { data: badges, error: badgesError },
@@ -19,17 +20,17 @@ export function useAchievements() {
                     .from('badges')
                     .select('key, label, emoji, description, task_threshold')
                     .order('task_threshold', { ascending: true }),
-                user
+                targetId
                     ? supabase
                         .from('user_badges')
                         .select('badge_key')
-                        .eq('user_id', user.id)
+                        .eq('user_id', targetId)
                     : Promise.resolve({ data: [], error: null }),
-                user
+                targetId
                     ? supabase
                         .from('profiles')
                         .select('tasks_completed')
-                        .eq('id', user.id)
+                        .eq('id', targetId)
                         .single()
                     : Promise.resolve({ data: null, error: null })
             ])
@@ -54,7 +55,7 @@ export function useAchievements() {
         }
 
         fetchBadges()
-    }, [])
+    }, [userId])
 
     return { achievements, tasksCompleted }
 }
