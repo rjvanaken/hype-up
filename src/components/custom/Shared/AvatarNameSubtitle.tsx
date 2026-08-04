@@ -26,7 +26,7 @@ return(
     <div className="flex flex-row gap-2 justify-start w-full">
 <Avatar className="h-9 w-9">
             <AvatarFallback
-                className="text-md font-semibold text-primary-foreground"
+                className="text-xs font-semibold text-primary-foreground"
                 style={avatarColor ? { backgroundColor: avatarColor } : undefined}
             >
                 {initials}
