@@ -1,14 +1,17 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import CustomCard from "../Shared/CustomCard"
 import { avatarColorMappings } from "@/lib/avatarColorMappings"
+import { AchievementItem, type Achievement } from "@/components/custom/Achievements/AchievementsCard"
 
 export interface ProfileBannerProps {
   firstname: string
   lastname: string
-  avatarColor: string 
+  avatarColor: string
   location: string | ''
   bio: string | ''
   initials: string
+  achievements: Achievement[]
+  tasksCompleted: number
 
 }
 
@@ -19,7 +22,9 @@ function ProfileBanner({
   location,
   bio,
   initials,
+  achievements,
 }: ProfileBannerProps) {
+    const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
 
     var hexMatch = avatarColorMappings.find(m => m.hex === avatarColor)
     const gradiantClass = hexMatch?.color ?? avatarColorMappings[0].color
@@ -52,10 +57,16 @@ function ProfileBanner({
                 <p>{bio}</p>
             </div>
         </div>
-        <div>
-            <p className="pt-4">Achievements Stuff</p>
+        <div className="flex flex-col gap-2 pt-4 w-1/3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {unlockedAchievements.length}/{achievements.length} Achievements
+            </p>
+            <div className="flex gap-3">
+                {unlockedAchievements.slice(0, 3).map(({ key, ...achievement }) => (
+                    <AchievementItem key={key} {...achievement} />
+                ))}
+            </div>
         </div>
-        
 
         </div>
     </CustomCard>
