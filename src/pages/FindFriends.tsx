@@ -7,10 +7,12 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import { useProfileSearch } from '@/hooks/useProfileSearch'
+import { useFollowActions } from '@/hooks/useFollowActions'
 
 function FindFriends() {
     const [searchTerm, setSearchTerm] = useState('')
     const { results, loading } = useProfileSearch(searchTerm)
+    const { followingIds, pendingIds, follow, unfollow } = useFollowActions()
 
     return (
         <PageLayout maxWidth={1000}>
@@ -33,23 +35,37 @@ function FindFriends() {
                                     <p className="px-6 py-4 text-sm text-muted-foreground">Searching...</p>
                                 )}
                                 {!loading && results.length === 0 && (
-                                    <p className="px-6 py-4 text-sm text-muted-foreground">No profiles found.</p>
-                                )}
-                                {results.map((profile, index) => (
-                                    <div key={profile.id}>
-                                        <div className="px-6 py-3 flex items-center justify-between gap-3">
-                                            <AvatarNameSubtitle
-                                                user_id={profile.id}
-                                                firstname={profile.firstName}
-                                                lastname={profile.lastName}
-                                                subtitle={`🔥 ${profile.streakCount}-week streak`}
-                                                avatarColor={profile.avatarColor}
-                                            />
-                                            <Button>Follow</Button>
-                                        </div>
-                                        {index < results.length - 1 && <Separator />}
+                                    <div className="flex flex-col items-center text-center gap-1 py-6">
+                                        <p className="font-semibold text-secondary">No matches</p>
+                                        <p className="text-sm text-muted-foreground">Try searching a different name</p>
                                     </div>
-                                ))}
+                                )}
+                                {results.map((profile, index) => {
+                                    const isFollowing = followingIds.has(profile.id)
+                                    const isPending = pendingIds.has(profile.id)
+
+                                    return (
+                                        <div key={profile.id}>
+                                            <div className="px-6 py-3 flex items-center justify-between gap-3">
+                                                <AvatarNameSubtitle
+                                                    user_id={profile.id}
+                                                    firstname={profile.firstName}
+                                                    lastname={profile.lastName}
+                                                    subtitle={`🔥 ${profile.streakCount}-week streak`}
+                                                    avatarColor={profile.avatarColor}
+                                                />
+                                                <Button
+                                                    variant={isFollowing ? 'outline' : 'default'}
+                                                    disabled={isPending}
+                                                    onClick={() => (isFollowing ? unfollow(profile.id) : follow(profile.id))}
+                                                >
+                                                    {isFollowing ? 'Unfollow' : 'Follow'}
+                                                </Button>
+                                            </div>
+                                            {index < results.length - 1 && <Separator />}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </CustomCard>
                     </>

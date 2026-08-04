@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Button } from '@/components/ui/button'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import ConnectionsModal from '@/components/custom/Profile/ConnectionsModal'
 import { useConnections, type ConnectionProfile } from '@/hooks/useConnections'
@@ -33,34 +33,29 @@ function ConnectionsCard() {
         onValueChange={(value) => setActiveTab(value as 'followers' | 'following')}
       >
         <TabsList className="w-full mb-4">
-          <TabsTrigger value="followers" className="flex-1">Followers · {followers.length}</TabsTrigger>
-          <TabsTrigger value="following" className="flex-1">Following · {following.length}</TabsTrigger>
+          <TabsTrigger value="following" className="flex-1">Following ({following.length})</TabsTrigger>
+          <TabsTrigger value="followers" className="flex-1">Followers ({followers.length})</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="followers">
-          {followers.length === 0 ? (
-            <EmptyConnections
-              heading="No followers yet"
-              subtitle="When someone follows you, they'll show up here."
-            />
-          ) : (
-            <ConnectionsPreviewList profiles={followers} />
-          )}
-        </TabsContent>
-
         <TabsContent value="following">
-          {following.length === 0 ? (
-            <EmptyConnections
-              heading="Not following anyone yet"
-              subtitle="Find friends to follow."
-            >
+          <ConnectionsPreview
+            profiles={following}
+            emptyHeading="Not following anyone yet"
+            emptySubtitle="Find friends to follow."
+            emptyAction={
               <Button className="mt-2" onClick={() => navigate('/find-friends')}>
                 Find Friends
               </Button>
-            </EmptyConnections>
-          ) : (
-            <ConnectionsPreviewList profiles={following} />
-          )}
+            }
+          />
+        </TabsContent>
+
+        <TabsContent value="followers">
+          <ConnectionsPreview
+            profiles={followers}
+            emptyHeading="No followers yet"
+            emptySubtitle="When someone follows you, they'll show up here."
+          />
         </TabsContent>
       </Tabs>
 
@@ -72,6 +67,41 @@ function ConnectionsCard() {
         defaultTab={activeTab}
       />
     </CustomCard>
+  )
+}
+
+function ConnectionsPreview({
+  profiles,
+  emptyHeading,
+  emptySubtitle,
+  emptyAction
+}: {
+  profiles: ConnectionProfile[]
+  emptyHeading: string
+  emptySubtitle: string
+  emptyAction?: ReactNode
+}) {
+  if (profiles.length === 0) {
+    return (
+      <div className="h-48 flex items-center justify-center">
+        <EmptyConnections heading={emptyHeading} subtitle={emptySubtitle}>
+          {emptyAction}
+        </EmptyConnections>
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-48 overflow-y-auto flex flex-col gap-3">
+      {profiles.slice(0, PREVIEW_LIMIT).map((profile) => (
+        <AvatarNameSubtitle
+          key={profile.id}
+          user_id={profile.id}
+          firstname={profile.firstName}
+          lastname={profile.lastName}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -89,21 +119,6 @@ function EmptyConnections({
       <p className="font-semibold text-secondary">{heading}</p>
       <p className="text-sm text-muted-foreground">{subtitle}</p>
       {children}
-    </div>
-  )
-}
-
-function ConnectionsPreviewList({ profiles }: { profiles: ConnectionProfile[] }) {
-  return (
-    <div className="flex flex-col gap-3">
-      {profiles.slice(0, PREVIEW_LIMIT).map((profile) => (
-        <AvatarNameSubtitle
-          key={profile.id}
-          user_id={profile.id}
-          firstname={profile.firstName}
-          lastname={profile.lastName}
-        />
-      ))}
     </div>
   )
 }

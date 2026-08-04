@@ -43,15 +43,15 @@ function ConnectionsModal({
 
           <Tabs defaultValue={defaultTab}>
             <TabsList className="w-full">
-              <TabsTrigger value="followers">Followers ({followers.length})</TabsTrigger>
               <TabsTrigger value="following">Following ({following.length})</TabsTrigger>
+              <TabsTrigger value="followers">Followers ({followers.length})</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="followers">
-              <ConnectionsList profiles={followers} emptyLabel="No followers yet." />
-            </TabsContent>
             <TabsContent value="following">
               <ConnectionsList profiles={following} emptyLabel="Not following anyone yet." />
+            </TabsContent>
+            <TabsContent value="followers">
+              <ConnectionsList profiles={followers} emptyLabel="No followers yet." />
             </TabsContent>
           </Tabs>
         </DialogPrimitive.Popup>
@@ -62,11 +62,15 @@ function ConnectionsModal({
 
 function ConnectionsList({ profiles, emptyLabel }: { profiles: ConnectionProfile[]; emptyLabel: string }) {
   if (profiles.length === 0) {
-    return <p className="py-4 text-sm text-muted-foreground text-center">{emptyLabel}</p>
+    return (
+      <div className="flex h-[320px] items-center justify-center">
+        <p className="text-sm text-muted-foreground text-center">{emptyLabel}</p>
+      </div>
+    )
   }
 
   return (
-    <div className="flex flex-col max-h-[320px] overflow-y-auto -mx-1">
+    <div className="flex flex-col h-[320px] overflow-y-auto -mx-1">
       {profiles.map((profile, index) => (
         <div key={profile.id}>
           <div className="px-1 py-3">
