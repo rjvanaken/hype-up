@@ -2,6 +2,7 @@ import { Separator } from "@/components/ui/separator";
 import AvatarNameSubtitle from "../Shared/AvatarNameSubtitle";
 import { Check, LifeBuoy, MessageCircle, MoreHorizontal, ThumbsUp } from "lucide-react";
 import AppButton from "../Shared/AppButton";
+import { useState } from "react";
 
 
 interface postProps {
@@ -31,9 +32,13 @@ function Post({
     imageUrl,
     likeCount,
     initials,
-    avatarColor
+    avatarColor,
+
+    
 }: postProps) {
 
+
+    const [showComments, setShowComments] = useState(false);
 
 
     return (
@@ -76,12 +81,18 @@ function Post({
                     <ThumbsUp className='size-3'/>
                     {likeCount} hypes
                 </div>
-                                <div className='flex flex-row gap-2 items-center '>
+                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex flex-row gap-2 items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
                     comments
-                </div>
+                </button>
                 
                 </div>
+
+                {showComments && 
+                    <div>
+                        <p>add map here to show comments</p>
+                    </div>
+                }
 </div>
                 <Separator className="mt-4"></Separator>
 </div>
