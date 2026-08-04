@@ -5,8 +5,10 @@ export interface Profile {
     firstName: string
     lastName: string
     initials: string
-    avatarColor: string | null
+    avatarColor: string
     streakCount: number
+    location: string | ''
+    bio: string | ''
 }
 
 export function useProfile() {
@@ -19,7 +21,7 @@ export function useProfile() {
 
             const { data, error } = await supabase
                 .from('profiles')
-                .select('first_name, last_name, initials, avatar_color, streak_count')
+                .select('first_name, last_name, initials, avatar_color, streak_count, location, bio')
                 .eq('id', user.id)
                 .single()
 
@@ -33,7 +35,10 @@ export function useProfile() {
                 lastName: data.last_name,
                 initials: data.initials ?? '?',
                 avatarColor: data.avatar_color,
-                streakCount: data.streak_count ?? 0
+                streakCount: data.streak_count ?? 0,
+                location: data.location ?? '',
+                bio: data.bio ?? ''
+                
             })
         }
 
