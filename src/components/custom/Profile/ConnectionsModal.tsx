@@ -78,6 +78,7 @@ function ConnectionsList({ profiles, emptyLabel }: { profiles: ConnectionProfile
               user_id={profile.id}
               firstname={profile.firstName}
               lastname={profile.lastName}
+              fullName
             />
           </div>
           {index < profiles.length - 1 && <Separator />}

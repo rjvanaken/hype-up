@@ -53,6 +53,7 @@ function FindFriends() {
                                                     lastname={profile.lastName}
                                                     subtitle={`🔥 ${profile.streakCount}-week streak`}
                                                     avatarColor={profile.avatarColor}
+                                                    fullName
                                                 />
                                                 <Button
                                                     variant={isFollowing ? 'outline' : 'default'}

@@ -99,6 +99,7 @@ function ConnectionsPreview({
           user_id={profile.id}
           firstname={profile.firstName}
           lastname={profile.lastName}
+          fullName
         />
       ))}
     </div>
