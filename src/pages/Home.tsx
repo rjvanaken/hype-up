@@ -48,7 +48,8 @@ function Home() {
                             <>
                                     {profileSummary && (
                                         <ProfileSummaryCard
-                                            name={profileSummary.name}
+                                            firstName={profileSummary.firstName}
+                                            lastName={profileSummary.lastName}
                                             initials={profileSummary.initials}
                                             streak={profileSummary.streak}
                                             tasks={profileSummary.tasks}
