@@ -1,7 +1,9 @@
+import { useState } from "react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import CustomCard from "../Shared/CustomCard"
 import { avatarColorMappings } from "@/lib/avatarColorMappings"
 import { AchievementItem, type Achievement } from "@/components/custom/Achievements/AchievementsCard"
+import AllAchievementsDialog from "@/components/custom/Achievements/AllAchievementsDialog"
 
 export interface ProfileBannerProps {
   firstname: string
@@ -25,6 +27,7 @@ function ProfileBanner({
   achievements,
   tasksCompleted,
 }: ProfileBannerProps) {
+    const [showAllAchievements, setShowAllAchievements] = useState(false)
     const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
     const recentAchievements = [...unlockedAchievements]
         .sort((a, b) => new Date(b.earnedAt ?? 0).getTime() - new Date(a.earnedAt ?? 0).getTime())
@@ -37,6 +40,7 @@ function ProfileBanner({
 
 
   return (
+    <>
     <CustomCard className="p-0">
         <div className={`h-24 ${gradiantClass}`}>
            
@@ -62,10 +66,19 @@ function ProfileBanner({
             </div>
         </div>
         <div className="flex flex-col gap-2 pt-4 w-1/2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Achievements
-            </p>
-            <div className="flex gap-3 min-h-[70px]">
+            <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Achievements
+                </p>
+                <button
+                    type="button"
+                    onClick={() => setShowAllAchievements(true)}
+                    className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                >
+                    See all
+                </button>
+            </div>
+            <div className="flex justify-center gap-3 min-h-[70px]">
                 {recentAchievements.map(({ key, ...achievement }) => (
                     <AchievementItem key={key} {...achievement} />
                 ))}
@@ -80,6 +93,14 @@ function ProfileBanner({
 
         </div>
     </CustomCard>
+
+    <AllAchievementsDialog
+        open={showAllAchievements}
+        onOpenChange={setShowAllAchievements}
+        achievements={achievements}
+        tasksCompleted={tasksCompleted}
+    />
+    </>
   )
   
 }
