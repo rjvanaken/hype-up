@@ -3,6 +3,7 @@ import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import FeedBox from '@/components/custom/Feed/FeedBox'
+import ConnectionsCard from '@/components/custom/Profile/ConnectionsCard'
 import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
@@ -33,6 +34,7 @@ function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
                         rightColumn={isOwnProfile ? (
                             <>
                                 <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
+                                <ConnectionsCard />
                                 <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
                             </>
                         ) : undefined}>
