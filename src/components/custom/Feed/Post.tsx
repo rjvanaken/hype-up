@@ -98,7 +98,7 @@ function Post({
                     <ThumbsUp className='size-3'/>
                     {likeCount} hypes
                 </div>
-                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex flex-row gap-2 items-center cursor-pointer'>
+                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex hover:bg-cool-brand-600/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
                     {comments.length} comments
                 </button>
@@ -117,10 +117,13 @@ function Post({
                                         {comment.authorInitials}
                                     </AvatarFallback>
                                 </Avatar>
-                                <div className='flex flex-1 flex-col gap-0 bg-neutral-100 rounded-2xl px-3 py-1.5'>
+                                <div className='flex flex-1 flex-col gap-0 bg-neutral-100 rounded-md px-3 py-1.5'>
                                     <p className='font-semibold text-xs text-secondary'>{comment.authorFirstName} {comment.authorLastName.charAt(0).toUpperCase()}.</p>
                                     <p className='text-xs text-secondary'>{comment.text}</p>
                                 </div>
+                                <AppButton className="p-0 h-auto flex-none self-center bg-transparent hover:bg-transparent active:bg-transparent">
+                                    <MoreHorizontal className="text-secondary size-3.5"/>
+                                </AppButton>
                             </div>
                         ))}
                         <form onSubmit={handleAddComment} className='flex flex-row gap-2 items-center'>
