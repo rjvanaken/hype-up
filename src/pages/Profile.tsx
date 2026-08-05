@@ -27,8 +27,8 @@ function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
                     <TwoColumnLayout
                         main={
                             <>
-                                <ProfileBanner firstname={firstName} lastname={lastName} avatarColor={avatarColor} location={location} bio={bio} initials={initials}></ProfileBanner>
-                                <FeedBox title='YOUR POSTS' posts={posts}></FeedBox>
+                                <ProfileBanner firstname={firstName} lastname={lastName} avatarColor={avatarColor} location={location} bio={bio} initials={initials} streak={streakCount}></ProfileBanner>
+                                <FeedBox title='POSTS' posts={posts}></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (
