@@ -79,5 +79,35 @@ export function useComments(postId: string) {
         setComments((prev) => [...prev, mapComment(data)])
     }
 
-    return { comments, addComment }
+    async function editComment(commentId: string, text: string) {
+        const { data, error } = await supabase
+            .from('comments')
+            .update({ text })
+            .eq('id', commentId)
+            .select('id, post_id, user_id, text, created_at, profiles(first_name, last_name, initials, avatar_color)')
+            .single()
+
+        if (error) {
+            console.error('Error editing comment:', error)
+            return
+        }
+
+        setComments((prev) => prev.map((comment) => (comment.id === commentId ? mapComment(data) : comment)))
+    }
+
+    async function deleteComment(commentId: string) {
+        const { error } = await supabase
+            .from('comments')
+            .delete()
+            .eq('id', commentId)
+
+        if (error) {
+            console.error('Error deleting comment:', error)
+            return
+        }
+
+        setComments((prev) => prev.filter((comment) => comment.id !== commentId))
+    }
+
+    return { comments, addComment, editComment, deleteComment }
 }

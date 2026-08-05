@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 
 export interface Profile {
+    userId: string
     firstName: string
     lastName: string
     initials: string
@@ -31,6 +32,7 @@ export function useProfile() {
             }
 
             setProfile({
+                userId: user.id,
                 firstName: data.first_name,
                 lastName: data.last_name,
                 initials: data.initials ?? '?',
