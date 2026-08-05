@@ -23,6 +23,7 @@ function ProfileBanner({
   bio,
   initials,
   achievements,
+  tasksCompleted,
 }: ProfileBannerProps) {
     const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
     const recentAchievements = [...unlockedAchievements]
@@ -42,7 +43,7 @@ function ProfileBanner({
 
         </div>
 
-        <div className="px-6 pb-6 flex flex-row w-full">
+        <div className="px-6 pb-6 flex flex-row gap-8 w-full">
         <div className="flex flex-col gap-5 w-1/2 -mt-15 pb-6">
                       <Avatar className="size-20 border-5 border-card shadow-md">
                           <AvatarFallback
@@ -64,10 +65,16 @@ function ProfileBanner({
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Achievements
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 min-h-[70px]">
                 {recentAchievements.map(({ key, ...achievement }) => (
                     <AchievementItem key={key} {...achievement} />
                 ))}
+            </div>
+            <div className="text-center pt-2">
+                <p className="text-2xl font-bold text-primary">{tasksCompleted}</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Tasks Completed
+                </p>
             </div>
         </div>
 
