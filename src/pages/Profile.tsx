@@ -1,19 +1,27 @@
-import { useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
+import { Button } from '@/components/ui/button'
+import SettingsDialog from '@/components/custom/Shared/SettingsDialog'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import FeedBox from '@/components/custom/Feed/FeedBox'
 import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
+import { useFollowStatus } from '@/hooks/useFollowStatus'
+import { settingsTabs } from '@/lib/settingsTabs'
 
 function Profile() {
     const { userId } = useParams<{ userId?: string }>()
+    const navigate = useNavigate()
+    const [editProfileOpen, setEditProfileOpen] = useState(false)
     const { achievements, tasksCompleted } = useAchievements(userId)
     const posts = usePosts(userId ? 'user' : 'own', userId)
     const profile = useProfile(userId)
+    const { isFollowing, toggleFollow, pending } = useFollowStatus(userId)
 
     if (!profile) {
     // decide what renders while data hasn't loaded yet — a spinner, null, a skeleton, etc.
@@ -29,6 +37,11 @@ function Profile() {
                     <TwoColumnLayout
                         main={
                             <>
+                                {!isOwnProfile && (
+                                    <Button onClick={() => navigate(-1)}>
+                                        Back
+                                    </Button>
+                                )}
                                 <ProfileBanner
                                     firstname={firstName}
                                     lastname={lastName}
@@ -38,6 +51,10 @@ function Profile() {
                                     initials={initials}
                                     achievements={achievements}
                                     tasksCompleted={tasksCompleted}
+                                    isFollowing={!isOwnProfile ? isFollowing : undefined}
+                                    followPending={!isOwnProfile ? pending : undefined}
+                                    onFollowToggle={!isOwnProfile ? toggleFollow : undefined}
+                                    onEditProfileClick={isOwnProfile ? () => setEditProfileOpen(true) : undefined}
                                 ></ProfileBanner>
                                 <FeedBox title={isOwnProfile ? 'YOUR POSTS' : `${firstName}'s POSTS`} posts={posts}></FeedBox>
                             </>
@@ -51,6 +68,7 @@ function Profile() {
                     </TwoColumnLayout>
                 </PageLayout>
             </div>
+            <SettingsDialog open={editProfileOpen} onOpenChange={setEditProfileOpen} tabs={settingsTabs} defaultTabKey="profile" />
         </>
     )
 }

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import CustomCard from "../Shared/CustomCard"
 import { avatarColorMappings } from "@/lib/avatarColorMappings"
 import { AchievementItem, type Achievement } from "@/components/custom/Achievements/AchievementsCard"
@@ -14,6 +15,10 @@ export interface ProfileBannerProps {
   initials: string
   achievements: Achievement[]
   tasksCompleted: number
+  isFollowing?: boolean
+  followPending?: boolean
+  onFollowToggle?: () => void
+  onEditProfileClick?: () => void
 
 }
 
@@ -26,6 +31,10 @@ function ProfileBanner({
   initials,
   achievements,
   tasksCompleted,
+  isFollowing,
+  followPending,
+  onFollowToggle,
+  onEditProfileClick,
 }: ProfileBannerProps) {
     const [showAllAchievements, setShowAllAchievements] = useState(false)
     const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
@@ -42,9 +51,24 @@ function ProfileBanner({
   return (
     <>
     <CustomCard className="p-0">
-        <div className={`h-24 ${gradiantClass}`}>
-           
-
+        <div className={`h-24 ${gradiantClass} relative`}>
+            {onFollowToggle && (
+                <Button
+                    className="absolute top-3 right-3"
+                    disabled={followPending}
+                    onClick={onFollowToggle}
+                >
+                    {isFollowing ? 'Unfollow' : 'Follow'}
+                </Button>
+            )}
+            {onEditProfileClick && (
+                <Button
+                    className="absolute top-3 right-3"
+                    onClick={onEditProfileClick}
+                >
+                    Edit Profile
+                </Button>
+            )}
         </div>
 
         <div className="px-6 pb-6 flex flex-row gap-8 w-full">
