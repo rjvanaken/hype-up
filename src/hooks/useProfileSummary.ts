@@ -46,7 +46,8 @@ export function useProfileSummary() {
             }
 
             setSummary({
-                name: `${profile.first_name} ${profile.last_name}`,
+                firstName: profile.first_name,
+                lastName: profile.last_name,
                 initials: profile.initials ?? '?',
                 streak: profile.streak_count ?? 0,
                 tasks: profile.tasks_completed ?? 0,

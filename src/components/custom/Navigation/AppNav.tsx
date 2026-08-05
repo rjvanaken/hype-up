@@ -132,7 +132,7 @@ function AppNav() {
                 </span>
                 Reminders
               </NavLink>
-                            <NavLink to="/" className={navLinkClass}>
+                            <NavLink to="/find-friends" className={navLinkClass}>
               <span className="flex items-center size-4.5">
                 <Search/>
                 </span>

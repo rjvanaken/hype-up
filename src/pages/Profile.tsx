@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import SettingsDialog from '@/components/custom/Shared/SettingsDialog'
 import NextAchievementCard from '@/components/custom/Achievements/NextAchievementCard'
 import FeedBox from '@/components/custom/Feed/FeedBox'
+import ConnectionsCard from '@/components/custom/Profile/ConnectionsCard'
 import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
@@ -62,6 +63,7 @@ function Profile() {
                         rightColumn={isOwnProfile ? (
                             <>
                                 <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
+                                <ConnectionsCard />
                                 <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
                             </>
                         ) : undefined}>
