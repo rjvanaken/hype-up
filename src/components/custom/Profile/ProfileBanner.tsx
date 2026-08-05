@@ -25,6 +25,9 @@ function ProfileBanner({
   achievements,
 }: ProfileBannerProps) {
     const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
+    const recentAchievements = [...unlockedAchievements]
+        .sort((a, b) => new Date(b.earnedAt ?? 0).getTime() - new Date(a.earnedAt ?? 0).getTime())
+        .slice(0, 3)
 
     var hexMatch = avatarColorMappings.find(m => m.hex === avatarColor)
     const gradiantClass = hexMatch?.color ?? avatarColorMappings[0].color
@@ -40,7 +43,7 @@ function ProfileBanner({
         </div>
 
         <div className="px-6 pb-6 flex flex-row w-full">
-        <div className="flex flex-col gap-5 w-2/3 -mt-15 pb-6">
+        <div className="flex flex-col gap-5 w-1/2 -mt-15 pb-6">
                       <Avatar className="size-20 border-5 border-card shadow-md">
                           <AvatarFallback
                               className="font-semibold text-xl text-primary-foreground"
@@ -57,12 +60,12 @@ function ProfileBanner({
                 <p>{bio}</p>
             </div>
         </div>
-        <div className="flex flex-col gap-2 pt-4 w-1/3">
+        <div className="flex flex-col gap-2 pt-4 w-1/2">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {unlockedAchievements.length}/{achievements.length} Achievements
+                Achievements
             </p>
             <div className="flex gap-3">
-                {unlockedAchievements.slice(0, 3).map(({ key, ...achievement }) => (
+                {recentAchievements.map(({ key, ...achievement }) => (
                     <AchievementItem key={key} {...achievement} />
                 ))}
             </div>

@@ -23,7 +23,7 @@ export function useAchievements(userId?: string) {
                 targetId
                     ? supabase
                         .from('user_badges')
-                        .select('badge_key')
+                        .select('badge_key, earned_at')
                         .eq('user_id', targetId)
                     : Promise.resolve({ data: [], error: null }),
                 targetId
@@ -48,9 +48,13 @@ export function useAchievements(userId?: string) {
                 console.error('Error fetching profile:', profileError)
             }
 
-            const earnedKeys = new Set((userBadges ?? []).map((row) => row.badge_key))
+            const earnedAtByKey = new Map((userBadges ?? []).map((row) => [row.badge_key, row.earned_at]))
 
-            setAchievements(badges.map((badge) => ({ ...badge, unlocked: earnedKeys.has(badge.key) })))
+            setAchievements(badges.map((badge) => ({
+                ...badge,
+                unlocked: earnedAtByKey.has(badge.key),
+                earnedAt: earnedAtByKey.get(badge.key) ?? null
+            })))
             setTasksCompleted(profile?.tasks_completed ?? 0)
         }
 
