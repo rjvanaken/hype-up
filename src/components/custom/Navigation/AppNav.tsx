@@ -123,7 +123,7 @@ function AppNav() {
                 </span>
                 Home
               </NavLink>
-                            <NavLink to="/profile" className={navLinkClass}>
+                            <NavLink to="/profile" end className={navLinkClass}>
               <span className="flex items-center size-4.5">
                 <User/>
                 </span>
