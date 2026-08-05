@@ -32,6 +32,7 @@ function FeedBox({ title = "title", posts }: FeedProps) {
             {filteredPosts.map((post) => (
                 <Post
                     key={post.id}
+                    postId={post.id}
                     userId={post.userId}
                     firstname={post.authorFirstName}
                     lastname={post.authorLastName}

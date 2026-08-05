@@ -1,10 +1,22 @@
 import { Separator } from "@/components/ui/separator";
 import AvatarNameSubtitle from "../Shared/AvatarNameSubtitle";
-import { Check, LifeBuoy, MessageCircle, MoreHorizontal, ThumbsUp } from "lucide-react";
+import { Check, LifeBuoy, MessageCircle, MoreHorizontal, Pencil, Send, ThumbsUp, Trash2, X } from "lucide-react";
 import AppButton from "../Shared/AppButton";
+import { useState, type FormEvent } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { useComments } from "@/hooks/useComments";
+import { useProfile } from "@/hooks/useProfile";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 
 interface postProps {
+    postId: string
     userId: string
     firstname: string
     lastname: string
@@ -20,6 +32,7 @@ interface postProps {
 }
 
 function Post({
+    postId,
     userId,
     firstname,
     lastname,
@@ -31,9 +44,40 @@ function Post({
     imageUrl,
     likeCount,
     initials,
-    avatarColor
+    avatarColor,
+
+
 }: postProps) {
 
+
+    const [showComments, setShowComments] = useState(false);
+    const [commentText, setCommentText] = useState('');
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+    const [editingText, setEditingText] = useState('');
+    const { comments, addComment, editComment, deleteComment } = useComments(postId);
+    const profile = useProfile();
+
+    async function handleAddComment(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const trimmed = commentText.trim();
+        if (!trimmed) return;
+        await addComment(trimmed);
+        setCommentText('');
+    }
+
+    function handleStartEdit(commentId: string, currentText: string) {
+        setEditingCommentId(commentId);
+        setEditingText(currentText);
+    }
+
+    async function handleSaveEdit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const trimmed = editingText.trim();
+        if (!trimmed || !editingCommentId) return;
+        await editComment(editingCommentId, trimmed);
+        setEditingCommentId(null);
+        setEditingText('');
+    }
 
 
     return (
@@ -76,12 +120,96 @@ function Post({
                     <ThumbsUp className='size-3'/>
                     {likeCount} hypes
                 </div>
-                                <div className='flex flex-row gap-2 items-center '>
+                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-600/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
-                    comments
-                </div>
+                    {comments.length} comments
+                </button>
                 
                 </div>
+
+                {showComments &&
+                    <div className='flex flex-col gap-3 mt-3'>
+                        {comments.map((comment) => (
+                            <div key={comment.id} className='flex flex-row gap-2 items-start'>
+                                <Avatar className="h-7 w-7">
+                                    <AvatarFallback
+                                        className="text-xs font-semibold text-primary-foreground"
+                                        style={comment.authorAvatarColor ? { backgroundColor: comment.authorAvatarColor } : undefined}
+                                    >
+                                        {comment.authorInitials}
+                                    </AvatarFallback>
+                                </Avatar>
+                                {editingCommentId === comment.id ? (
+                                    <form onSubmit={handleSaveEdit} className='flex flex-1 flex-row gap-2 items-center'>
+                                        <Input
+                                            value={editingText}
+                                            onChange={(event) => setEditingText(event.target.value)}
+                                            autoFocus
+                                            className='flex-1 rounded-full border-primary'
+                                        />
+                                        <AppButton type='submit' className='h-8 w-8 p-0 rounded-full flex-none'>
+                                            <Send className='size-4' />
+                                        </AppButton>
+                                        <AppButton
+                                            type='button'
+                                            onClick={() => setEditingCommentId(null)}
+                                            className='h-auto w-auto p-1 flex-none rounded-full bg-transparent hover:bg-neutral-200 active:bg-neutral-200 text-secondary'
+                                        >
+                                            <X className='size-4' />
+                                        </AppButton>
+                                    </form>
+                                ) : (
+                                    <>
+                                        <div className='flex flex-1 flex-col gap-0 bg-cool-brand-400/15 rounded-md px-3 py-1.5'>
+                                            <p className='font-semibold text-xs text-secondary'>{comment.authorFirstName} {comment.authorLastName.charAt(0).toUpperCase()}.</p>
+                                            <p className='text-xs text-secondary'>{comment.text}</p>
+                                        </div>
+                                        {comment.userId === profile?.userId && (
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger
+                                                    render={
+                                                        <AppButton className="p-0 h-auto flex-none self-center bg-transparent hover:bg-transparent active:bg-transparent">
+                                                            <MoreHorizontal className="text-secondary size-3.5"/>
+                                                        </AppButton>
+                                                    }
+                                                />
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem onClick={() => handleStartEdit(comment.id, comment.text)}>
+                                                        <Pencil className="size-3.5" />
+                                                        Edit
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem variant="destructive" onClick={() => deleteComment(comment.id)}>
+                                                        <Trash2 className="size-3.5" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                        <form onSubmit={handleAddComment} className='flex flex-row gap-2 items-center'>
+                            <Avatar className="h-7 w-7">
+                                <AvatarFallback
+                                    className="text-xs font-semibold text-primary-foreground"
+                                    style={profile?.avatarColor ? { backgroundColor: profile.avatarColor } : undefined}
+                                >
+                                    {profile?.initials ?? '?'}
+                                </AvatarFallback>
+                            </Avatar>
+                            <Input
+                                value={commentText}
+                                onChange={(event) => setCommentText(event.target.value)}
+                                placeholder='Add a comment...'
+                                className='flex-1 rounded-full border-primary'
+                            />
+                            <AppButton type='submit' className='h-8 w-8 p-0 rounded-full flex-none'>
+                                <Send className='size-4' />
+                            </AppButton>
+                        </form>
+                    </div>
+                }
 </div>
                 <Separator className="mt-4"></Separator>
 </div>
