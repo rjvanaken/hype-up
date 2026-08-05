@@ -60,6 +60,7 @@ function Post({
     const { hypeIds, pendingIds, hype, unhype } = useHypes()
     const isHyping = hypeIds.has(postId)
     const isPending = pendingIds.has(postId)
+    const [displayedLikeCount, setDisplayedLikeCount] = useState(likeCount)
 
 
     async function handleAddComment(event: FormEvent<HTMLFormElement>) {
@@ -82,6 +83,16 @@ function Post({
         await editComment(editingCommentId, trimmed);
         setEditingCommentId(null);
         setEditingText('');
+    }
+
+    async function handleHypeClick() {
+        if (isHyping) {
+            await unhype(postId)
+            setDisplayedLikeCount((count) => count - 1)
+        } else {
+            await hype(postId)
+            setDisplayedLikeCount((count) => count + 1)
+        }
     }
 
 
@@ -123,12 +134,12 @@ function Post({
 
                     <button type='button' 
                     disabled={isPending}
-                    onClick={() => (isHyping ? unhype(postId) : hype(postId))} 
-                    className={`flex px-2 py-1 rounded-sm hover:bg-cool-brand-600/20 flex-row gap-2 items-center cursor-pointer ${isHyping ? 'font-bold' : 'font-regular'} ${isHyping ? 'text-primary' : 'text-foreground'}`}>
-                    <ThumbsUp className='size-3'/>
-                    {likeCount} hypes
+                    onClick={() => handleHypeClick()} 
+                    className={`flex px-2 py-1 rounded-sm hover:bg-cool-brand-300/20 flex-row gap-2 items-center cursor-pointer ${isHyping ? 'font-bold' : 'font-regular'} ${isHyping ? 'text-primary' : 'text-foreground'}`}>
+                    <ThumbsUp className={`size-3 ${isHyping ? 'fill-current text-primary' : ''}`} />
+                    {displayedLikeCount} hypes
                     </button>
-                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-600/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
+                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-200/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
                     {comments.length} comments
                 </button>
