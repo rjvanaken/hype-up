@@ -1,5 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
+import SetReminderDialog, { type ReminderDraft } from './SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -29,7 +30,7 @@ type TodoCardProps = {
   onAddTodo?: (text: string) => void
   onEditTodo?: (id: string, text: string) => void
   onDeleteTodo?: (id: string) => void
-  onSetReminder?: (todo: Todo) => void
+  onSetReminder?: (todo: Todo, reminder: ReminderDraft) => void
   onViewAll?: () => void
   onToggleTodo?: (id: string) => void
 }
@@ -61,6 +62,8 @@ function HomeTodos({
 
   const [todoToEdit, setTodoToEdit] = useState<Todo | null>(null)
   const [editedTodoText, setEditedTodoText] = useState('')
+
+  const [todoForReminder, setTodoForReminder] = useState<Todo | null>(null)
 
   function handleAddTodo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -156,6 +159,17 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
   setEditedTodoText('')
 }
 
+function handleReminderDialogOpenChange(open: boolean) {
+  if (!open) {
+    setTodoForReminder(null)
+  }
+}
+
+function handleSaveReminder(todo: Todo, reminder: ReminderDraft) {
+  onSetReminder?.(todo, reminder)
+  setTodoForReminder(null)
+}
+
   return (
     <CustomCard>
       <div className="flex flex-col gap-3">
@@ -245,7 +259,7 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
 
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
-                      onClick={() => onSetReminder?.(todo)}
+                      onClick={() => setTodoForReminder(todo)}
                     >
                       <Bell className="size-4" />
                       Set Reminder
@@ -509,6 +523,13 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
         </form>
       </DialogContent>
     </Dialog>
+
+        {/* Set reminder dialog */}
+        <SetReminderDialog
+          todo={todoForReminder}
+          onOpenChange={handleReminderDialogOpenChange}
+          onSave={handleSaveReminder}
+        />
       </div>
     </CustomCard>
   )

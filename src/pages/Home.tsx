@@ -1,10 +1,12 @@
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
+import type { ReminderDraft } from '@/components/custom/Todos/SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import FeedBox from '@/components/custom/Feed/FeedBox'
 
 import { useTodos } from '@/hooks/useTodos'
+import { useReminders } from '@/hooks/useReminders'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
 import HomeBanner from '@/components/custom/Home/HomeBanner'
@@ -23,10 +25,11 @@ function Home() {
     const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
+  const { addReminder } = useReminders()
 
-  function handleSetReminder(todo: Todo) {
-    console.log('Set reminder for:', todo.text)
-}
+  function handleSetReminder(_todo: Todo, reminder: ReminderDraft) {
+    addReminder(reminder.label, reminder.time, reminder.days)
+  }
 
     return (
         <>
