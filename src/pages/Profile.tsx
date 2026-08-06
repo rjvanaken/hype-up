@@ -11,7 +11,7 @@ import { useProfile } from '@/hooks/useProfile'
 
 function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
     const { achievements, tasksCompleted } = useAchievements()
-    const posts = usePosts('own')
+    const { posts, isLoading: postsLoading } = usePosts('own')
     const profile = useProfile()
     if (!profile) {
     // decide what renders while data hasn't loaded yet — a spinner, null, a skeleton, etc.
@@ -27,15 +27,15 @@ function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
                     <TwoColumnLayout
                         main={
                             <>
-                                <ProfileBanner firstname={firstName} lastname={lastName} avatarColor={avatarColor} location={location} bio={bio} initials={initials}></ProfileBanner>
-                                <FeedBox title='YOUR POSTS' posts={posts}></FeedBox>
+                                <ProfileBanner firstname={firstName} lastname={lastName} avatarColor={avatarColor} location={location} bio={bio} initials={initials} streak={streakCount}></ProfileBanner>
+                                <FeedBox title='POSTS' posts={posts} isLoading={postsLoading}></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (
                             <>
-                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                 <ConnectionsCard />
-                                <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
+                                <CustomCard><p>Streak</p></CustomCard> {/*placeholder*/}
+                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                             </>
                         ) : undefined}>
                     </TwoColumnLayout>
