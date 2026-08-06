@@ -8,6 +8,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import SetReminderDialog, {
   type ReminderDraft,
 } from '@/components/custom/Reminders/SetReminderDialog'
@@ -62,14 +72,14 @@ type ReminderRowProps = {
     id: string,
     updates: Partial<{ label: string; time: string; days: boolean[] }>
   ) => void
-  onDelete: (id: string) => void
+  onDeleteRequest: (reminder: Reminder) => void
 }
 
 function ReminderRow({
   reminder,
   onToggleEnabled,
   onUpdate,
-  onDelete,
+  onDeleteRequest,
 }: ReminderRowProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [editLabel, setEditLabel] = useState(reminder.label)
@@ -203,7 +213,7 @@ function ReminderRow({
             type="button"
             variant="link"
             className="h-auto justify-start p-0 text-sm font-semibold text-destructive"
-            onClick={() => onDelete(reminder.id)}
+            onClick={() => onDeleteRequest(reminder)}
           >
             Delete
           </Button>
@@ -217,10 +227,28 @@ function Reminders() {
   const { reminders, addReminder, updateReminder, toggleReminder, deleteReminder } =
     useReminders()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [reminderToDelete, setReminderToDelete] = useState<Reminder | null>(
+    null
+  )
 
   function handleSaveReminder(reminder: ReminderDraft) {
     addReminder(reminder.label, reminder.time, reminder.days)
     setIsAddDialogOpen(false)
+  }
+
+  function handleDeleteDialogOpenChange(open: boolean) {
+    if (!open) {
+      setReminderToDelete(null)
+    }
+  }
+
+  function handleConfirmDelete() {
+    if (!reminderToDelete) {
+      return
+    }
+
+    deleteReminder(reminderToDelete.id)
+    setReminderToDelete(null)
   }
 
   return (
@@ -261,7 +289,7 @@ function Reminders() {
                       reminder={reminder}
                       onToggleEnabled={toggleReminder}
                       onUpdate={updateReminder}
-                      onDelete={deleteReminder}
+                      onDeleteRequest={setReminderToDelete}
                     />
                   ))}
                 </div>
@@ -276,6 +304,36 @@ function Reminders() {
         onOpenChange={setIsAddDialogOpen}
         onSave={handleSaveReminder}
       />
+
+      <AlertDialog
+        open={reminderToDelete !== null}
+        onOpenChange={handleDeleteDialogOpenChange}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete reminder?</AlertDialogTitle>
+
+            <AlertDialogDescription>
+              Are you sure you want to delete
+              {reminderToDelete
+                ? ` the ${formatTime(reminderToDelete.time)} reminder?`
+                : ' this reminder?'}{' '}
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={handleConfirmDelete}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </PageLayout>
   )
 }
