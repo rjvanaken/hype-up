@@ -13,6 +13,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useHypes } from "@/hooks/useHypes";
 
 
 interface postProps {
@@ -42,8 +43,8 @@ function Post({
     postNote,
     customTask,
     imageUrl,
-    likeCount,
     initials,
+    likeCount,
     avatarColor,
 
 
@@ -56,6 +57,11 @@ function Post({
     const [editingText, setEditingText] = useState('');
     const { comments, addComment, editComment, deleteComment } = useComments(postId);
     const profile = useProfile();
+    const { hypeIds, pendingIds, hype, unhype } = useHypes()
+    const isHyping = hypeIds.has(postId)
+    const isPending = pendingIds.has(postId)
+    const [displayedLikeCount, setDisplayedLikeCount] = useState(likeCount)
+
 
     async function handleAddComment(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -77,6 +83,16 @@ function Post({
         await editComment(editingCommentId, trimmed);
         setEditingCommentId(null);
         setEditingText('');
+    }
+
+    async function handleHypeClick() {
+        if (isHyping) {
+            await unhype(postId)
+            setDisplayedLikeCount((count) => count - 1)
+        } else {
+            await hype(postId)
+            setDisplayedLikeCount((count) => count + 1)
+        }
     }
 
 
@@ -116,11 +132,14 @@ function Post({
                 )}
                 <div className='flex flex-row gap-4 pt-2 text-xs'>
 
-                <div className='flex flex-row gap-2 items-center '>
-                    <ThumbsUp className='size-3'/>
-                    {likeCount} hypes
-                </div>
-                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-600/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
+                    <button type='button' 
+                    disabled={isPending}
+                    onClick={() => handleHypeClick()} 
+                    className={`flex px-2 py-1 rounded-sm hover:bg-cool-brand-300/20 flex-row gap-2 items-center cursor-pointer ${isHyping ? 'font-bold' : 'font-regular'} ${isHyping ? 'text-primary' : 'text-foreground'}`}>
+                    <ThumbsUp className={`size-3 ${isHyping ? 'fill-current text-primary' : ''}`} />
+                    {displayedLikeCount} hypes
+                    </button>
+                                <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-200/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>
                     {comments.length} comments
                 </button>
