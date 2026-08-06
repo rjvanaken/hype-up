@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import type { Todo } from './HomeTodos'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 
@@ -21,13 +20,15 @@ export type ReminderDraft = {
 }
 
 type SetReminderDialogProps = {
-  todo: Todo | null
+  open: boolean
+  initialLabel?: string
   onOpenChange: (open: boolean) => void
-  onSave: (todo: Todo, reminder: ReminderDraft) => void
+  onSave: (reminder: ReminderDraft) => void
 }
 
 function SetReminderDialog({
-  todo,
+  open,
+  initialLabel,
   onOpenChange,
   onSave,
 }: SetReminderDialogProps) {
@@ -38,12 +39,12 @@ function SetReminderDialog({
   )
 
   useEffect(() => {
-    if (todo) {
-      setLabel(todo.text)
+    if (open) {
+      setLabel(initialLabel ?? '')
       setTime('')
       setSelectedDays(Array(7).fill(false))
     }
-  }, [todo])
+  }, [open, initialLabel])
 
   function toggleDay(index: number) {
     setSelectedDays((currentDays) =>
@@ -59,15 +60,15 @@ function SetReminderDialog({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!todo || !canSave) {
+    if (!canSave) {
       return
     }
 
-    onSave(todo, { label: label.trim(), time, days: selectedDays })
+    onSave({ label: label.trim(), time, days: selectedDays })
   }
 
   return (
-    <Dialog open={todo !== null} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
@@ -76,7 +77,7 @@ function SetReminderDialog({
             </DialogTitle>
 
             <DialogDescription className="sr-only">
-              Set a repeating reminder for this todo.
+              Set a repeating reminder.
             </DialogDescription>
           </DialogHeader>
 

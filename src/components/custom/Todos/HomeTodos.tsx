@@ -1,6 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
-import SetReminderDialog, { type ReminderDraft } from './SetReminderDialog'
+import SetReminderDialog, { type ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -159,14 +159,18 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
   setEditedTodoText('')
 }
 
-function handleReminderDialogOpenChange(open: boolean) {
-  if (!open) {
+function handleReminderDialogOpenChange(isOpen: boolean) {
+  if (!isOpen) {
     setTodoForReminder(null)
   }
 }
 
-function handleSaveReminder(todo: Todo, reminder: ReminderDraft) {
-  onSetReminder?.(todo, reminder)
+function handleSaveReminder(reminder: ReminderDraft) {
+  if (!todoForReminder) {
+    return
+  }
+
+  onSetReminder?.(todoForReminder, reminder)
   setTodoForReminder(null)
 }
 
@@ -526,7 +530,8 @@ function handleSaveReminder(todo: Todo, reminder: ReminderDraft) {
 
         {/* Set reminder dialog */}
         <SetReminderDialog
-          todo={todoForReminder}
+          open={todoForReminder !== null}
+          initialLabel={todoForReminder?.text}
           onOpenChange={handleReminderDialogOpenChange}
           onSave={handleSaveReminder}
         />

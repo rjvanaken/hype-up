@@ -1,6 +1,6 @@
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
-import type { ReminderDraft } from '@/components/custom/Todos/SetReminderDialog'
-import CustomCard from '@/components/custom/Shared/CustomCard'
+import HomeReminders from '@/components/custom/Reminders/HomeReminders'
+import type { ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import FeedBox from '@/components/custom/Feed/FeedBox'
@@ -25,9 +25,13 @@ function Home() {
     const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
-  const { addReminder } = useReminders()
+  const { reminders, addReminder } = useReminders()
 
   function handleSetReminder(_todo: Todo, reminder: ReminderDraft) {
+    addReminder(reminder.label, reminder.time, reminder.days)
+  }
+
+  function handleAddReminder(reminder: ReminderDraft) {
     addReminder(reminder.label, reminder.time, reminder.days)
   }
 
@@ -68,7 +72,7 @@ function Home() {
                                       onSetReminder={handleSetReminder} 
                                       onEditTodo={editTodo} /> {/*placeholder*/}
                                     <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
-                                    <CustomCard><p>HomeReminders</p></CustomCard> {/*placeholder*/}
+                                    <HomeReminders reminders={reminders} onAddReminder={handleAddReminder} />
                             </>
                         }>
                     </TwoColumnLayout>
