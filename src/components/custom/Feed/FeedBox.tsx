@@ -9,12 +9,11 @@ import { getTimestamp } from '@/lib/formatRelativeTime'
 type FeedProps = {
     title?: string
     posts: PostData[]
-    isLoading?: boolean
 
     // taskCategory : string
 }
 
-function FeedBox({ title = "title", posts, isLoading = false }: FeedProps) {
+function FeedBox({ title = "title", posts }: FeedProps) {
     const [filter, setFilter] = useState<FeedFilter>('all')
 
     const filteredPosts = posts.filter((post) => {
@@ -30,10 +29,7 @@ function FeedBox({ title = "title", posts, isLoading = false }: FeedProps) {
                 <Dropdown value={filter} onValueChange={setFilter} />
             </div>
             <Separator />
-            {isLoading && (
-                <p className='px-6 py-4 text-sm text-muted-foreground'>Loading posts...</p>
-            )}
-            {!isLoading && filteredPosts.map((post) => (
+            {filteredPosts.map((post) => (
                 <Post
                     key={post.id}
                     postId={post.id}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { Todo } from '@/components/custom/Todos/HomeTodos'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 type TodoRow = {
   id: string
@@ -20,7 +19,6 @@ function mapTodo(row: TodoRow): Todo {
 }
 
 export function useTodos() {
-  const { user } = useCurrentUser()
   const [todos, setTodos] = useState<Todo[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -68,7 +66,13 @@ export function useTodos() {
 
     setError(null)
 
-    if (!user) {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
+
+    if (userError || !user) {
+      console.error('Unable to identify user:', userError)
       setError('You must be signed in to add a todo.')
       return
     }

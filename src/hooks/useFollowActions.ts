@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useFollowActions() {
-    const { user } = useCurrentUser()
-    const currentUserId = user?.id ?? null
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null)
     const [followingIds, setFollowingIds] = useState<Set<string>>(new Set())
     const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
     useEffect(() => {
-        if (!currentUserId) return
-
         async function loadFollowing() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            setCurrentUserId(user.id)
+
             const { data, error } = await supabase
                 .from('follows')
                 .select('following_id')
-                .eq('follower_id', currentUserId)
+                .eq('follower_id', user.id)
                 .eq('status', 'accepted')
 
             if (error) {
@@ -27,7 +27,7 @@ export function useFollowActions() {
         }
 
         loadFollowing()
-    }, [currentUserId])
+    }, [])
 
     const follow = useCallback(async (targetId: string) => {
         if (!currentUserId) return

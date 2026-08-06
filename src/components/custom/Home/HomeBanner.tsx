@@ -8,7 +8,6 @@ import { bannerQuotes } from "@/lib/bannerQuotes"
 export interface HomeBannerProps {
   firstname: string
   recentPosters: RecentPosterData[]
-  recentPostersLoading?: boolean
 }
 
 function getRandomQuote(items: string[]) {
@@ -18,8 +17,7 @@ function getRandomQuote(items: string[]) {
 
 function HomeBanner({
   firstname,
-  recentPosters,
-  recentPostersLoading = false
+  recentPosters
 }: HomeBannerProps) {
 
   const quote = useMemo(() => getRandomQuote(bannerQuotes), [])
@@ -34,10 +32,7 @@ function HomeBanner({
         </div>
         <Separator></Separator>
         <div className="flex gap-3">
-        {recentPostersLoading && (
-          <p className="text-sm text-muted-foreground">Loading recently posted...</p>
-        )}
-        {!recentPostersLoading && recentPosters.map(p => <RecentPoster key={p.id} {...p} />)}
+        {recentPosters.map(p => <RecentPoster key={p.id} {...p} />)}
         </div>
         </div>
 

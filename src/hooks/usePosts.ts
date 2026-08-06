@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import { usePostsRefresh } from '@/hooks/usePostsRefresh'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface PostData {
     id: string
@@ -23,18 +22,12 @@ export interface PostData {
 export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
     const [posts, setPosts] = useState<PostData[]>([])
-    const [isLoading, setIsLoading] = useState(true)
     const { version } = usePostsRefresh()
-    const { user } = useCurrentUser()
 
     useEffect(() => {
-        if (!user) return
-
-        const userId = user.id
-        let cancelled = false
-
         async function fetchPosts() {
-            setIsLoading(true)
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
             let query = supabase
                 .from('posts')
@@ -44,16 +37,13 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
             // 'own' scopes to the current user's posts; 'feed' relies on the
             // posts RLS policy (own, public, or followed) to decide visibility.
             if (scope === 'own') {
-                query = query.eq('user_id', userId)
+                query = query.eq('user_id', user.id)
             }
 
             const { data, error } = await query
 
-            if (cancelled) return
-
             if (error) {
                 console.error('Error fetching posts:', error)
-                setIsLoading(false)
                 return
             }
 
@@ -77,15 +67,10 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
                     createdAt: row.created_at,
                 }
             }))
-            setIsLoading(false)
         }
 
         fetchPosts()
+    }, [version])
 
-        return () => {
-            cancelled = true
-        }
-    }, [version, scope, user])
-
-    return { posts, isLoading }
+    return posts
 }

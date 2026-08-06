@@ -17,10 +17,10 @@ import { useHomeRecents } from '@/hooks/useHomeRecents'
 function Home() {
     // const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
-    const { posts, isLoading: postsLoading } = usePosts('feed')
+    const posts = usePosts('feed')
     const profile = useProfile()
-    const { summary: profileSummary, isLoading: profileSummaryLoading } = useProfileSummary()
-    const { recentPosters, isLoading: recentPostersLoading } = useHomeRecents()
+    const profileSummary = useProfileSummary()
+    const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -38,21 +38,15 @@ function Home() {
                                 <HomeBanner
                                 firstname={profile?.firstName ?? ''}
                                 recentPosters={recentPosters}
-                                recentPostersLoading={recentPostersLoading}
                                 ></HomeBanner>
-                                <FeedBox title='YOUR FEED' posts={posts} isLoading={postsLoading}></FeedBox>
+                                <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
                                     
 
                             </>
                         }
                         rightColumn={
                             <>
-                                    {profileSummaryLoading && (
-                                        <CustomCard className='gap-4'>
-                                            <p className='text-sm text-muted-foreground'>Loading profile...</p>
-                                        </CustomCard>
-                                    )}
-                                    {!profileSummaryLoading && profileSummary && (
+                                    {profileSummary && (
                                         <ProfileSummaryCard
                                             firstName={profileSummary.firstName}
                                             lastName={profileSummary.lastName}

@@ -9,13 +9,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 const AVATAR_BUCKET = 'avatars'
 
 function ProfileSettingsContent() {
-  const { user } = useCurrentUser()
-  const userId = user?.id ?? null
+  const [userId, setUserId] = useState<string | null>(null)
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -42,15 +40,15 @@ function ProfileSettingsContent() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (!user) return
+    supabase.auth.getUser().then(async ({ data }) => {
+      const user = data.user
+      if (!user) return
+      setUserId(user.id)
 
-    const currentUser = user
-
-    async function loadProfile() {
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('first_name, last_name, bio, location, avatar_storage_path, avatar_color, show_streak')
-        .eq('id', currentUser.id)
+        .eq('id', user.id)
         .maybeSingle()
 
       if (profileError) {
@@ -58,8 +56,8 @@ function ProfileSettingsContent() {
       }
 
       // Retains metadata reference to first and last names
-      const fallbackFirstName = typeof currentUser.user_metadata?.first_name === 'string' ? currentUser.user_metadata.first_name : ''
-      const fallbackLastName = typeof currentUser.user_metadata?.last_name === 'string' ? currentUser.user_metadata.last_name : ''
+      const fallbackFirstName = typeof user.user_metadata?.first_name === 'string' ? user.user_metadata.first_name : ''
+      const fallbackLastName = typeof user.user_metadata?.last_name === 'string' ? user.user_metadata.last_name : ''
       const resolvedFirstName = profile?.first_name || fallbackFirstName
       const resolvedLastName = profile?.last_name || fallbackLastName
 
@@ -83,10 +81,8 @@ function ProfileSettingsContent() {
         const { data: urlData } = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(profile.avatar_storage_path)
         setAvatarUrl(urlData.publicUrl)
       }
-    }
-
-    loadProfile()
-  }, [user])
+    })
+  }, [])
 
   async function handleSaveName() {
     const trimmedFirst = firstName.trim()

@@ -1,34 +1,21 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
-interface HypesContextValue {
-    hypeIds: Set<string>
-    pendingIds: Set<string>
-    hype: (postId: string) => Promise<void>
-    unhype: (postId: string) => Promise<void>
-}
-
-const HypesContext = createContext<HypesContextValue | null>(null)
-
-export function HypesProvider({ children }: { children: ReactNode }) {
-    const { user } = useCurrentUser()
-    const currentUserId = user?.id ?? null
+export function useHypes() {
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null)
     const [hypeIds, setHypeIds] = useState<Set<string>>(new Set())
     const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
     useEffect(() => {
-        if (!currentUserId) return
-
-        let cancelled = false
-
         async function loadHypes() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            setCurrentUserId(user.id)
+
             const { data, error } = await supabase
                 .from('likes')
                 .select('post_id')
-                .eq('user_id', currentUserId)
-
-            if (cancelled) return
+                .eq('user_id', user.id)
 
             if (error) {
                 console.error('Error fetching hype ids:', error)
@@ -39,11 +26,7 @@ export function HypesProvider({ children }: { children: ReactNode }) {
         }
 
         loadHypes()
-
-        return () => {
-            cancelled = true
-        }
-    }, [currentUserId])
+    }, [])
 
     const hype = useCallback(async (postId: string) => {
         if (!currentUserId) return
@@ -97,17 +80,5 @@ export function HypesProvider({ children }: { children: ReactNode }) {
         })
     }, [currentUserId])
 
-    return (
-        <HypesContext.Provider value={{ hypeIds, pendingIds, hype, unhype }}>
-            {children}
-        </HypesContext.Provider>
-    )
-}
-
-export function useHypes() {
-    const context = useContext(HypesContext)
-    if (!context) {
-        throw new Error('useHypes must be used within a HypesProvider')
-    }
-    return context
+    return { hypeIds, pendingIds, hype, unhype }
 }

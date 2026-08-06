@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface RecentPoster {
     id: string
@@ -11,37 +10,29 @@ export interface RecentPoster {
 }
 
 export function useHomeRecents() {
-    const { user } = useCurrentUser()
     const [recentPosters, setRecentPosters] = useState<RecentPoster[]>([])
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (!user) return
-
-        const userId = user.id
         let cancelled = false
 
         async function fetchRecentPosters() {
-            setIsLoading(true)
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
             const { data: follows, error: followsError } = await supabase
                 .from('follows')
                 .select('following_id')
-                .eq('follower_id', userId)
+                .eq('follower_id', user.id)
                 .eq('status', 'accepted')
 
             if (followsError) {
                 console.error('Error fetching follows:', followsError)
-                if (!cancelled) setIsLoading(false)
                 return
             }
 
             const followingIds = (follows ?? []).map((row) => row.following_id)
             if (followingIds.length === 0) {
-                if (!cancelled) {
-                    setRecentPosters([])
-                    setIsLoading(false)
-                }
+                if (!cancelled) setRecentPosters([])
                 return
             }
 
@@ -56,7 +47,6 @@ export function useHomeRecents() {
 
             if (postsError) {
                 console.error('Error fetching recent posts:', postsError)
-                if (!cancelled) setIsLoading(false)
                 return
             }
 
@@ -69,10 +59,7 @@ export function useHomeRecents() {
 
             const posterIds = [...latestPostTypeByUserId.keys()]
             if (posterIds.length === 0) {
-                if (!cancelled) {
-                    setRecentPosters([])
-                    setIsLoading(false)
-                }
+                if (!cancelled) setRecentPosters([])
                 return
             }
 
@@ -83,7 +70,6 @@ export function useHomeRecents() {
 
             if (profilesError) {
                 console.error('Error fetching profiles:', profilesError)
-                if (!cancelled) setIsLoading(false)
                 return
             }
 
@@ -95,7 +81,6 @@ export function useHomeRecents() {
                     avatarColor: profile.avatar_color,
                     latestPostType: latestPostTypeByUserId.get(profile.id) ?? 'share'
                 })))
-                setIsLoading(false)
             }
         }
 
@@ -104,7 +89,7 @@ export function useHomeRecents() {
         return () => {
             cancelled = true
         }
-    }, [user])
+    }, [])
 
-    return { recentPosters, isLoading }
+    return recentPosters
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface CommentData {
     id: string
@@ -41,7 +40,6 @@ function mapComment(row: CommentRow): CommentData {
 
 export function useComments(postId: string) {
 
-    const { user } = useCurrentUser()
     const [comments, setComments] = useState<CommentData[]>([])
 
     useEffect(() => {
@@ -64,6 +62,7 @@ export function useComments(postId: string) {
     }, [postId])
 
     async function addComment(text: string) {
+        const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
         const { data, error } = await supabase

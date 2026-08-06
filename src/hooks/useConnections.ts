@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface ConnectionProfile {
     id: string
@@ -33,18 +32,13 @@ async function fetchProfiles(ids: string[]): Promise<ConnectionProfile[]> {
 }
 
 export function useConnections() {
-    const { user } = useCurrentUser()
     const [followers, setFollowers] = useState<ConnectionProfile[]>([])
     const [following, setFollowing] = useState<ConnectionProfile[]>([])
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (!user) return
-
-        const userId = user.id
-
         async function fetchConnections() {
-            setIsLoading(true)
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
             const [
                 { data: followerRows, error: followerError },
@@ -53,12 +47,12 @@ export function useConnections() {
                 supabase
                     .from('follows')
                     .select('follower_id')
-                    .eq('following_id', userId)
+                    .eq('following_id', user.id)
                     .eq('status', 'accepted'),
                 supabase
                     .from('follows')
                     .select('following_id')
-                    .eq('follower_id', userId)
+                    .eq('follower_id', user.id)
                     .eq('status', 'accepted')
             ])
 
@@ -77,11 +71,10 @@ export function useConnections() {
 
             setFollowers(followerProfiles)
             setFollowing(followingProfiles)
-            setIsLoading(false)
         }
 
         fetchConnections()
-    }, [user])
+    }, [])
 
-    return { followers, following, isLoading }
+    return { followers, following }
 }
