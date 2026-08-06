@@ -19,7 +19,7 @@ export interface PostData {
     createdAt: string
 }
 
-export function usePosts(scope: 'feed' | 'own' = 'feed') {
+export function usePosts(scope: 'feed' | 'own' | 'user' = 'feed', targetUserId?: string) {
 
     const [posts, setPosts] = useState<PostData[]>([])
     const { version } = usePostsRefresh()
@@ -34,10 +34,13 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
                 .select('id, user_id, post_type, task_type, custom_task, note, image_url, like_count, comments_enabled, created_at, profiles(first_name, last_name, initials, avatar_color)')
                 .order('created_at', { ascending: false })
 
-            // 'own' scopes to the current user's posts; 'feed' relies on the
-            // posts RLS policy (own, public, or followed) to decide visibility.
+            // 'own' scopes to the current user's posts
+            // 'user' scopes to a specific profile (e.g. a public profile view)
+            // 'feed' relies on the posts RLS policy (own, public, or followed) to decide visibility
             if (scope === 'own') {
                 query = query.eq('user_id', user.id)
+            } else if (scope === 'user' && targetUserId) {
+                query = query.eq('user_id', targetUserId)
             }
 
             const { data, error } = await query
@@ -70,7 +73,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
         }
 
         fetchPosts()
-    }, [version])
+    }, [version, scope, targetUserId])
 
     return posts
 }

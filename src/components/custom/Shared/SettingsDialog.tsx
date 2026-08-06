@@ -27,12 +27,14 @@ function SettingsDialog({
   open,
   onOpenChange,
   tabs,
+  defaultTabKey,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   tabs: SettingsTab[]
+  defaultTabKey?: string
 }) {
-  const [activeKey, setActiveKey] = useState(tabs[0]?.key)
+  const [activeKey, setActiveKey] = useState(defaultTabKey ?? tabs[0]?.key)
   const activeTab = tabs.find((t) => t.key === activeKey) ?? tabs[0]
 
   return (
