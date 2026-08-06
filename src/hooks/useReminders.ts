@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import { useRemindersRefresh } from '@/hooks/useRemindersRefresh'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export type Reminder = {
   id: string
@@ -29,6 +30,7 @@ function mapReminder(row: ReminderRow): Reminder {
 }
 
 export function useReminders() {
+  const { user } = useCurrentUser()
   const [reminders, setReminders] = useState<Reminder[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -77,13 +79,7 @@ export function useReminders() {
 
     setError(null)
 
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser()
-
-    if (userError || !user) {
-      console.error('Unable to identify user:', userError)
+    if (!user) {
       setError('You must be signed in to set a reminder.')
       return
     }
