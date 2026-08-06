@@ -20,7 +20,7 @@ function Home() {
     const { posts, isLoading: postsLoading } = usePosts('feed')
     const profile = useProfile()
     const { summary: profileSummary, isLoading: profileSummaryLoading } = useProfileSummary()
-    const recentPosters = useHomeRecents()
+    const { recentPosters, isLoading: recentPostersLoading } = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
@@ -38,6 +38,7 @@ function Home() {
                                 <HomeBanner
                                 firstname={profile?.firstName ?? ''}
                                 recentPosters={recentPosters}
+                                recentPostersLoading={recentPostersLoading}
                                 ></HomeBanner>
                                 <FeedBox title='YOUR FEED' posts={posts} isLoading={postsLoading}></FeedBox>
                                     
