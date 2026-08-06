@@ -1,6 +1,7 @@
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
 import HomeReminders from '@/components/custom/Reminders/HomeReminders'
 import type { ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
+import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import FeedBox from '@/components/custom/Feed/FeedBox'
