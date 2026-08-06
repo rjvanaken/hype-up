@@ -23,6 +23,7 @@ export interface PostData {
 export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
     const [posts, setPosts] = useState<PostData[]>([])
+    const [isLoading, setIsLoading] = useState(true)
     const { version } = usePostsRefresh()
     const { user } = useCurrentUser()
 
@@ -33,6 +34,8 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
         let cancelled = false
 
         async function fetchPosts() {
+            setIsLoading(true)
+
             let query = supabase
                 .from('posts')
                 .select('id, user_id, post_type, task_type, custom_task, note, image_url, like_count, comments_enabled, created_at, profiles(first_name, last_name, initials, avatar_color)')
@@ -50,6 +53,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
 
             if (error) {
                 console.error('Error fetching posts:', error)
+                setIsLoading(false)
                 return
             }
 
@@ -73,6 +77,7 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
                     createdAt: row.created_at,
                 }
             }))
+            setIsLoading(false)
         }
 
         fetchPosts()
@@ -82,5 +87,5 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
         }
     }, [version, scope, user])
 
-    return posts
+    return { posts, isLoading }
 }

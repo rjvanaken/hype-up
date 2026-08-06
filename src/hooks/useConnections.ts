@@ -36,6 +36,7 @@ export function useConnections() {
     const { user } = useCurrentUser()
     const [followers, setFollowers] = useState<ConnectionProfile[]>([])
     const [following, setFollowing] = useState<ConnectionProfile[]>([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         if (!user) return
@@ -43,6 +44,8 @@ export function useConnections() {
         const userId = user.id
 
         async function fetchConnections() {
+            setIsLoading(true)
+
             const [
                 { data: followerRows, error: followerError },
                 { data: followingRows, error: followingError }
@@ -74,10 +77,11 @@ export function useConnections() {
 
             setFollowers(followerProfiles)
             setFollowing(followingProfiles)
+            setIsLoading(false)
         }
 
         fetchConnections()
     }, [user])
 
-    return { followers, following }
+    return { followers, following, isLoading }
 }

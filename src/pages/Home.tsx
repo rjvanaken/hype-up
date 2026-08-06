@@ -17,9 +17,9 @@ import { useHomeRecents } from '@/hooks/useHomeRecents'
 function Home() {
     // const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
-    const posts = usePosts('feed')
+    const { posts, isLoading: postsLoading } = usePosts('feed')
     const profile = useProfile()
-    const profileSummary = useProfileSummary()
+    const { summary: profileSummary, isLoading: profileSummaryLoading } = useProfileSummary()
     const recentPosters = useHomeRecents()
 
   const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
@@ -39,14 +39,19 @@ function Home() {
                                 firstname={profile?.firstName ?? ''}
                                 recentPosters={recentPosters}
                                 ></HomeBanner>
-                                <FeedBox title='YOUR FEED' posts={posts}></FeedBox>
+                                <FeedBox title='YOUR FEED' posts={posts} isLoading={postsLoading}></FeedBox>
                                     
 
                             </>
                         }
                         rightColumn={
                             <>
-                                    {profileSummary && (
+                                    {profileSummaryLoading && (
+                                        <CustomCard className='gap-4'>
+                                            <p className='text-sm text-muted-foreground'>Loading profile...</p>
+                                        </CustomCard>
+                                    )}
+                                    {!profileSummaryLoading && profileSummary && (
                                         <ProfileSummaryCard
                                             firstName={profileSummary.firstName}
                                             lastName={profileSummary.lastName}

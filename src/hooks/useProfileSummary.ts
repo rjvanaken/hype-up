@@ -6,6 +6,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 export function useProfileSummary() {
     const { user } = useCurrentUser()
     const [summary, setSummary] = useState<ProfileSummaryCardProps | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         if (!user) return
@@ -13,6 +14,8 @@ export function useProfileSummary() {
         const userId = user.id
 
         async function fetchSummary() {
+            setIsLoading(true)
+
             const [
                 { data: profile, error: profileError },
                 { count: followers, error: followersError },
@@ -37,6 +40,7 @@ export function useProfileSummary() {
 
             if (profileError) {
                 console.error('Error fetching profile summary:', profileError)
+                setIsLoading(false)
                 return
             }
 
@@ -57,10 +61,11 @@ export function useProfileSummary() {
                 following: following ?? 0,
                 followers: followers ?? 0
             })
+            setIsLoading(false)
         }
 
         fetchSummary()
     }, [user])
 
-    return summary
+    return { summary, isLoading }
 }
