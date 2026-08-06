@@ -5,6 +5,7 @@ import CustomCard from "../Shared/CustomCard"
 import { avatarColorMappings } from "@/lib/avatarColorMappings"
 import { AchievementItem, type Achievement } from "@/components/custom/Achievements/AchievementsCard"
 import AllAchievementsDialog from "@/components/custom/Achievements/AllAchievementsDialog"
+import FollowButton from "../Shared/FollowButton"
 
 export interface ProfileBannerProps {
   firstname: string
@@ -55,13 +56,14 @@ function ProfileBanner({
     <CustomCard className="p-0">
         <div className={`h-24 ${gradiantClass} relative`}>
             {onFollowToggle && (
-                <Button
-                    className="absolute top-3 right-3"
+                <FollowButton
+                    variant={isFollowing ? 'unfollow-alt' : 'follow-alt'}
+                    className="absolute top-5 right-5"
                     disabled={followPending}
                     onClick={onFollowToggle}
                 >
                     {isFollowing ? 'Unfollow' : 'Follow'}
-                </Button>
+                </FollowButton>
             )}
             {onEditProfileClick && (
                 <Button
