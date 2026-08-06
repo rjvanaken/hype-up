@@ -18,7 +18,7 @@ function ConnectionsCard() {
   return (
     <CustomCard>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-xs font-bold uppercase tracking-wide text-secondary">Connections</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">Connections</p>
         <button
           type="button"
           onClick={() => setModalOpen(true)}

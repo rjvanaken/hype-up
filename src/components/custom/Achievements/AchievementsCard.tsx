@@ -26,11 +26,11 @@ function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCard
   return (
     <CustomCard padding="">
       <div className="flex flex-1 items-center justify-between h-auto px-6">
-        <p className="font-semibold text-md text-secondary">ACHIEVEMENTS</p>
+        <p className="font-semibold text-sm text-neutral-600">ACHIEVEMENTS</p>
         <button
           type="button"
           onClick={() => setShowAll(true)}
-          className="text-sm font-medium text-primary hover:underline cursor-pointer"
+          className="text-xs font-medium text-primary hover:underline cursor-pointer"
         >
           View all
         </button>

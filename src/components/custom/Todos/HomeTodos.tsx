@@ -161,7 +161,7 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
       <div className="flex flex-col gap-3">
         {/* Card header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase text-neutral-600">
+          <h2 className="text-sm font-semibold uppercase text-neutral-600">
             Todos
           </h2>
 

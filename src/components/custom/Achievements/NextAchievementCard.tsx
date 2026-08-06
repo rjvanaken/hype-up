@@ -11,7 +11,7 @@ function NextAchievementCard({ achievements, tasksCompleted }: NextAchievementCa
 
   return (
     <CustomCard>
-      <p className="font-semibold text-md text-secondary">NEXT ACHIEVEMENT</p>
+      <p className="font-semibold text-sm text-neutral-600">NEXT ACHIEVEMENT</p>
 
       {next ? (
         <NextAchievementProgress achievement={next} tasksCompleted={tasksCompleted} />
