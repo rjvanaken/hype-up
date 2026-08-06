@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useRemindersRefresh } from '@/hooks/useRemindersRefresh'
 
 export type Reminder = {
   id: string
@@ -31,6 +32,7 @@ export function useReminders() {
   const [reminders, setReminders] = useState<Reminder[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { version, triggerRefresh } = useRemindersRefresh()
 
   useEffect(() => {
     let isMounted = true
@@ -64,7 +66,7 @@ export function useReminders() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [version])
 
   async function addReminder(label: string, time: string, days: boolean[]) {
     const trimmedLabel = label.trim()
@@ -107,6 +109,7 @@ export function useReminders() {
       mapReminder(data as ReminderRow),
       ...currentReminders,
     ])
+    triggerRefresh()
   }
 
   async function updateReminder(
@@ -140,6 +143,7 @@ export function useReminders() {
         reminder.id === id ? updatedReminder : reminder
       )
     )
+    triggerRefresh()
   }
 
   async function toggleReminder(id: string) {
@@ -169,6 +173,7 @@ export function useReminders() {
     setReminders((currentReminders) =>
       currentReminders.filter((reminder) => reminder.id !== id)
     )
+    triggerRefresh()
   }
 
   return {
