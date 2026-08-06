@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useAchievements() {
+    const { user } = useCurrentUser()
     const [achievements, setAchievements] = useState<Achievement[]>([])
     const [tasksCompleted, setTasksCompleted] = useState(0)
 
     useEffect(() => {
         async function fetchBadges() {
-            const { data: { user } } = await supabase.auth.getUser()
-
             const [
                 { data: badges, error: badgesError },
                 { data: userBadges, error: userBadgesError },
@@ -54,7 +54,7 @@ export function useAchievements() {
         }
 
         fetchBadges()
-    }, [])
+    }, [user])
 
     return { achievements, tasksCompleted }
 }

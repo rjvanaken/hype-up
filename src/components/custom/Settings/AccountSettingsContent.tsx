@@ -7,8 +7,10 @@ import ActionDialog from '@/components/custom/Shared/ActionDialog'
 import { Badge } from '@/components/ui/badge'
 import { supabase } from '@/lib/client'
 import { validateEmail, validatePassword } from '@/lib/validation'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 function AccountSettingsContent() {
+  const { user } = useCurrentUser()
   const [email, setEmail] = useState('')
   const [savedEmail, setSavedEmail] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -25,12 +27,10 @@ function AccountSettingsContent() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      const currentEmail = data.user?.email ?? ''
-      setEmail(currentEmail)
-      setSavedEmail(currentEmail)
-    })
-  }, [])
+    const currentEmail = user?.email ?? ''
+    setEmail(currentEmail)
+    setSavedEmail(currentEmail)
+  }, [user])
 
   async function handleSaveEmail() {
     const trimmed = email.trim()

@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { ProfileSummaryCardProps } from '@/components/custom/Home/ProfileSummaryCard'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useProfileSummary() {
+    const { user } = useCurrentUser()
     const [summary, setSummary] = useState<ProfileSummaryCardProps | null>(null)
 
     useEffect(() => {
-        async function fetchSummary() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+        if (!user) return
 
+        const userId = user.id
+
+        async function fetchSummary() {
             const [
                 { data: profile, error: profileError },
                 { count: followers, error: followersError },
@@ -18,17 +21,17 @@ export function useProfileSummary() {
                 supabase
                     .from('profiles')
                     .select('first_name, last_name, initials, streak_count, tasks_completed')
-                    .eq('id', user.id)
+                    .eq('id', userId)
                     .single(),
                 supabase
                     .from('follows')
                     .select('*', { count: 'exact', head: true })
-                    .eq('following_id', user.id)
+                    .eq('following_id', userId)
                     .eq('status', 'accepted'),
                 supabase
                     .from('follows')
                     .select('*', { count: 'exact', head: true })
-                    .eq('follower_id', user.id)
+                    .eq('follower_id', userId)
                     .eq('status', 'accepted')
             ])
 
@@ -57,7 +60,7 @@ export function useProfileSummary() {
         }
 
         fetchSummary()
-    }, [])
+    }, [user])
 
     return summary
 }

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 interface HypesContextValue {
     hypeIds: Set<string>
@@ -11,23 +12,21 @@ interface HypesContextValue {
 const HypesContext = createContext<HypesContextValue | null>(null)
 
 export function HypesProvider({ children }: { children: ReactNode }) {
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+    const { user } = useCurrentUser()
+    const currentUserId = user?.id ?? null
     const [hypeIds, setHypeIds] = useState<Set<string>>(new Set())
     const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
     useEffect(() => {
+        if (!currentUserId) return
+
         let cancelled = false
 
         async function loadHypes() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
-            if (cancelled) return
-            setCurrentUserId(user.id)
-
             const { data, error } = await supabase
                 .from('likes')
                 .select('post_id')
-                .eq('user_id', user.id)
+                .eq('user_id', currentUserId)
 
             if (cancelled) return
 
@@ -44,7 +43,7 @@ export function HypesProvider({ children }: { children: ReactNode }) {
         return () => {
             cancelled = true
         }
-    }, [])
+    }, [currentUserId])
 
     const hype = useCallback(async (postId: string) => {
         if (!currentUserId) return

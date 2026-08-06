@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface RecentPoster {
     id: string
@@ -10,19 +11,20 @@ export interface RecentPoster {
 }
 
 export function useHomeRecents() {
+    const { user } = useCurrentUser()
     const [recentPosters, setRecentPosters] = useState<RecentPoster[]>([])
 
     useEffect(() => {
+        if (!user) return
+
+        const userId = user.id
         let cancelled = false
 
         async function fetchRecentPosters() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
-
             const { data: follows, error: followsError } = await supabase
                 .from('follows')
                 .select('following_id')
-                .eq('follower_id', user.id)
+                .eq('follower_id', userId)
                 .eq('status', 'accepted')
 
             if (followsError) {
@@ -89,7 +91,7 @@ export function useHomeRecents() {
         return () => {
             cancelled = true
         }
-    }, [])
+    }, [user])
 
     return recentPosters
 }
