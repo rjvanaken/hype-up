@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 
@@ -13,6 +14,7 @@ fullName?: boolean
 }
 
 function AvatarNameSubtitle ({
+    user_id,
     firstname,
     lastname,
     subtitle,
@@ -23,7 +25,7 @@ function AvatarNameSubtitle ({
 
 
 return(
-    <div className="flex flex-row gap-2 justify-start w-full">
+    <Link to={`/profile/${user_id}`} className="flex flex-row gap-2 justify-start w-full">
 <Avatar className="h-9 w-9">
     <AvatarFallback
         className={avatarColor ? "text-xs font-semibold text-white" : "text-xs font-semibold"}
@@ -36,7 +38,7 @@ return(
 <p className="font-semibold text-sm text-secondary items-center mb-0">{firstname} {lastname}</p>
 <p className='text-xs text-muted-foreground'>{subtitle}</p> 
 </div>
-    </div>
+    </Link>
 
 )
 }

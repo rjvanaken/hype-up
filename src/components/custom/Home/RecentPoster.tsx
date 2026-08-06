@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom"
 import { LifeBuoy, PartyPopper } from "lucide-react"
 import { Avatar, AvatarBadge, AvatarFallback } from "@/components/ui/avatar"
 
 export interface RecentPosterProps {
+    id: string
     firstName: string
     initials: string
     avatarColor: string | null
     latestPostType: 'share' | 'ask'
 }
 
-function RecentPoster({ firstName, initials, avatarColor, latestPostType }: RecentPosterProps) {
+function RecentPoster({ id, firstName, initials, avatarColor, latestPostType }: RecentPosterProps) {
     return (
-        <div className="flex flex-col items-center gap-1">
+        <Link to={`/profile/${id}`} className="flex flex-col items-center gap-1">
             <Avatar className="size-12">
                 <AvatarFallback
                     className="font-medium text-primary-foreground"
@@ -25,7 +27,7 @@ function RecentPoster({ firstName, initials, avatarColor, latestPostType }: Rece
                 </AvatarBadge>
             </Avatar>
             <p className="text-xs text-muted-foreground">{firstName}</p>
-        </div>
+        </Link>
     )
 }
 

@@ -14,6 +14,7 @@ export interface Achievement {
   description?: string
   task_threshold?: number
   unlocked?: boolean
+  earnedAt?: string | null
 }
 
 interface AchievementsCardProps {
