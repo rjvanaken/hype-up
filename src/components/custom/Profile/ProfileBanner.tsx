@@ -19,6 +19,7 @@ export interface ProfileBannerProps {
   followPending?: boolean
   onFollowToggle?: () => void
   onEditProfileClick?: () => void
+  streak: number
 
 }
 
@@ -35,6 +36,7 @@ function ProfileBanner({
   followPending,
   onFollowToggle,
   onEditProfileClick,
+  streak,
 }: ProfileBannerProps) {
     const [showAllAchievements, setShowAllAchievements] = useState(false)
     const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked)
@@ -84,6 +86,7 @@ function ProfileBanner({
             <div className="flex flex-col gap-1">
             <p className="text-xl font-bold">{firstname} {lastname}</p>
             <p className="text-sm font-regular"><span role="img" aria-label="pin">📍</span>{location}</p>
+            <p className="text-sm font-regular"><span role="img" aria-label="fire">🔥</span>{streak}-week streak</p>
             </div>
             <div className="h-16">
                 <p>{bio}</p>

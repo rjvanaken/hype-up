@@ -71,10 +71,6 @@ function FindFriends() {
                             </div>
                         </CustomCard>
                     </>
-                }
-                rightColumn={
-                    <>
-                    </>
                 }>
             </TwoColumnLayout>
         </PageLayout>

@@ -29,7 +29,7 @@ function Profile() {
     return null
     }
 
-    const {firstName, lastName, initials, avatarColor, location, bio, isOwnProfile} = profile
+    const {firstName, lastName, initials, avatarColor, streakCount, location, bio, isOwnProfile} = profile
 
     return (
         <>
@@ -56,8 +56,9 @@ function Profile() {
                                     followPending={!isOwnProfile ? pending : undefined}
                                     onFollowToggle={!isOwnProfile ? toggleFollow : undefined}
                                     onEditProfileClick={isOwnProfile ? () => setEditProfileOpen(true) : undefined}
+                                    streak={streakCount}
                                 ></ProfileBanner>
-                                <FeedBox title={isOwnProfile ? 'YOUR POSTS' : `${firstName}'s POSTS`} posts={posts}></FeedBox>
+                                <FeedBox title='POSTS' posts={posts}></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (
