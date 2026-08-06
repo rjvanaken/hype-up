@@ -3,6 +3,7 @@ import { Bell, ChevronDown, ChevronUp, EllipsisVertical, Pencil, Plus, Trash2 } 
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -23,15 +24,10 @@ import { useTodos } from '@/hooks/useTodos'
 import type { Todo } from '@/components/custom/Todos/HomeTodos'
 
 const VISIBLE_ROWS = 10
-const ROW_HEIGHT_PX = 45
+const ROW_HEIGHT_PX = 53
 
-function EmptyTodos({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
-      <p className="font-semibold text-secondary">{title}</p>
-      <p className="text-sm text-muted-foreground">{subtitle}</p>
-    </div>
-  )
+function EmptyTodos({ message }: { message: string }) {
+  return <p className="py-2 text-sm text-muted-foreground">{message}</p>
 }
 
 function Todos() {
@@ -157,21 +153,24 @@ function Todos() {
           <>
         <CustomCard>
           <div className="flex items-center justify-between gap-4">
-            <div>
-              <h1 className="text-xl font-semibold text-secondary">Todos</h1>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-xl font-bold">Todos</h1>
               <p className="text-sm text-muted-foreground">Small steps, no pressure.</p>
             </div>
 
-            <Button type="button" onClick={() => setIsAddDialogOpen(true)}>
-              <Plus />
+            <AppButton
+              icon={Plus}
+              className="flex-none"
+              onClick={() => setIsAddDialogOpen(true)}
+            >
               Add Todo
-            </Button>
+            </AppButton>
           </div>
         </CustomCard>
 
         <CustomCard>
-          <div className="mb-2 flex items-center justify-between">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-600">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-medium uppercase text-neutral-600">
               To Do
             </p>
 
@@ -187,10 +186,7 @@ function Todos() {
           </div>
 
           {isTodoOpen && (activeTodos.length === 0 ? (
-            <EmptyTodos
-              title="Nothing on your list"
-              subtitle="Add a small task to get started."
-            />
+            <EmptyTodos message="You're all caught up! Add a todo when you're ready." />
           ) : (
             <div
               className="flex flex-col overflow-y-auto"
@@ -199,7 +195,7 @@ function Todos() {
               {activeTodos.map((todo) => (
                 <div
                   key={todo.id}
-                  className="flex min-w-0 items-center gap-2 border-b py-2"
+                  className="flex min-w-0 items-center gap-3 border-b py-3 last:border-b-0"
                 >
                   <Tooltip>
                     <TooltipTrigger
@@ -273,8 +269,8 @@ function Todos() {
         </CustomCard>
 
         <CustomCard>
-          <div className="mb-2 flex items-center justify-between">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-600">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-medium uppercase text-neutral-600">
               Completed
             </p>
 
@@ -294,10 +290,7 @@ function Todos() {
           </div>
 
           {isCompletedOpen && (completedTodos.length === 0 ? (
-            <EmptyTodos
-              title="Nothing completed yet"
-              subtitle="Finished todos will show up here."
-            />
+            <EmptyTodos message="No completed todos yet." />
           ) : (
             <div
               className="flex flex-col overflow-y-auto"
@@ -306,7 +299,7 @@ function Todos() {
               {completedTodos.map((todo) => (
                 <div
                   key={todo.id}
-                  className="flex min-w-0 items-center gap-2 border-b py-2"
+                  className="flex min-w-0 items-center gap-3 border-b py-3 last:border-b-0"
                 >
                   <Tooltip>
                     <TooltipTrigger
