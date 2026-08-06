@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface BadgeFriend {
     id: string
@@ -9,20 +8,21 @@ export interface BadgeFriend {
 }
 
 export function useBadgeFriends(badgeKey: string, enabled: boolean) {
-    const { user } = useCurrentUser()
     const [friends, setFriends] = useState<BadgeFriend[]>([])
 
     useEffect(() => {
-        if (!enabled || !badgeKey || !user) return
+        if (!enabled || !badgeKey) return
 
-        const userId = user.id
         let cancelled = false
 
         async function fetchFriends() {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
             const { data: follows, error: followsError } = await supabase
                 .from('follows')
                 .select('following_id')
-                .eq('follower_id', userId)
+                .eq('follower_id', user.id)
                 .eq('status', 'accepted')
 
             if (followsError) {
@@ -77,7 +77,7 @@ export function useBadgeFriends(badgeKey: string, enabled: boolean) {
         return () => {
             cancelled = true
         }
-    }, [badgeKey, enabled, user])
+    }, [badgeKey, enabled])
 
     return friends
 }

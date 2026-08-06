@@ -11,7 +11,7 @@ const PREVIEW_LIMIT = 4
 
 function ConnectionsCard() {
   const navigate = useNavigate()
-  const { followers, following, isLoading } = useConnections()
+  const { followers, following } = useConnections()
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>('followers')
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -40,7 +40,6 @@ function ConnectionsCard() {
         <TabsContent value="following">
           <ConnectionsPreview
             profiles={following}
-            isLoading={isLoading}
             emptyHeading="Not following anyone yet"
             emptySubtitle="Find friends to follow."
             emptyAction={
@@ -54,7 +53,6 @@ function ConnectionsCard() {
         <TabsContent value="followers">
           <ConnectionsPreview
             profiles={followers}
-            isLoading={isLoading}
             emptyHeading="No followers yet"
             emptySubtitle="When someone follows you, they'll show up here."
           />
@@ -74,25 +72,15 @@ function ConnectionsCard() {
 
 function ConnectionsPreview({
   profiles,
-  isLoading,
   emptyHeading,
   emptySubtitle,
   emptyAction
 }: {
   profiles: ConnectionProfile[]
-  isLoading: boolean
   emptyHeading: string
   emptySubtitle: string
   emptyAction?: ReactNode
 }) {
-  if (isLoading) {
-    return (
-      <div className="h-48 flex items-center justify-center">
-        <p className="text-sm text-muted-foreground">Loading...</p>
-      </div>
-    )
-  }
-
   if (profiles.length === 0) {
     return (
       <div className="h-48 flex items-center justify-center">

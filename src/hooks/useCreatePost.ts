@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '@/lib/client'
 import { taskOptions } from '@/lib/taskOptions'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 interface CreatePostInput {
     boostMode: boolean
@@ -12,11 +11,12 @@ interface CreatePostInput {
 }
 
 export function useCreatePost() {
-    const { user } = useCurrentUser()
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     async function createPost({ boostMode, task, description, note, image }: CreatePostInput) {
         setIsSubmitting(true)
+
+        const { data: { user } } = await supabase.auth.getUser()
 
         if (!user) {
             setIsSubmitting(false)

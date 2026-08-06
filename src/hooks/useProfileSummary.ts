@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { ProfileSummaryCardProps } from '@/components/custom/Home/ProfileSummaryCard'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useProfileSummary() {
-    const { user } = useCurrentUser()
     const [summary, setSummary] = useState<ProfileSummaryCardProps | null>(null)
-    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (!user) return
-
-        const userId = user.id
-
         async function fetchSummary() {
-            setIsLoading(true)
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
 
             const [
                 { data: profile, error: profileError },
@@ -24,23 +18,22 @@ export function useProfileSummary() {
                 supabase
                     .from('profiles')
                     .select('first_name, last_name, initials, streak_count, tasks_completed')
-                    .eq('id', userId)
+                    .eq('id', user.id)
                     .single(),
                 supabase
                     .from('follows')
                     .select('*', { count: 'exact', head: true })
-                    .eq('following_id', userId)
+                    .eq('following_id', user.id)
                     .eq('status', 'accepted'),
                 supabase
                     .from('follows')
                     .select('*', { count: 'exact', head: true })
-                    .eq('follower_id', userId)
+                    .eq('follower_id', user.id)
                     .eq('status', 'accepted')
             ])
 
             if (profileError) {
                 console.error('Error fetching profile summary:', profileError)
-                setIsLoading(false)
                 return
             }
 
@@ -61,11 +54,10 @@ export function useProfileSummary() {
                 following: following ?? 0,
                 followers: followers ?? 0
             })
-            setIsLoading(false)
         }
 
         fetchSummary()
-    }, [user])
+    }, [])
 
-    return { summary, isLoading }
+    return summary
 }
