@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useAchievements(userId?: string) {
+    const { user } = useCurrentUser()
     const [achievements, setAchievements] = useState<Achievement[]>([])
     const [tasksCompleted, setTasksCompleted] = useState(0)
 
     useEffect(() => {
-        async function fetchBadges() {
-            const { data: { user } } = await supabase.auth.getUser()
-            const targetId = userId ?? user?.id
+        const targetId = userId ?? user?.id
+        if (!targetId) return
 
+        async function fetchBadges() {
             const [
                 { data: badges, error: badgesError },
                 { data: userBadges, error: userBadgesError },
@@ -20,19 +22,15 @@ export function useAchievements(userId?: string) {
                     .from('badges')
                     .select('key, label, emoji, description, task_threshold')
                     .order('task_threshold', { ascending: true }),
-                targetId
-                    ? supabase
-                        .from('user_badges')
-                        .select('badge_key, earned_at')
-                        .eq('user_id', targetId)
-                    : Promise.resolve({ data: [], error: null }),
-                targetId
-                    ? supabase
-                        .from('profiles')
-                        .select('tasks_completed')
-                        .eq('id', targetId)
-                        .single()
-                    : Promise.resolve({ data: null, error: null })
+                supabase
+                    .from('user_badges')
+                    .select('badge_key, earned_at')
+                    .eq('user_id', targetId),
+                supabase
+                    .from('profiles')
+                    .select('tasks_completed')
+                    .eq('id', targetId)
+                    .single()
             ])
 
             if (badgesError) {
@@ -59,7 +57,7 @@ export function useAchievements(userId?: string) {
         }
 
         fetchBadges()
-    }, [userId])
+    }, [userId, user])
 
     return { achievements, tasksCompleted }
 }

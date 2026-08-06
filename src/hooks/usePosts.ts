@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import { usePostsRefresh } from '@/hooks/usePostsRefresh'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface PostData {
     id: string
@@ -22,12 +23,18 @@ export interface PostData {
 export function usePosts(scope: 'feed' | 'own' | 'user' = 'feed', targetUserId?: string) {
 
     const [posts, setPosts] = useState<PostData[]>([])
+    const [isLoading, setIsLoading] = useState(true)
     const { version } = usePostsRefresh()
+    const { user } = useCurrentUser()
 
     useEffect(() => {
+        if (!user) return
+
+        const userId = user.id
+        let cancelled = false
+
         async function fetchPosts() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+            setIsLoading(true)
 
             let query = supabase
                 .from('posts')
@@ -38,15 +45,18 @@ export function usePosts(scope: 'feed' | 'own' | 'user' = 'feed', targetUserId?:
             // 'user' scopes to a specific profile (e.g. a public profile view)
             // 'feed' relies on the posts RLS policy (own, public, or followed) to decide visibility
             if (scope === 'own') {
-                query = query.eq('user_id', user.id)
+                query = query.eq('user_id', userId)
             } else if (scope === 'user' && targetUserId) {
                 query = query.eq('user_id', targetUserId)
             }
 
             const { data, error } = await query
 
+            if (cancelled) return
+
             if (error) {
                 console.error('Error fetching posts:', error)
+                setIsLoading(false)
                 return
             }
 
@@ -70,10 +80,15 @@ export function usePosts(scope: 'feed' | 'own' | 'user' = 'feed', targetUserId?:
                     createdAt: row.created_at,
                 }
             }))
+            setIsLoading(false)
         }
 
         fetchPosts()
-    }, [version, scope, targetUserId])
 
-    return posts
+        return () => {
+            cancelled = true
+        }
+    }, [version, scope, targetUserId, user])
+
+    return { posts, isLoading }
 }
