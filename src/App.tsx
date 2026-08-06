@@ -33,6 +33,7 @@ function App() {
         <Route element={<AppNav />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/reminders" element={<Reminders />} />
           <Route path="/find-friends" element={<FindFriends />} />
         </Route>

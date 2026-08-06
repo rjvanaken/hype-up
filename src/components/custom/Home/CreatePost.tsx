@@ -2,7 +2,7 @@ import FormSelectField from '@/components/custom/Shared/FormSelectField'
 import FormField from '@/components/custom/Shared/FormField'
 import AppButton from '@/components/custom/Shared/AppButton'
 import { LifeBuoy, PartyPopper } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ActionDialog from '../Shared/ActionDialog'
 import { cn } from '@/lib/utils'
 import { taskOptions } from '@/lib/taskOptions'
@@ -15,29 +15,56 @@ const generalOtherDescription = "Describe it";
 const generalPhotoLabel = "Add photos";
 
 
+export interface EditablePostData {
+  id: string
+  taskType: string
+  customTask?: string
+  postNote?: string
+}
+
 type CreatePostProps = {
   boostMode: boolean
   open: boolean
   onOpenChange: (open: boolean) => void
+  editingPost?: EditablePostData
 }
 
-function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
-  const { createPost, isSubmitting } = useCreatePost()
+function CreatePost({ boostMode, open, onOpenChange, editingPost }: CreatePostProps) {
+  const { createPost, updatePost, isSubmitting } = useCreatePost()
   const { triggerRefresh } = usePostsRefresh()
   const [task, setTask] = useState('')
   const [note, setNote] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState<File | null>(null)
 
-  const title = boostMode ? "Asking for a boost" : "What did you do?"
+  useEffect(() => {
+    if (!open) return
+
+    if (editingPost) {
+      const matchedOption = taskOptions.find((option) => option.label === editingPost.taskType)
+      setTask(matchedOption?.value ?? (editingPost.customTask ? 'other' : ''))
+      setNote(editingPost.postNote ?? '')
+      setDescription(editingPost.customTask ?? '')
+    } else {
+      setTask('')
+      setNote('')
+      setDescription('')
+    }
+
+    setImage(null)
+  }, [open, editingPost])
+
+  const title = editingPost ? "Edit post" : (boostMode ? "Asking for a boost" : "What did you do?")
   const taskLabel = boostMode ? "What do you need to do?" : "Task type"
   const noteLabel = boostMode ? "What's got you stuck?" : "Note"
   const notePlaceholder = boostMode ? "Ask for some encouragement..." : "How does it feel?"
   const photoSubtext = boostMode ? "optional, if it helps explain" : "optional proof of the deed"
-  const submitLabel = boostMode ? "Ask for hype" : "Post it"
+  const submitLabel = editingPost ? "Save changes" : (boostMode ? "Ask for hype" : "Post it")
 
   async function handleSubmit() {
-    const success = await createPost({ boostMode, task, description, note, image })
+    const success = editingPost
+      ? await updatePost(editingPost.id, { boostMode, task, description, note, image })
+      : await createPost({ boostMode, task, description, note, image })
 
     if (success) {
       setTask('')
@@ -81,6 +108,7 @@ function CreatePost({ boostMode, open, onOpenChange }: CreatePostProps) {
       }
     >
       <FormSelectField
+        value={task}
         onValueChange={(value) => setTask(value ?? '')}
         label={taskLabel}
         id="task"

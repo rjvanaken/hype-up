@@ -2,6 +2,7 @@ import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
 import SetReminderDialog, { type ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -179,18 +180,16 @@ function handleSaveReminder(reminder: ReminderDraft) {
       <div className="flex flex-col gap-3">
         {/* Card header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase text-neutral-600">
+          <h2 className="text-sm font-semibold uppercase text-neutral-600">
             Todos
           </h2>
 
-          <Button
-            type="button"
+          <AppButton
             variant="link"
-            className="h-auto p-0 text-xs"
             onClick={onViewAll}
           >
             See all
-          </Button>
+          </AppButton>
         </div>
 
         {/* Active todos */}
@@ -363,13 +362,13 @@ function handleSaveReminder(reminder: ReminderDraft) {
         )}
 
         {/* Add todo shortcut */}
-        <Button
-          type="button"
+        <AppButton
+          icon={Plus}
+          className="h-7 px-3 py-2"
           onClick={() => setIsAddDialogOpen(true)}
         >
-          <Plus />
           Add Todo
-        </Button>
+        </AppButton>
 
         {/* Add todo dialog */}
         <Dialog

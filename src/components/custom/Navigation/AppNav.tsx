@@ -14,9 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
 import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
-import AccountSettingsContent from "@/components/custom/Settings/AccountSettingsContent"
-import ProfileSettingsContent from "@/components/custom/Settings/ProfileSettingsContent"
-import RemindersSettingsContent from "@/components/custom/Settings/RemindersSettingsContent"
+import { settingsTabs } from "@/lib/settingsTabs"
 import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
@@ -44,14 +42,6 @@ function AppNavContent() {
     setBoostMode(selectedBoostMode)
     setCreatePostOpen(true)
   }
-
-  const settingsTabs = [
-    { key: 'account', label: 'Account', title: 'Account', description: 'Manage your login email and password', content: <AccountSettingsContent /> },
-    { key: 'profile', label: 'Profile', title: 'Profile', description: 'Customize how you appear to others', content: <ProfileSettingsContent /> },
-    { key: 'privacy', label: 'Privacy', title: 'Privacy', description: 'Control who can see your posts and activity', content: null },
-    { key: 'reminders', label: 'Reminders', title: 'Reminders', description: 'Manage default reminder behavior', content: <RemindersSettingsContent /> },
-    { key: 'alerts', label: 'Alerts', title: 'Alerts', description: 'Choose what you get notified about', content: null },
-  ]
 
   const navigate = useNavigate()
 
@@ -124,7 +114,7 @@ function AppNavContent() {
                 </span>
                 Home
               </NavLink>
-                            <NavLink to="/profile" className={navLinkClass}>
+                            <NavLink to="/profile" end className={navLinkClass}>
               <span className="flex items-center size-4.5">
                 <User/>
                 </span>

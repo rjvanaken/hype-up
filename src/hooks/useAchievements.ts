@@ -3,12 +3,15 @@ import { supabase } from '@/lib/client'
 import type { Achievement } from '@/components/custom/Achievements/AchievementsCard'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 
-export function useAchievements() {
+export function useAchievements(userId?: string) {
     const { user } = useCurrentUser()
     const [achievements, setAchievements] = useState<Achievement[]>([])
     const [tasksCompleted, setTasksCompleted] = useState(0)
 
     useEffect(() => {
+        const targetId = userId ?? user?.id
+        if (!targetId) return
+
         async function fetchBadges() {
             const [
                 { data: badges, error: badgesError },
@@ -19,19 +22,15 @@ export function useAchievements() {
                     .from('badges')
                     .select('key, label, emoji, description, task_threshold')
                     .order('task_threshold', { ascending: true }),
-                user
-                    ? supabase
-                        .from('user_badges')
-                        .select('badge_key')
-                        .eq('user_id', user.id)
-                    : Promise.resolve({ data: [], error: null }),
-                user
-                    ? supabase
-                        .from('profiles')
-                        .select('tasks_completed')
-                        .eq('id', user.id)
-                        .single()
-                    : Promise.resolve({ data: null, error: null })
+                supabase
+                    .from('user_badges')
+                    .select('badge_key, earned_at')
+                    .eq('user_id', targetId),
+                supabase
+                    .from('profiles')
+                    .select('tasks_completed')
+                    .eq('id', targetId)
+                    .single()
             ])
 
             if (badgesError) {
@@ -47,14 +46,18 @@ export function useAchievements() {
                 console.error('Error fetching profile:', profileError)
             }
 
-            const earnedKeys = new Set((userBadges ?? []).map((row) => row.badge_key))
+            const earnedAtByKey = new Map((userBadges ?? []).map((row) => [row.badge_key, row.earned_at]))
 
-            setAchievements(badges.map((badge) => ({ ...badge, unlocked: earnedKeys.has(badge.key) })))
+            setAchievements(badges.map((badge) => ({
+                ...badge,
+                unlocked: earnedAtByKey.has(badge.key),
+                earnedAt: earnedAtByKey.get(badge.key) ?? null
+            })))
             setTasksCompleted(profile?.tasks_completed ?? 0)
         }
 
         fetchBadges()
-    }, [user])
+    }, [userId, user])
 
     return { achievements, tasksCompleted }
 }
