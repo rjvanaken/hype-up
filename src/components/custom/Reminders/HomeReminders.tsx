@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import SetReminderDialog, { type ReminderDraft } from './SetReminderDialog'
 import type { Reminder } from '@/hooks/useReminders'
 
@@ -40,18 +40,13 @@ function HomeReminders({ reminders, onAddReminder }: HomeRemindersProps) {
     <CustomCard>
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium uppercase text-neutral-600">
+          <h2 className="text-sm font-semibold uppercase text-neutral-600">
             Reminders
           </h2>
 
-          <Button
-            type="button"
-            variant="link"
-            className="h-auto p-0 text-xs"
-            onClick={() => navigate('/reminders')}
-          >
+          <AppButton variant="link" onClick={() => navigate('/reminders')}>
             Manage
-          </Button>
+          </AppButton>
         </div>
 
         <div className="flex flex-col">
@@ -79,10 +74,13 @@ function HomeReminders({ reminders, onAddReminder }: HomeRemindersProps) {
           )}
         </div>
 
-        <Button type="button" onClick={() => setIsAddDialogOpen(true)}>
-          <Plus />
+        <AppButton
+          icon={Plus}
+          className="h-7 px-3 py-2"
+          onClick={() => setIsAddDialogOpen(true)}
+        >
           Add Reminder
-        </Button>
+        </AppButton>
 
         <SetReminderDialog
           open={isAddDialogOpen}

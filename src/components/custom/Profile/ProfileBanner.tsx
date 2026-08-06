@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import CustomCard from "../Shared/CustomCard"
 import { avatarColorMappings } from "@/lib/avatarColorMappings"
 import { AchievementItem, type Achievement } from "@/components/custom/Achievements/AchievementsCard"

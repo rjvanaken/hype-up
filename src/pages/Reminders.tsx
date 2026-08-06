@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import ReminderRow from '@/components/custom/Reminders/ReminderRow'
 import DeleteReminderDialog from '@/components/custom/Reminders/DeleteReminderDialog'
 import SetReminderDialog, {
@@ -44,19 +44,22 @@ function Reminders() {
       <TwoColumnLayout
         main={
           <>
-            <CustomCard className="mb-4">
+            <CustomCard>
               <div className="flex items-center justify-between gap-4">
-                <div>
+                <div className="flex flex-col gap-1">
                   <h1 className="text-xl font-bold">Reminders</h1>
                   <p className="text-sm text-muted-foreground">
                     Schedule nudges at times that work for you
                   </p>
                 </div>
 
-                <Button type="button" onClick={() => setIsAddDialogOpen(true)}>
-                  <Plus />
+                <AppButton
+                  className="flex-none"
+                  icon={Plus}
+                  onClick={() => setIsAddDialogOpen(true)}
+                >
                   Add Reminder
-                </Button>
+                </AppButton>
               </div>
             </CustomCard>
 
