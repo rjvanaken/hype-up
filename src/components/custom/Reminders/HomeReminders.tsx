@@ -65,12 +65,14 @@ function HomeReminders({ reminders, onAddReminder }: HomeRemindersProps) {
                 key={reminder.id}
                 className="flex min-w-0 items-center gap-2 border-b py-2"
               >
-                <span className="min-w-0 flex-1 break-words text-sm leading-5">
-                  {reminder.label}
+                <span className="size-1.5 shrink-0 rounded-full bg-primary" />
+
+                <span className="shrink-0 text-sm font-semibold">
+                  {formatTime(reminder.time)}
                 </span>
 
-                <span className="shrink-0 text-xs text-muted-foreground">
-                  {formatTime(reminder.time)}
+                <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+                  {reminder.label}
                 </span>
               </div>
             ))

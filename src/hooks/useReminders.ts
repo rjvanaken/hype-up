@@ -1,5 +1,3 @@
-// This file maps database columns to the Reminder type.
-
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 
