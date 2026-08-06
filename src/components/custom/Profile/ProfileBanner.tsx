@@ -70,7 +70,7 @@ function ProfileBanner({
             )}
             {onEditProfileClick && (
                 <AppButton
-                
+                variant="icon"
                 icon={Edit}
                     className="absolute top-3 right-3"
                     onClick={onEditProfileClick}
@@ -98,7 +98,7 @@ function ProfileBanner({
                 <p>{bio}</p>
             </div>
         </div>
-        <div className="flex flex-col gap-5 pb-3 justify-start pt-4 w-1/2">
+        <div className="flex flex-col gap-4 justify-start pt-4 w-1/2">
             <div className="flex justify-between">
                 <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">
                     Achievements
