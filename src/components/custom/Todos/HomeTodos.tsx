@@ -315,15 +315,13 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       render={
-                        <Button
+                        <AppButton
                           type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="size-7 shrink-0 text-muted-foreground"
+                          className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent shrink-0"
                           aria-label={`More options for ${todo.text}`}
                         >
-                          <EllipsisVertical className="size-4" />
-                        </Button>
+                          <EllipsisVertical className="text-secondary size-3.5" />
+                        </AppButton>
                       }
                     />
 

@@ -36,7 +36,7 @@ function ProfileSummaryCard({
           {firstName} {lastName}
         </p>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-sm font-medium text-neutral-600">
           <span role="img" aria-label="fire">🔥</span>  {streak}-week streak 
         </p>
       </div>  

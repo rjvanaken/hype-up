@@ -5,10 +5,11 @@ function AppButton({
   variant = 'default',
   icon: Icon,
   className,
+  iconOnly,
   children,
   ...props
 }: {
-  variant?: 'default' | 'outline' | 'alternate' | 'link' | 'link-alt'
+  variant?: 'default' | 'outline' | 'alternate' | 'link' | 'icon'
   icon?: LucideIcon
   className?: string
   children: React.ReactNode
@@ -23,13 +24,14 @@ function AppButton({
         variant === 'outline' && 'bg-transparent border-2 border-primary text-primary hover:bg-primary/20 active:bg-primary/30 active:text-cool-brand-700',
         variant === 'alternate' && 'bg-neutral-300 border-2 border-neutral-400 text-neutral-600 hover:bg-neutral-400/50 active:bg-neutral-400/80',
         variant === 'link' && 'text-xs font-semibold text-primary hover:underline cursor-pointer active:text-cool-brand-800',
-        
+        variant === 'icon' && 'bg-card h-6 w-6 rounded-full border-2 border-neutral-600',
+
         className
       )}
       {...props}
     >
       {Icon && <Icon className="size-4" />}
-      {children}
+      {iconOnly ? {} : {children}}
     </button>
   )
 }
