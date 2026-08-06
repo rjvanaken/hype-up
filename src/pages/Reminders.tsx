@@ -274,7 +274,7 @@ function Reminders() {
 
             <CustomCard>
               <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
-                Today
+                All Reminders
               </p>
 
               {reminders.length === 0 ? (
