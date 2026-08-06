@@ -1,5 +1,5 @@
 import { useState, useRef, type FormEvent } from 'react'
-import { Bell, EllipsisVertical, Pencil, Plus, Trash2 } from 'lucide-react'
+import { Bell, ChevronDown, ChevronUp, EllipsisVertical, Pencil, Plus, Trash2 } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import { Button } from '@/components/ui/button'
@@ -44,6 +44,9 @@ function Todos() {
 
   const [pendingCompletionIds, setPendingCompletionIds] = useState<Set<string>>(new Set())
   const completionTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
+
+  const [isTodoOpen, setIsTodoOpen] = useState(true)
+  const [isCompletedOpen, setIsCompletedOpen] = useState(true)
 
   const activeTodos = todos.filter((todo) => !todo.completed)
   const completedTodos = todos.filter((todo) => todo.completed)
@@ -164,11 +167,23 @@ function Todos() {
         </CustomCard>
 
         <CustomCard>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-600">
-            To Do
-          </p>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-600">
+              To Do
+            </p>
 
-          {activeTodos.length === 0 ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={isTodoOpen ? 'Collapse to do list' : 'Expand to do list'}
+              onClick={() => setIsTodoOpen((open) => !open)}
+            >
+              {isTodoOpen ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+            </Button>
+          </div>
+
+          {isTodoOpen && (activeTodos.length === 0 ? (
             <EmptyTodos
               title="Nothing on your list"
               subtitle="Add a small task to get started."
@@ -251,15 +266,31 @@ function Todos() {
                 </div>
               ))}
             </div>
-          )}
+          ))}
         </CustomCard>
 
         <CustomCard>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-600">
-            Completed
-          </p>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-600">
+              Completed
+            </p>
 
-          {completedTodos.length === 0 ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={isCompletedOpen ? 'Collapse completed list' : 'Expand completed list'}
+              onClick={() => setIsCompletedOpen((open) => !open)}
+            >
+              {isCompletedOpen ? (
+                <ChevronUp className="size-4" />
+              ) : (
+                <ChevronDown className="size-4" />
+              )}
+            </Button>
+          </div>
+
+          {isCompletedOpen && (completedTodos.length === 0 ? (
             <EmptyTodos
               title="Nothing completed yet"
               subtitle="Finished todos will show up here."
@@ -328,7 +359,7 @@ function Todos() {
                 </div>
               ))}
             </div>
-          )}
+          ))}
         </CustomCard>
       </div>
 
