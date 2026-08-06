@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
+import AppButton from '@/components/custom/Shared/AppButton'
 import AllAchievementsDialog from '@/components/custom/Achievements/AllAchievementsDialog'
 import { cn } from '@/lib/utils'
 
@@ -27,13 +28,12 @@ function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCard
     <CustomCard padding="">
       <div className="flex flex-1 items-center justify-between h-auto px-6">
         <p className="font-semibold text-sm text-neutral-600">ACHIEVEMENTS</p>
-        <button
-          type="button"
+        <AppButton
+          variant="link"
           onClick={() => setShowAll(true)}
-          className="text-xs font-medium text-primary hover:underline cursor-pointer"
         >
-          View all
-        </button>
+          See all
+        </AppButton>
       </div>
 
       <div className="grid grid-cols-3 gap-y-4 px-6">

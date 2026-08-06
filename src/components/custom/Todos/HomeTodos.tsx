@@ -1,6 +1,7 @@
 import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -165,14 +166,12 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
             Todos
           </h2>
 
-          <Button
-            type="button"
+          <AppButton
             variant="link"
-            className="h-auto p-0 text-xs"
             onClick={onViewAll}
           >
             See all
-          </Button>
+          </AppButton>
         </div>
 
         {/* Active todos */}
@@ -345,13 +344,13 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
         )}
 
         {/* Add todo shortcut */}
-        <Button
-          type="button"
+        <AppButton
+          icon={Plus}
+          className="h-7 px-3 py-2"
           onClick={() => setIsAddDialogOpen(true)}
         >
-          <Plus />
           Add Todo
-        </Button>
+        </AppButton>
 
         {/* Add todo dialog */}
         <Dialog
