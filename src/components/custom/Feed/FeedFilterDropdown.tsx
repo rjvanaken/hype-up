@@ -19,10 +19,10 @@ type DropdownProps = {
 
 export function Dropdown({ value, onValueChange }: DropdownProps) {
     const labels: Record<FeedFilter, string> = { all: "All", hypes: "I did the thing!", helps: "I need help!" }
-    const dropdownStyle = 'text-secondary text-xs';
+    const dropdownStyle = 'text-secondary text-xs cursor-pointer';
     const style = value === 'all'
-      ? 'rounded-full text-xs border-neutral-400 bg-background text-secondary font-regular hover:bg-neutral-200'
-      : 'rounded-full text-xs border-primary bg-neutral-100 text-primary font-regular hover:bg-neutral-200'
+      ? 'rounded-full text-xs cursor-pointer border-neutral-400 bg-background text-secondary font-regular hover:bg-neutral-200'
+      : 'rounded-full text-xs cursor-pointer border-primary bg-neutral-100 text-primary font-regular hover:bg-neutral-200'
 
   return (
     <DropdownMenu>
