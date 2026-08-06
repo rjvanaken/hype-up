@@ -18,7 +18,6 @@ function AvatarNameSubtitle ({
     subtitle,
     initials,
     avatarColor,
-    fullName = false
 
 }: AvatarNameSubtitleProps) {
 
