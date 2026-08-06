@@ -27,13 +27,13 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-success" element={<PasswordSuccess />} />
-        <Route path="/" element={<Reminders />} />
 
         {/* Main app - navigation applied */}
         <Route element={<AppNav />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/reminders" element={<Reminders />} />
           <Route path="/find-friends" element={<FindFriends />} />
           <Route path="/todos" element={<Todos />} />
         </Route>
