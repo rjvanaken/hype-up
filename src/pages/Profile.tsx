@@ -33,9 +33,9 @@ function Profile({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
                         }
                         rightColumn={isOwnProfile ? (
                             <>
-                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                 <ConnectionsCard />
-                                <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
+                                <CustomCard><p>Streak</p></CustomCard> {/*placeholder*/}
+                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                             </>
                         ) : undefined}>
                     </TwoColumnLayout>
