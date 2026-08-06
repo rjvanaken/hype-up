@@ -1,21 +1,35 @@
-import { useCallback, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '@/lib/client'
 
-export function useHypes() {
+interface HypesContextValue {
+    hypeIds: Set<string>
+    pendingIds: Set<string>
+    hype: (postId: string) => Promise<void>
+    unhype: (postId: string) => Promise<void>
+}
+
+const HypesContext = createContext<HypesContextValue | null>(null)
+
+export function HypesProvider({ children }: { children: ReactNode }) {
     const [currentUserId, setCurrentUserId] = useState<string | null>(null)
     const [hypeIds, setHypeIds] = useState<Set<string>>(new Set())
     const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
 
     useEffect(() => {
+        let cancelled = false
+
         async function loadHypes() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
+            if (cancelled) return
             setCurrentUserId(user.id)
 
             const { data, error } = await supabase
                 .from('likes')
                 .select('post_id')
                 .eq('user_id', user.id)
+
+            if (cancelled) return
 
             if (error) {
                 console.error('Error fetching hype ids:', error)
@@ -26,6 +40,10 @@ export function useHypes() {
         }
 
         loadHypes()
+
+        return () => {
+            cancelled = true
+        }
     }, [])
 
     const hype = useCallback(async (postId: string) => {
@@ -80,5 +98,17 @@ export function useHypes() {
         })
     }, [currentUserId])
 
-    return { hypeIds, pendingIds, hype, unhype }
+    return (
+        <HypesContext.Provider value={{ hypeIds, pendingIds, hype, unhype }}>
+            {children}
+        </HypesContext.Provider>
+    )
+}
+
+export function useHypes() {
+    const context = useContext(HypesContext)
+    if (!context) {
+        throw new Error('useHypes must be used within a HypesProvider')
+    }
+    return context
 }

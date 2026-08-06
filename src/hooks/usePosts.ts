@@ -25,6 +25,8 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
     const { version } = usePostsRefresh()
 
     useEffect(() => {
+        let cancelled = false
+
         async function fetchPosts() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
@@ -41,6 +43,8 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
             }
 
             const { data, error } = await query
+
+            if (cancelled) return
 
             if (error) {
                 console.error('Error fetching posts:', error)
@@ -70,7 +74,11 @@ export function usePosts(scope: 'feed' | 'own' = 'feed') {
         }
 
         fetchPosts()
-    }, [version])
+
+        return () => {
+            cancelled = true
+        }
+    }, [version, scope])
 
     return posts
 }
