@@ -5,7 +5,7 @@ import NextAchievementCard from '@/components/custom/Achievements/NextAchievemen
 import FeedBox from '@/components/custom/Feed/FeedBox'
 import ConnectionsCard from '@/components/custom/Profile/ConnectionsCard'
 import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
-import { useAchievements } from '@/hooks/use-Achievements'
+import { useAchievements } from '@/hooks/useAchievements'
 import { usePosts } from '@/hooks/usePosts'
 import { useProfile } from '@/hooks/useProfile'
 
