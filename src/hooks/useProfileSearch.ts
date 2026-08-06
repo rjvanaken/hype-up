@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export interface SearchedProfile {
     id: string
@@ -13,6 +14,7 @@ export interface SearchedProfile {
 const SEARCH_DEBOUNCE_MS = 300
 
 export function useProfileSearch(searchTerm: string) {
+    const { user } = useCurrentUser()
     const [results, setResults] = useState<SearchedProfile[]>([])
     const [loading, setLoading] = useState(false)
 
@@ -24,8 +26,6 @@ export function useProfileSearch(searchTerm: string) {
         setLoading(true)
 
         async function search() {
-            const { data: { user } } = await supabase.auth.getUser()
-
             let query = supabase
                 .from('profiles')
                 .select('id, first_name, last_name, initials, avatar_color, streak_count')
@@ -65,7 +65,7 @@ export function useProfileSearch(searchTerm: string) {
             cancelled = true
             clearTimeout(timeout)
         }
-    }, [searchTerm])
+    }, [searchTerm, user])
 
     return { results, loading }
 }

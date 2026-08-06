@@ -11,7 +11,7 @@ import ConnectionsCard from '@/components/custom/Profile/ConnectionsCard'
 import ProfileBanner from '@/components/custom/Profile/ProfileBanner'
 import { useAchievements } from '@/hooks/use-Achievements'
 import { usePosts } from '@/hooks/usePosts'
-import { useProfile } from '@/hooks/useProfile'
+import { usePublicProfile } from '@/hooks/usePublicProfile'
 import { useFollowStatus } from '@/hooks/useFollowStatus'
 import { settingsTabs } from '@/lib/settingsTabs'
 
@@ -20,8 +20,8 @@ function Profile() {
     const navigate = useNavigate()
     const [editProfileOpen, setEditProfileOpen] = useState(false)
     const { achievements, tasksCompleted } = useAchievements(userId)
-    const posts = usePosts(userId ? 'user' : 'own', userId)
-    const profile = useProfile(userId)
+    const { posts, isLoading: postsLoading } = usePosts(userId ? 'user' : 'own', userId)
+    const profile = usePublicProfile(userId)
     const { isFollowing, toggleFollow, pending } = useFollowStatus(userId)
 
     if (!profile) {
@@ -58,7 +58,7 @@ function Profile() {
                                     onEditProfileClick={isOwnProfile ? () => setEditProfileOpen(true) : undefined}
                                     streak={streakCount}
                                 ></ProfileBanner>
-                                <FeedBox title='POSTS' posts={posts}></FeedBox>
+                                <FeedBox title='POSTS' posts={posts} isLoading={postsLoading}></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (

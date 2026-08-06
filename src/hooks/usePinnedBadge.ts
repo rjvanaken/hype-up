@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function usePinnedBadge() {
+    const { user } = useCurrentUser()
     const [pinnedBadgeKey, setPinnedBadgeKey] = useState<string | null>(null)
 
     useEffect(() => {
-        async function fetchPinned() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+        if (!user) return
 
+        const userId = user.id
+
+        async function fetchPinned() {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('pinned_badge_key')
-                .eq('id', user.id)
+                .eq('id', userId)
                 .single()
 
             if (error) {
@@ -24,10 +27,9 @@ export function usePinnedBadge() {
         }
 
         fetchPinned()
-    }, [])
+    }, [user])
 
     async function setPinned(key: string | null) {
-        const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
         const { error } = await supabase

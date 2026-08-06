@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { CurrentUserProvider } from '@/hooks/useCurrentUser'
 import Onboarding from '@/pages/Onboarding'
 import OnboardingStep2 from '@/pages/OnboardingStep2'
 import Login from '@/pages/Login'
@@ -16,6 +17,7 @@ import FindFriends from './pages/FindFriends'
 function App() {
   return (
     <BrowserRouter>
+      <CurrentUserProvider>
       <Routes>
         {/* Onboarding and Login - no navigation */}
         <Route path="/" element={<Onboarding />} />
@@ -36,6 +38,7 @@ function App() {
           <Route path="/find-friends" element={<FindFriends />} />
         </Route>
       </Routes>
+      </CurrentUserProvider>
     </BrowserRouter>
   )
 }

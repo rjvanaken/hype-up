@@ -19,14 +19,15 @@ import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
 import { supabase } from '@/lib/client'
-import { useProfile } from "@/hooks/useProfile"
+import { ProfileProvider, useProfile } from "@/hooks/useProfile"
+import { HypesProvider } from "@/hooks/useHypes"
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `nav-link w-full text-left text-neutral-200 font-regular text-sm rounded-sm hover:text-neutral-100 hover:bg-dark-hover ${
     isActive ? "bg-dark-hover text-neutral-100 font-medium" : ""
   }`
 
-function AppNav() {
+function AppNavContent() {
   const unreadCount = 3 // wire this to real notification state later
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -57,7 +58,6 @@ function AppNav() {
   }
 
   return (
-    <PostsRefreshProvider>
     <div className="app-shell flex-col z-200">
       <SidebarHeader className="sidebar-header text-white bg-secondary flex-row items-center justify-between">
               <div>
@@ -182,10 +182,19 @@ function AppNav() {
       <CreatePost boostMode={boostMode} open={createPostOpen} onOpenChange={setCreatePostOpen} />
       <FAB onSelect={handleFabSelect} />
     </div>
-    </PostsRefreshProvider>
   )
 }
 
-
+function AppNav() {
+  return (
+    <PostsRefreshProvider>
+      <ProfileProvider>
+        <HypesProvider>
+          <AppNavContent />
+        </HypesProvider>
+      </ProfileProvider>
+    </PostsRefreshProvider>
+  )
+}
 
 export default AppNav

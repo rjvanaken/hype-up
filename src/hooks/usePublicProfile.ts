@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
-export interface Profile {
+export interface PublicProfile {
     userId: string
     firstName: string
     lastName: string
@@ -13,21 +14,24 @@ export interface Profile {
     isOwnProfile: boolean
 }
 
-export function useProfile(userId?: string) {
-    const [profile, setProfile] = useState<Profile | null>(null)
+export function usePublicProfile(userId?: string) {
+    const { user } = useCurrentUser()
+    const [profile, setProfile] = useState<PublicProfile | null>(null)
 
     useEffect(() => {
+        if (!user) return
+
+        const targetId = userId ?? user.id
+        let cancelled = false
+
         async function fetchProfile() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
-
-            const targetId = userId ?? user.id
-
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, first_name, last_name, initials, avatar_color, streak_count, location, bio')
                 .eq('id', targetId)
                 .single()
+
+            if (cancelled) return
 
             if (error) {
                 console.error('Error fetching profile:', error)
@@ -35,7 +39,7 @@ export function useProfile(userId?: string) {
             }
 
             setProfile({
-                userId: user.id,
+                userId: targetId,
                 firstName: data.first_name,
                 lastName: data.last_name,
                 initials: data.initials ?? '?',
@@ -48,7 +52,11 @@ export function useProfile(userId?: string) {
         }
 
         fetchProfile()
-    }, [userId])
+
+        return () => {
+            cancelled = true
+        }
+    }, [userId, user])
 
     return profile
 }
