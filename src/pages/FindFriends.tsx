@@ -19,10 +19,13 @@ function FindFriends() {
             <TwoColumnLayout
                 main={
                     <>
-                        <CustomCard className="mb-4">
-                            <h1 className="text-xl font-semibold text-secondary">Find Friends</h1>
-                            <p className="text-sm text-muted-foreground mb-4">Search for people to follow and hype</p>
+                        <CustomCard>
+                            <div className="flex flex-col gap-1">
+                                <h1 className="text-xl font-bold">Find Friends</h1>
+                                <p className="text-sm text-muted-foreground">Search for people to follow and hype</p>
+                            </div>
                             <Input
+                                className="mt-4"
                                 placeholder="Search by name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
