@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,6 +22,8 @@ function ConnectionsModal({
   following,
   defaultTab = 'followers'
 }: ConnectionsModalProps) {
+  const [activeTab, setActiveTab] = useState<'followers' | 'following'>(defaultTab)
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogPortal>
@@ -34,26 +36,41 @@ function ConnectionsModal({
           )}
         >
           <div className="flex items-start justify-between mb-4">
-            <p className="text-lg font-bold text-secondary">Connections</p>
+            <p className="text-lg font-bold text-secondary">Friends</p>
             <DialogPrimitive.Close className="cursor-pointer">
               <XIcon className="size-5" />
               <span className="sr-only">Close</span>
             </DialogPrimitive.Close>
           </div>
 
-          <Tabs defaultValue={defaultTab}>
-            <TabsList className="w-full">
-              <TabsTrigger value="following">Following ({following.length})</TabsTrigger>
-              <TabsTrigger value="followers">Followers ({followers.length})</TabsTrigger>
-            </TabsList>
+          <div className="flex w-full rounded-xl bg-primary/8 p-1.5 mb-4">
+            <button
+              type="button"
+              onClick={() => setActiveTab('followers')}
+              className={cn(
+                'flex-1 rounded-lg py-2 text-sm font-bold transition-colors cursor-pointer',
+                activeTab === 'followers' ? 'bg-card text-primary shadow-sm' : 'text-secondary'
+              )}
+            >
+              Followers &middot; {followers.length}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('following')}
+              className={cn(
+                'flex-1 rounded-lg py-2 text-sm font-bold transition-colors cursor-pointer',
+                activeTab === 'following' ? 'bg-card text-primary shadow-sm' : 'text-secondary'
+              )}
+            >
+              Following &middot; {following.length}
+            </button>
+          </div>
 
-            <TabsContent value="following">
-              <ConnectionsList profiles={following} emptyLabel="Not following anyone yet." />
-            </TabsContent>
-            <TabsContent value="followers">
-              <ConnectionsList profiles={followers} emptyLabel="No followers yet." />
-            </TabsContent>
-          </Tabs>
+          {activeTab === 'following' ? (
+            <ConnectionsList profiles={following} emptyLabel="Not following anyone yet." />
+          ) : (
+            <ConnectionsList profiles={followers} emptyLabel="No followers yet." />
+          )}
         </DialogPrimitive.Popup>
       </DialogPortal>
     </Dialog>

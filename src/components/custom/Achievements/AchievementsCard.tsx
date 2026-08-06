@@ -58,13 +58,13 @@ export function AchievementItem({ label, emoji, unlocked = true }: Achievement) 
     <div className="flex flex-col items-center gap-1.5 text-center">
       <div
         className={cn(
-          'flex items-center justify-center size-12 rounded-full bg-accent text-xl',
+          'flex items-center justify-center size-12 rounded-2xl border-2 border-primary/25 bg-primary/10 text-xl',
           !unlocked && 'opacity-40'
         )}
       >
         <span role="img" aria-label={label}>{emoji}</span>
       </div>
-      <span className="text-xxs text-muted-foreground leading-tight">{label}</span>
+      <span className="text-xs font-bold text-foreground leading-tight">{label}</span>
     </div>
   )
 }

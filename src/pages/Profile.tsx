@@ -14,6 +14,8 @@ import { usePosts } from '@/hooks/usePosts'
 import { usePublicProfile } from '@/hooks/usePublicProfile'
 import { useFollowStatus } from '@/hooks/useFollowStatus'
 import { settingsTabs } from '@/lib/settingsTabs'
+import AppButton from '@/components/custom/Shared/AppButton'
+import { ArrowLeft } from 'lucide-react'
 
 function Profile() {
     const { userId } = useParams<{ userId?: string }>()
@@ -39,9 +41,13 @@ function Profile() {
                         main={
                             <>
                                 {!isOwnProfile && (
-                                    <Button onClick={() => navigate(-1)}>
+                                    <AppButton
+                                    className='text-secondary gap-1 justify-start items-center w-auto -mb-2'
+                                    icon={ArrowLeft}
+                                    variant='link'
+                                    onClick={() => navigate(-1)}>
                                         Back
-                                    </Button>
+                                    </AppButton>
                                 )}
                                 <ProfileBanner
                                     firstname={firstName}

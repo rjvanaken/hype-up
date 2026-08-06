@@ -1,5 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
+import SetReminderDialog, { type ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import AppButton from '@/components/custom/Shared/AppButton'
 import { Button } from '@/components/ui/button'
@@ -30,7 +31,7 @@ type TodoCardProps = {
   onAddTodo?: (text: string) => void
   onEditTodo?: (id: string, text: string) => void
   onDeleteTodo?: (id: string) => void
-  onSetReminder?: (todo: Todo) => void
+  onSetReminder?: (todo: Todo, reminder: ReminderDraft) => void
   onViewAll?: () => void
   onToggleTodo?: (id: string) => void
 }
@@ -62,6 +63,8 @@ function HomeTodos({
 
   const [todoToEdit, setTodoToEdit] = useState<Todo | null>(null)
   const [editedTodoText, setEditedTodoText] = useState('')
+
+  const [todoForReminder, setTodoForReminder] = useState<Todo | null>(null)
 
   function handleAddTodo(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -157,6 +160,21 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
   setEditedTodoText('')
 }
 
+function handleReminderDialogOpenChange(isOpen: boolean) {
+  if (!isOpen) {
+    setTodoForReminder(null)
+  }
+}
+
+function handleSaveReminder(reminder: ReminderDraft) {
+  if (!todoForReminder) {
+    return
+  }
+
+  onSetReminder?.(todoForReminder, reminder)
+  setTodoForReminder(null)
+}
+
   return (
     <CustomCard>
       <div className="flex flex-col gap-3">
@@ -244,7 +262,7 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
 
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
-                      onClick={() => onSetReminder?.(todo)}
+                      onClick={() => setTodoForReminder(todo)}
                     >
                       <Bell className="size-4" />
                       Set Reminder
@@ -315,15 +333,13 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       render={
-                        <Button
+                        <AppButton
                           type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="size-7 shrink-0 text-muted-foreground"
+                          className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent shrink-0"
                           aria-label={`More options for ${todo.text}`}
                         >
-                          <EllipsisVertical className="size-4" />
-                        </Button>
+                          <EllipsisVertical className="text-secondary size-3.5" />
+                        </AppButton>
                       }
                     />
 
@@ -508,6 +524,14 @@ function handleEditTodo(event: FormEvent<HTMLFormElement>) {
         </form>
       </DialogContent>
     </Dialog>
+
+        {/* Set reminder dialog */}
+        <SetReminderDialog
+          open={todoForReminder !== null}
+          initialLabel={todoForReminder?.text}
+          onOpenChange={handleReminderDialogOpenChange}
+          onSave={handleSaveReminder}
+        />
       </div>
     </CustomCard>
   )
