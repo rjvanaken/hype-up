@@ -64,5 +64,69 @@ export function useCreatePost() {
         return true
     }
 
-    return { createPost, isSubmitting }
+    async function updatePost(postId: string, { boostMode, task, description, note, image }: CreatePostInput) {
+        setIsSubmitting(true)
+
+        if (!user) {
+            setIsSubmitting(false)
+            return false
+        }
+
+        const taskType = task === 'other'
+            ? 'Other'
+            : taskOptions.find((option) => option.value === task)?.label ?? task
+
+        const updates: {
+            post_type: 'ask' | 'share'
+            task_type: string
+            custom_task: string | null
+            note: string | null
+            image_url?: string
+        } = {
+            post_type: boostMode ? 'ask' : 'share',
+            task_type: taskType,
+            custom_task: task === 'other' ? description : null,
+            note: note || null,
+        }
+
+        if (image) {
+            const path = `${user.id}/${Date.now()}-${image.name}`
+
+            const { error: uploadError } = await supabase.storage
+                .from('post_images')
+                .upload(path, image)
+
+            if (uploadError) {
+                console.error('Error uploading image:', uploadError)
+                setIsSubmitting(false)
+                return false
+            }
+
+            updates.image_url = supabase.storage.from('post_images').getPublicUrl(path).data.publicUrl
+        }
+
+        const { error } = await supabase.from('posts').update(updates).eq('id', postId)
+
+        setIsSubmitting(false)
+
+        if (error) {
+            console.error('Error updating post:', error)
+            return false
+        }
+
+        return true
+    }
+
+    async function deletePost(postId: string) {
+        const { error } = await supabase.from('posts').delete().eq('id', postId)
+
+        if (error) {
+            console.error('Error deleting post:', error)
+            return false
+        }
+
+        return true
+    }
+
+    return { createPost, updatePost, deletePost, isSubmitting }
 }

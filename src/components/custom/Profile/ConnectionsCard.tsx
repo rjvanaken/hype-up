@@ -2,6 +2,7 @@ import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import CustomCard from '@/components/custom/Shared/CustomCard'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Button } from '@/components/ui/button'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import ConnectionsModal from '@/components/custom/Profile/ConnectionsModal'
@@ -18,14 +19,13 @@ function ConnectionsCard() {
   return (
     <CustomCard>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-xs font-bold uppercase tracking-wide text-secondary">Connections</p>
-        <button
-          type="button"
+        <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">Connections</p>
+        <AppButton
+          variant="link"
           onClick={() => setModalOpen(true)}
-          className="text-xs font-semibold text-primary hover:underline cursor-pointer"
         >
           See all
-        </button>
+        </AppButton>
       </div>
 
       <Tabs

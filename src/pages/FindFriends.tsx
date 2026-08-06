@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import { useProfileSearch } from '@/hooks/useProfileSearch'
 import { useFollowActions } from '@/hooks/useFollowActions'
+import FollowButton from '@/components/custom/Shared/FollowButton'
 
 function FindFriends() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -56,13 +57,13 @@ function FindFriends() {
                                                     avatarColor={profile.avatarColor}
                                                     fullName
                                                 />
-                                                <Button
-                                                    variant={isFollowing ? 'outline' : 'default'}
+                                                <FollowButton
+                                                    variant={isFollowing ? 'unfollow' : 'follow'}
                                                     disabled={isPending}
                                                     onClick={() => (isFollowing ? unfollow(profile.id) : follow(profile.id))}
                                                 >
                                                     {isFollowing ? 'Unfollow' : 'Follow'}
-                                                </Button>
+                                                </FollowButton>
                                             </div>
                                             {index < results.length - 1 && <Separator />}
                                         </div>

@@ -14,6 +14,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useHypes } from "@/hooks/useHypes";
+import { useCreatePost } from "@/hooks/useCreatePost";
+import { usePostsRefresh } from "@/hooks/usePostsRefresh";
+import CreatePost from "@/components/custom/Home/CreatePost";
 
 
 interface postProps {
@@ -61,6 +64,10 @@ function Post({
     const isHyping = hypeIds.has(postId)
     const isPending = pendingIds.has(postId)
     const [displayedLikeCount, setDisplayedLikeCount] = useState(likeCount)
+    const { deletePost } = useCreatePost()
+    const { triggerRefresh } = usePostsRefresh()
+    const [editOpen, setEditOpen] = useState(false)
+    const isOwnPost = userId === profile?.userId
 
 
     async function handleAddComment(event: FormEvent<HTMLFormElement>) {
@@ -95,6 +102,13 @@ function Post({
         }
     }
 
+    async function handleDeletePost() {
+        const success = await deletePost(postId)
+        if (success) {
+            triggerRefresh()
+        }
+    }
+
 
     return (
     <div>
@@ -105,9 +119,27 @@ function Post({
                 <div className='flex flex-col gap-2.5'>
                 <div className="flex flex-row flex-1">
                 <AvatarNameSubtitle user_id={userId} firstname={firstname} lastname={lastname} subtitle={subtitle} initials={initials} avatarColor={avatarColor}></AvatarNameSubtitle>
-                <AppButton className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent">
-                <MoreHorizontal className="text-secondary size-3.5"/>
-                </AppButton>
+                {isOwnPost && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            render={
+                                <AppButton className="p-0 h-auto bg-transparent hover:bg-transparent active:bg-transparent">
+                                    <MoreHorizontal className="text-secondary size-3.5"/>
+                                </AppButton>
+                            }
+                        />
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => setEditOpen(true)}>
+                                <Pencil className="size-3.5" />
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem variant="destructive" onClick={handleDeletePost}>
+                                <Trash2 className="size-3.5" />
+                                Delete
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
                 </div>
 
                 <div>
@@ -231,7 +263,15 @@ function Post({
                 }
 </div>
                 <Separator className="mt-4"></Separator>
+                {isOwnPost && (
+                    <CreatePost
+                        boostMode={postType === 'ask'}
+                        open={editOpen}
+                        onOpenChange={setEditOpen}
+                        editingPost={{ id: postId, taskType, customTask, postNote }}
+                    />
+                )}
 </div>
-    )    
+    )
     }
 export default Post

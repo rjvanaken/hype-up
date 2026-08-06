@@ -26,7 +26,7 @@ function FeedBox({ title = "title", posts, isLoading = false }: FeedProps) {
     return (
         <CustomCard className='px-0 pt-6 pb-0'>
             <div className='flex flex-1 justify-between h-auto px-6'>
-                <p className='font-medium text-md text-neutral-600 '>{title}</p>
+                <p className='font-semibold text-sm text-neutral-600 '>{title}</p>
                 <Dropdown value={filter} onValueChange={setFilter} />
             </div>
             <Separator />
