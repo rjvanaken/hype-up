@@ -109,10 +109,75 @@ export function useReminders() {
     ])
   }
 
+  async function updateReminder(
+    id: string,
+    updates: Partial<{
+      label: string
+      time: string
+      days: boolean[]
+      enabled: boolean
+    }>
+  ) {
+    setError(null)
+
+    const { data, error: updateError } = await supabase
+      .from('reminders')
+      .update(updates)
+      .eq('id', id)
+      .select('id, label, time, days, enabled')
+      .single()
+
+    if (updateError) {
+      console.error('Unable to update reminder:', updateError)
+      setError('Unable to update reminder.')
+      return
+    }
+
+    const updatedReminder = mapReminder(data as ReminderRow)
+
+    setReminders((currentReminders) =>
+      currentReminders.map((reminder) =>
+        reminder.id === id ? updatedReminder : reminder
+      )
+    )
+  }
+
+  async function toggleReminder(id: string) {
+    const selectedReminder = reminders.find((reminder) => reminder.id === id)
+
+    if (!selectedReminder) {
+      return
+    }
+
+    await updateReminder(id, { enabled: !selectedReminder.enabled })
+  }
+
+  async function deleteReminder(id: string) {
+    setError(null)
+
+    const { error: deleteError } = await supabase
+      .from('reminders')
+      .delete()
+      .eq('id', id)
+
+    if (deleteError) {
+      console.error('Unable to delete reminder:', deleteError)
+      setError('Unable to delete reminder.')
+      return
+    }
+
+    setReminders((currentReminders) =>
+      currentReminders.filter((reminder) => reminder.id !== id)
+    )
+  }
+
   return {
     reminders,
     isLoading,
     error,
     addReminder,
+    updateReminder,
+    toggleReminder,
+    deleteReminder,
   }
 }
