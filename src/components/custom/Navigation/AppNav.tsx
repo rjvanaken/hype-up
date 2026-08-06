@@ -18,6 +18,7 @@ import { settingsTabs } from "@/lib/settingsTabs"
 import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
+import { RemindersRefreshProvider } from "@/hooks/useRemindersRefresh"
 import { supabase } from '@/lib/client'
 import { ProfileProvider, useProfile } from "@/hooks/useProfile"
 import { HypesProvider } from "@/hooks/useHypes"
@@ -188,11 +189,13 @@ function AppNavContent() {
 function AppNav() {
   return (
     <PostsRefreshProvider>
-      <ProfileProvider>
-        <HypesProvider>
-          <AppNavContent />
-        </HypesProvider>
-      </ProfileProvider>
+      <RemindersRefreshProvider>
+        <ProfileProvider>
+          <HypesProvider>
+            <AppNavContent />
+          </HypesProvider>
+        </ProfileProvider>
+      </RemindersRefreshProvider>
     </PostsRefreshProvider>
   )
 }
