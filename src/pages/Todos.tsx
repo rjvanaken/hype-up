@@ -2,6 +2,7 @@ import { useState, useRef, type FormEvent } from 'react'
 import { Bell, ChevronDown, ChevronUp, EllipsisVertical, Pencil, Plus, Trash2 } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
+import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -150,8 +151,10 @@ function Todos() {
   }
 
   return (
-    <PageLayout maxWidth={620}>
-      <div className="flex flex-col gap-4">
+    <PageLayout maxWidth={1000}>
+      <TwoColumnLayout
+        main={
+          <>
         <CustomCard>
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -361,7 +364,9 @@ function Todos() {
             </div>
           ))}
         </CustomCard>
-      </div>
+          </>
+        }
+      />
 
       {/* Add todo dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={handleDialogOpenChange}>
