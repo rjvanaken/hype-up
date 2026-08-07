@@ -2,7 +2,7 @@ import { useState } from 'react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
-import { Input } from '@/components/ui/input'
+import FormField from '@/components/custom/Shared/FormField'
 import { Separator } from '@/components/ui/separator'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import { useProfileSearch } from '@/hooks/useProfileSearch'
@@ -24,8 +24,10 @@ function FindFriends() {
                                 <h1 className="text-xl font-bold">Find Friends</h1>
                                 <p className="text-sm text-muted-foreground">Search for people to follow and hype</p>
                             </div>
-                            <Input
-                                className="mt-4"
+                            <FormField
+                                className="mt-4 border-1 placeholder:text-sm"
+                                id="find-friends-search"
+                                aria-label="Search by name"
                                 placeholder="Search by name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
