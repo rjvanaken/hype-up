@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { Separator } from '@/components/ui/separator'
@@ -23,6 +23,12 @@ function ConnectionsModal({
   defaultTab = 'followers'
 }: ConnectionsModalProps) {
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>(defaultTab)
+
+  useEffect(() => {
+    if (open) {
+      setActiveTab(defaultTab)
+    }
+  }, [open, defaultTab])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
