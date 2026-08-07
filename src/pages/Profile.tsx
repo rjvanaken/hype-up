@@ -16,6 +16,7 @@ import { useFollowStatus } from '@/hooks/useFollowStatus'
 import { settingsTabs } from '@/lib/settingsTabs'
 import AppButton from '@/components/custom/Shared/AppButton'
 import { ArrowLeft } from 'lucide-react'
+import StreakCard from '@/components/custom/Profile/StreakCard'
 
 function Profile() {
     const { userId } = useParams<{ userId?: string }>()
@@ -69,9 +70,9 @@ function Profile() {
                         }
                         rightColumn={isOwnProfile ? (
                             <>
-                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                 <ConnectionsCard />
-                                <CustomCard><p>ProfileDetails</p></CustomCard> {/*placeholder*/}
+                                <StreakCard streak={streakCount}></StreakCard>
+                                <NextAchievementCard achievements={achievements} tasksCompleted={tasksCompleted} />
                             </>
                         ) : undefined}>
                     </TwoColumnLayout>
