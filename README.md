@@ -2,7 +2,22 @@
 
 A social accountability app for tracking tasks, streaks, and hyping each other up.
 
-## Getting Started
+## System Overview
+
+HypeUp is a web application that runs on React and is backed by Supabase servers. Users can create/complete todos, 
+schedule reminders, maintain streaks, unlock achievements, and follow other users to view updates in a Strava-like 
+feed. More importantly, they are able write posts to ask for help or to show off accomplishments to address the 
+challenges of starting tasks when motivation is low. HypeUp is designed to turn personal progress into a shared 
+and encouraging experiencing where users can celebrate completed tasks and hype each other up!
+
+## Prerequisites and Dependencies
+
+Software:
+- Git
+- Node.js + npm
+- Browsers like Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari
+
+## Setup and Execution Instructions
 
 Follow these steps to get the project running on your machine.
 
@@ -73,6 +88,12 @@ VITE ready in ... ms
 ```
 
 Open that URL in your browser to confirm everything's working.
+
+## Test Credentials
+
+Please use the following demo account to explore the app:
+Email: jordan@hypeup.test
+Password: hypeup123
 
 ## Tech Stack
 
