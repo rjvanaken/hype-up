@@ -4,7 +4,6 @@ import { Dialog, DialogPortal, DialogOverlay } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import FormField from './FormField'
 
 export type SettingsTab = {
   key: string

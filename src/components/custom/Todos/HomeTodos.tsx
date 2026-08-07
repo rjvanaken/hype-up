@@ -1,23 +1,13 @@
-import { useState, useRef, type FormEvent } from 'react'
+import { useState, useRef } from 'react'
 import { Bell, Check, EllipsisVertical, Pencil, Plus, Trash2, } from 'lucide-react'
 import SetReminderDialog, { type ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import AppButton from '@/components/custom/Shared/AppButton'
+import ActionDialog from '@/components/custom/Shared/ActionDialog'
+import FormField from '@/components/custom/Shared/FormField'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Input } from '@/components/ui/input'
 import { Tooltip, TooltipContent, TooltipTrigger, } from '@/components/ui/tooltip'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export type Todo = {
@@ -66,9 +56,7 @@ function HomeTodos({
 
   const [todoForReminder, setTodoForReminder] = useState<Todo | null>(null)
 
-  function handleAddTodo(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleAddTodo() {
     const trimmedText = newTodoText.trim()
 
     if (!trimmedText) {
@@ -146,9 +134,7 @@ function handleEditDialogOpenChange(open: boolean) {
   }
 }
 
-function handleEditTodo(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault()
-
+function handleEditTodo() {
   const trimmedText = editedTodoText.trim()
 
   if (!todoToEdit || !trimmedText) {
@@ -369,161 +355,92 @@ function handleSaveReminder(reminder: ReminderDraft) {
         </AppButton>
 
         {/* Add todo dialog */}
-        <Dialog
+        <ActionDialog
           open={isAddDialogOpen}
           onOpenChange={handleDialogOpenChange}
+          title="Add todo"
+          footer={
+            <>
+              <AppButton variant="alternate" onClick={handleCancel}>
+                Cancel
+              </AppButton>
+              <AppButton variant="default" disabled={!newTodoText.trim()} onClick={handleAddTodo}>
+                Save
+              </AppButton>
+            </>
+          }
         >
-          <DialogContent className="sm:max-w-sm">
-            <form onSubmit={handleAddTodo}>
-              <DialogHeader>
-                <DialogTitle className="text-lg font-semibold">
-                  Add todo
-                </DialogTitle>
-
-                <DialogDescription className="sr-only">
-                  Enter a new task for your todo list.
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="py-5">
-                <label
-                  htmlFor="new-todo"
-                  className="text-sm font-medium"
-                >
-                  What do you need to do?
-                </label>
-
-                <Input
-                  id="new-todo"
-                  value={newTodoText}
-                  placeholder="e.g. Pack gym bag"
-                  className="mt-2"
-                  maxLength={200}
-                  autoFocus
-                  onChange={(event) =>
-                    setNewTodoText(event.target.value)
-                  }
-                />
-              </div>
-
-              <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="font-semibold"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </Button>
-
-                <Button
-                  type="submit"
-                  className="font-semibold"
-                  disabled={!newTodoText.trim()}
-                >
-                  Save
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+          <FormField
+            className="border-1 placeholder:text-sm"
+            id="new-todo"
+            label="What do you need to do?"
+            placeholder="e.g. Pack gym bag"
+            value={newTodoText}
+            maxLength={200}
+            autoFocus
+            onChange={(event) => setNewTodoText(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') handleAddTodo()
+            }}
+          />
+        </ActionDialog>
 
         {/* Delete confirmation dialog */}
-        <AlertDialog
+        <ActionDialog
           open={todoToDelete !== null}
           onOpenChange={handleDeleteDialogOpenChange}
-        >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Delete todo?
-              </AlertDialogTitle>
-
-              <AlertDialogDescription>
-                Are you sure you want to delete
-                {todoToDelete
-                  ? ` “${todoToDelete.text}”?`
-                  : ' this todo?'}{' '}
-                This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-
-            <AlertDialogFooter>
-              <AlertDialogCancel>
+          title="Delete todo?"
+          footer={
+            <>
+              <AppButton variant="alternate" onClick={() => handleDeleteDialogOpenChange(false)}>
                 Cancel
-              </AlertDialogCancel>
-
-              <AlertDialogAction
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                onClick={handleConfirmDelete}
-              >
+              </AppButton>
+              <AppButton variant="destructive" onClick={handleConfirmDelete}>
                 Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+              </AppButton>
+            </>
+          }
+        >
+          <p className="text-sm text-muted-foreground">
+            Are you sure you want to delete
+            {todoToDelete ? ` "${todoToDelete.text}"?` : ' this todo?'}{' '}
+            This action cannot be undone.
+          </p>
+        </ActionDialog>
 
         {/* Edit todo dialog */}
-        <Dialog
+        <ActionDialog
           open={todoToEdit !== null}
           onOpenChange={handleEditDialogOpenChange}
-      >
-        <DialogContent className="sm:max-w-sm">
-          <form onSubmit={handleEditTodo}>
-            <DialogHeader>
-              <DialogTitle className="text-lg font-semibold">
-                Edit todo
-              </DialogTitle>
-
-              <DialogDescription className="sr-only">
-                Edit the text of your todo.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="py-5">
-              <label
-                htmlFor="edit-todo"
-                className="text-sm font-medium"
+          title="Edit todo"
+          footer={
+            <>
+              <AppButton variant="alternate" onClick={() => handleEditDialogOpenChange(false)}>
+                Cancel
+              </AppButton>
+              <AppButton
+                variant="default"
+                disabled={!editedTodoText.trim() || editedTodoText.trim() === todoToEdit?.text}
+                onClick={handleEditTodo}
               >
-                What do you need to do?
-              </label>
-
-            <Input
-              id="edit-todo"
-              value={editedTodoText}
-              className="mt-2"
-              maxLength={200}
-              autoFocus
-              onChange={(event) =>
-                setEditedTodoText(event.target.value)
-              }
-            />
-          </div>
-
-          <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
-            <Button
-              type="button"
-              variant="outline"
-              className="font-semibold"
-              onClick={() => handleEditDialogOpenChange(false)}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              type="submit"
-              className="font-semibold"
-              disabled={
-                !editedTodoText.trim() ||
-                editedTodoText.trim() === todoToEdit?.text
-              }
-            >
-              Save
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+                Save
+              </AppButton>
+            </>
+          }
+        >
+          <FormField
+            className="border-1 placeholder:text-sm"
+            id="edit-todo"
+            label="What do you need to do?"
+            value={editedTodoText}
+            maxLength={200}
+            autoFocus
+            onChange={(event) => setEditedTodoText(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') handleEditTodo()
+            }}
+          />
+        </ActionDialog>
 
         {/* Set reminder dialog */}
         <SetReminderDialog

@@ -1,15 +1,9 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import ActionDialog from '@/components/custom/Shared/ActionDialog'
+import FormField from '@/components/custom/Shared/FormField'
+import AppButton from '@/components/custom/Shared/AppButton'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 
@@ -57,9 +51,7 @@ function SetReminderDialog({
   const canSave =
     label.trim().length > 0 && time.length > 0 && selectedDays.some(Boolean)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleSubmit() {
     if (!canSave) {
       return
     }
@@ -68,91 +60,64 @@ function SetReminderDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-sm">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold">
-              Set Reminder
-            </DialogTitle>
+    <ActionDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Set Reminder"
+      footer={
+        <>
+          <AppButton variant="alternate" onClick={() => onOpenChange(false)}>
+            Cancel
+          </AppButton>
+          <AppButton variant="default" disabled={!canSave} onClick={handleSubmit}>
+            Save
+          </AppButton>
+        </>
+      }
+    >
+      <FormField
+        className="border-1 placeholder:text-sm"
+        id="reminder-label"
+        label="Reminder"
+        value={label}
+        maxLength={200}
+        autoFocus
+        onChange={(event) => setLabel(event.target.value)}
+      />
 
-            <DialogDescription className="sr-only">
-              Set a repeating reminder.
-            </DialogDescription>
-          </DialogHeader>
+      <FormField
+        className="border-1 placeholder:text-sm"
+        id="reminder-time"
+        type="time"
+        label="Time"
+        value={time}
+        onChange={(event) => setTime(event.target.value)}
+      />
 
-          <div className="flex flex-col gap-4 py-5">
-            <div>
-              <Label htmlFor="reminder-label">Reminder</Label>
+      <div>
+        <Label id="reminder-days-label">Repeat on</Label>
 
-              <Input
-                id="reminder-label"
-                value={label}
-                maxLength={200}
-                className="mt-2"
-                autoFocus
-                onChange={(event) => setLabel(event.target.value)}
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="reminder-time">Time</Label>
-
-              <Input
-                id="reminder-time"
-                type="time"
-                value={time}
-                className="mt-2"
-                onChange={(event) => setTime(event.target.value)}
-              />
-            </div>
-
-            <div>
-              <Label id="reminder-days-label">Repeat on</Label>
-
-              <div
-                className="mt-2 flex gap-1.5"
-                role="group"
-                aria-labelledby="reminder-days-label"
-              >
-                {DAYS.map((day, index) => (
-                  <Button
-                    key={day}
-                    type="button"
-                    variant={selectedDays[index] ? 'default' : 'outline'}
-                    size="icon-sm"
-                    aria-pressed={selectedDays[index]}
-                    aria-label={day}
-                    onClick={() => toggleDay(index)}
-                  >
-                    {day[0]}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
+        <div
+          className="mt-2 flex gap-1.5"
+          role="group"
+          aria-labelledby="reminder-days-label"
+        >
+          {DAYS.map((day, index) => (
             <Button
+              key={day}
               type="button"
-              variant="outline"
-              className="font-semibold"
-              onClick={() => onOpenChange(false)}
+              variant={selectedDays[index] ? 'default' : 'outline'}
+              size="icon-sm"
+              aria-pressed={selectedDays[index]}
+              aria-label={day}
+              onClick={() => toggleDay(index)}
             >
-              Cancel
+              {day[0]}
             </Button>
-
-            <Button
-              type="submit"
-              className="font-semibold"
-              disabled={!canSave}
-            >
-              Save
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+          ))}
+        </div>
+      </div>
+    </ActionDialog>
   )
 }
 

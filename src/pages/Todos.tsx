@@ -1,24 +1,14 @@
-import { useState, useRef, type FormEvent } from 'react'
+import { useState, useRef } from 'react'
 import { Bell, ChevronDown, ChevronUp, EllipsisVertical, Pencil, Plus, Trash2 } from 'lucide-react'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import TwoColumnLayout from '@/components/custom/Shared/TwoColumnLayout'
 import AppButton from '@/components/custom/Shared/AppButton'
+import ActionDialog from '@/components/custom/Shared/ActionDialog'
+import FormField from '@/components/custom/Shared/FormField'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Input } from '@/components/ui/input'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useTodos } from '@/hooks/useTodos'
 import type { Todo } from '@/components/custom/Todos/HomeTodos'
@@ -52,9 +42,7 @@ function Todos() {
     console.log('Set reminder for:', todo.text)
   }
 
-  function handleAddTodo(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleAddTodo() {
     const trimmedText = newTodoText.trim()
 
     if (!trimmedText) {
@@ -132,9 +120,7 @@ function Todos() {
     }
   }
 
-  function handleEditTodo(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function handleEditTodo() {
     const trimmedText = editedTodoText.trim()
 
     if (!todoToEdit || !trimmedText) {
@@ -167,6 +153,7 @@ function Todos() {
             </AppButton>
           </div>
         </CustomCard>
+<div className='flex flex-col gap-4'>
 
         <CustomCard>
           <div className="mb-3 flex items-center justify-between">
@@ -189,12 +176,12 @@ function Todos() {
             <EmptyTodos message="You're all caught up! Add a todo when you're ready." />
           ) : (
             <div
-              className="flex flex-col overflow-y-auto"
-              style={{ maxHeight: VISIBLE_ROWS * ROW_HEIGHT_PX }}
+            className="flex flex-col overflow-y-auto"
+            style={{ maxHeight: VISIBLE_ROWS * ROW_HEIGHT_PX }}
             >
               {activeTodos.map((todo) => (
                 <div
-                  key={todo.id}
+                key={todo.id}
                   className="flex min-w-0 items-center gap-3 border-b py-3 last:border-b-0"
                 >
                   <Tooltip>
@@ -256,7 +243,7 @@ function Todos() {
                       <DropdownMenuItem
                         className="text-destructive focus:text-destructive"
                         onClick={() => setTodoToDelete(todo)}
-                      >
+                        >
                         <Trash2 className="size-4" />
                         Delete
                       </DropdownMenuItem>
@@ -293,13 +280,13 @@ function Todos() {
             <EmptyTodos message="No completed todos yet." />
           ) : (
             <div
-              className="flex flex-col overflow-y-auto"
-              style={{ maxHeight: VISIBLE_ROWS * ROW_HEIGHT_PX }}
+            className="flex flex-col overflow-y-auto"
+            style={{ maxHeight: VISIBLE_ROWS * ROW_HEIGHT_PX }}
             >
               {completedTodos.map((todo) => (
                 <div
-                  key={todo.id}
-                  className="flex min-w-0 items-center gap-3 border-b py-3 last:border-b-0"
+                key={todo.id}
+                className="flex min-w-0 items-center gap-3 border-b py-3 last:border-b-0"
                 >
                   <Tooltip>
                     <TooltipTrigger
@@ -331,16 +318,16 @@ function Todos() {
                     <DropdownMenuTrigger
                       render={
                         <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="size-7 shrink-0 text-muted-foreground"
-                          aria-label={`More options for ${todo.text}`}
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="size-7 shrink-0 text-muted-foreground"
+                        aria-label={`More options for ${todo.text}`}
                         >
                           <EllipsisVertical className="size-4" />
                         </Button>
                       }
-                    />
+                      />
 
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
@@ -357,136 +344,98 @@ function Todos() {
             </div>
           ))}
         </CustomCard>
+              </div>
           </>
         }
       />
 
       {/* Add todo dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={handleDialogOpenChange}>
-        <DialogContent className="sm:max-w-sm">
-          <form onSubmit={handleAddTodo}>
-            <DialogHeader>
-              <DialogTitle className="text-lg font-semibold">Add todo</DialogTitle>
-
-              <DialogDescription className="sr-only">
-                Enter a new task for your todo list.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="py-5">
-              <label htmlFor="new-todo" className="text-sm font-medium">
-                What do you need to do?
-              </label>
-
-              <Input
-                id="new-todo"
-                value={newTodoText}
-                placeholder="e.g. Pack gym bag"
-                className="mt-2"
-                maxLength={200}
-                autoFocus
-                onChange={(event) => setNewTodoText(event.target.value)}
-              />
-            </div>
-
-            <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="font-semibold"
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                type="submit"
-                className="font-semibold"
-                disabled={!newTodoText.trim()}
-              >
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ActionDialog
+        open={isAddDialogOpen}
+        onOpenChange={handleDialogOpenChange}
+        title="Add todo"
+        footer={
+          <>
+            <AppButton variant="alternate" onClick={handleCancel}>
+              Cancel
+            </AppButton>
+            <AppButton variant="default" disabled={!newTodoText.trim()} onClick={handleAddTodo}>
+              Save
+            </AppButton>
+          </>
+        }
+      >
+        <FormField
+          className="border-1 placeholder:text-sm"
+          id="new-todo"
+          label="What do you need to do?"
+          placeholder="e.g. Pack gym bag"
+          value={newTodoText}
+          maxLength={200}
+          autoFocus
+          onChange={(event) => setNewTodoText(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') handleAddTodo()
+          }}
+        />
+      </ActionDialog>
 
       {/* Delete confirmation dialog */}
-      <AlertDialog open={todoToDelete !== null} onOpenChange={handleDeleteDialogOpenChange}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete todo?</AlertDialogTitle>
-
-            <AlertDialogDescription>
-              Are you sure you want to delete
-              {todoToDelete ? ` "${todoToDelete.text}"?` : ' this todo?'} This action
-              cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-
-            <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={handleConfirmDelete}
-            >
+      <ActionDialog
+        open={todoToDelete !== null}
+        onOpenChange={handleDeleteDialogOpenChange}
+        title="Delete todo?"
+        footer={
+          <>
+            <AppButton variant="alternate" onClick={() => handleDeleteDialogOpenChange(false)}>
+              Cancel
+            </AppButton>
+            <AppButton variant="destructive" onClick={handleConfirmDelete}>
               Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            </AppButton>
+          </>
+        }
+      >
+        <p className="text-sm text-muted-foreground">
+          Are you sure you want to delete
+          {todoToDelete ? ` "${todoToDelete.text}"?` : ' this todo?'} This action cannot be
+          undone.
+        </p>
+      </ActionDialog>
 
       {/* Edit todo dialog */}
-      <Dialog open={todoToEdit !== null} onOpenChange={handleEditDialogOpenChange}>
-        <DialogContent className="sm:max-w-sm">
-          <form onSubmit={handleEditTodo}>
-            <DialogHeader>
-              <DialogTitle className="text-lg font-semibold">Edit todo</DialogTitle>
-
-              <DialogDescription className="sr-only">
-                Edit the text of your todo.
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="py-5">
-              <label htmlFor="edit-todo" className="text-sm font-medium">
-                What do you need to do?
-              </label>
-
-              <Input
-                id="edit-todo"
-                value={editedTodoText}
-                className="mt-2"
-                maxLength={200}
-                autoFocus
-                onChange={(event) => setEditedTodoText(event.target.value)}
-              />
-            </div>
-
-            <DialogFooter className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="font-semibold"
-                onClick={() => handleEditDialogOpenChange(false)}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                type="submit"
-                className="font-semibold"
-                disabled={
-                  !editedTodoText.trim() || editedTodoText.trim() === todoToEdit?.text
-                }
-              >
-                Save
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ActionDialog
+        open={todoToEdit !== null}
+        onOpenChange={handleEditDialogOpenChange}
+        title="Edit todo"
+        footer={
+          <>
+            <AppButton variant="alternate" onClick={() => handleEditDialogOpenChange(false)}>
+              Cancel
+            </AppButton>
+            <AppButton
+              variant="default"
+              disabled={!editedTodoText.trim() || editedTodoText.trim() === todoToEdit?.text}
+              onClick={handleEditTodo}
+            >
+              Save
+            </AppButton>
+          </>
+        }
+      >
+        <FormField
+          className="border-1 placeholder:text-sm"
+          id="edit-todo"
+          label="What do you need to do?"
+          value={editedTodoText}
+          maxLength={200}
+          autoFocus
+          onChange={(event) => setEditedTodoText(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') handleEditTodo()
+          }}
+        />
+      </ActionDialog>
     </PageLayout>
   )
 }
