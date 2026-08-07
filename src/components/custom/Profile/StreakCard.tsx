@@ -35,7 +35,7 @@ function StreakCard({ streak }: StreakProps) {
 
     return (
         <CustomCard>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-2'>
 
             <div className="flex flex-1 items-center justify-between h-auto">
                 <p className="font-semibold text-sm text-neutral-600">STREAK</p>
