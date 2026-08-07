@@ -27,7 +27,6 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/password-success" element={<PasswordSuccess />} />
-        <Route path="/todos" element={<Todos />} />
 
         {/* Main app - navigation applied */}
         <Route element={<AppNav />}>
@@ -36,6 +35,7 @@ function App() {
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/reminders" element={<Reminders />} />
           <Route path="/find-friends" element={<FindFriends />} />
+          <Route path="/todos" element={<Todos />} />
         </Route>
       </Routes>
       </CurrentUserProvider>
