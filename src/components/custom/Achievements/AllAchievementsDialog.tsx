@@ -30,10 +30,10 @@ function AllAchievementsDialog({
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogPortal>
-          <DialogOverlay />
+          <DialogOverlay className="z-999" />
           <DialogPrimitive.Popup
             className={cn(
-              'fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
+              'fixed top-1/2 left-1/2 z-999 -translate-x-1/2 -translate-y-1/2',
               'w-full max-w-[420px] rounded-xl border border-neutral-300 bg-popover shadow-md outline-none p-6',
               'data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0'
             )}

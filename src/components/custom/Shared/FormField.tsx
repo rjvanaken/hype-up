@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import SettingsRowLabel from '@/components/custom/Shared/SettingsRowLabel'
 
 interface FormFieldProps extends React.ComponentProps<'input'> {
-  label: React.ReactNode
+  label?: React.ReactNode
   id: string
   multiline?: boolean
   file?: boolean
@@ -84,9 +84,11 @@ function FormField({
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={id} className="text-left text-sm font-medium text-secondary placeholder:text-text-neutral-500">
-        {label}
-      </Label>
+      {label && (
+        <Label htmlFor={id} className="text-left text-sm font-medium text-secondary placeholder:text-text-neutral-500">
+          {label}
+        </Label>
+      )}
       {controlWithIcons}
     </div>
   )

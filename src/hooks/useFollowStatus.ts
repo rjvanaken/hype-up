@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export function useFollowStatus(targetUserId?: string) {
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+    const { user } = useCurrentUser()
+    const currentUserId = user?.id ?? null
     const [isFollowing, setIsFollowing] = useState(false)
     const [pending, setPending] = useState(false)
 
     useEffect(() => {
-        async function checkStatus() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user || !targetUserId) return
-            setCurrentUserId(user.id)
+        if (!currentUserId || !targetUserId) return
 
+        async function checkStatus() {
             const { data, error } = await supabase
                 .from('follows')
                 .select('follower_id')
-                .eq('follower_id', user.id)
+                .eq('follower_id', currentUserId)
                 .eq('following_id', targetUserId)
                 .eq('status', 'accepted')
                 .maybeSingle()
@@ -29,7 +29,7 @@ export function useFollowStatus(targetUserId?: string) {
         }
 
         checkStatus()
-    }, [targetUserId])
+    }, [currentUserId, targetUserId])
 
     const toggleFollow = useCallback(async () => {
         if (!currentUserId || !targetUserId) return
