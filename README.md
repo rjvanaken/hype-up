@@ -4,11 +4,12 @@ A social accountability app for tracking tasks, streaks, and hyping each other u
 
 ## System Overview
 
-HypeUp is a web application that runs on React and is backed by Supabase servers. Users can create/complete todos, 
-schedule reminders, maintain streaks, unlock achievements, and follow other users to view updates in a Strava-like 
-feed. More importantly, they are able write posts to ask for help or to show off accomplishments to address the 
-challenges of starting tasks when motivation is low. HypeUp is designed to turn personal progress into a shared 
-and encouraging experiencing where users can celebrate completed tasks and hype each other up!
+HypeUp is a web application that runs React locally through Vite and is hosted by Supabase servers. Users can 
+create/complete todos, schedule reminders, maintain streaks, unlock achievements, and follow other users to view 
+updates in a Strava-like feed. More importantly, they are able write posts to ask for help in starting tasks or 
+to show off accomplishments. HypeUp is designed to address the motivational and social support needs of its users
+by turning personal progress into a shared, encouraging experience where users can celebrate completed tasks 
+and hype each other up!
 
 ## Prerequisites and Dependencies
 
@@ -74,6 +75,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 ```
 
 Ask a teammate for the actual values — these are shared separately (Slack, text, etc.), never committed to the repo.
+Upon the Canvas submission of Phase 5, a separate `.env.local` or URL and KEY values will be provided.
 
 ### 6. Run the dev server
 
