@@ -82,11 +82,11 @@ function AchievementGridItem({ achievement, onSelect }: { achievement: Achieveme
     <button
       type="button"
       onClick={() => onSelect(achievement)}
-      className="flex flex-col items-center gap-2 text-center cursor-pointer"
+      className="flex flex-col items-center gap-3 text-center cursor-pointer"
     >
       <div
         className={cn(
-          'flex items-center justify-center size-14 rounded-2xl bg-accent text-2xl',
+          'flex items-center justify-center size-14 rounded-md bg-accent text-2xl',
           !unlocked && 'opacity-40'
         )}
       >

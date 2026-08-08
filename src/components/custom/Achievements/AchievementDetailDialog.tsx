@@ -58,7 +58,7 @@ function AchievementDetailDialog({
               <div className="flex flex-col items-center gap-3 text-center">
                 <div
                   className={cn(
-                    'flex items-center justify-center size-20 rounded-2xl bg-accent text-4xl',
+                    'flex items-center justify-center size-20 rounded-lg bg-accent text-4xl',
                     !unlocked && 'opacity-40'
                   )}
                 >

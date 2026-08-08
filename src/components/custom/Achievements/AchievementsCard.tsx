@@ -55,10 +55,10 @@ function AchievementsCard({ achievements, tasksCompleted = 0 }: AchievementsCard
 
 export function AchievementItem({ label, emoji, unlocked = true }: Achievement) {
   return (
-    <div className="flex flex-col items-center gap-1.5 text-center">
+    <div className="flex flex-col items-center gap-2 text-center">
       <div
         className={cn(
-          'flex items-center justify-center size-12 rounded-2xl border-2 border-primary/25 bg-primary/10 text-xl',
+          'flex items-center justify-center size-12 rounded-lg border-2 border-primary/25 bg-primary/10 text-xl',
           !unlocked && 'opacity-40'
         )}
       >
