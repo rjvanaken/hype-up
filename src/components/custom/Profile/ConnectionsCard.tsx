@@ -1,22 +1,17 @@
 import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CustomCard from '@/components/custom/Shared/CustomCard'
-import AppButton from '@/components/custom/Shared/AppButton'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
-import ConnectionsModal from '@/components/custom/Profile/ConnectionsModal'
 import { useConnections, type ConnectionProfile } from '@/hooks/useConnections'
 import { cn } from '@/lib/utils'
 import EmptyState from '../Shared/EmptyState'
 import { UserPlus } from 'lucide-react'
 import noUsersImage from '@/assets/empty/no-users.svg'
 
-const PREVIEW_LIMIT = 6
-
 function ConnectionsCard() {
   const navigate = useNavigate()
   const { followers, following, isLoading } = useConnections()
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>('followers')
-  const [modalOpen, setModalOpen] = useState(false)
 
   const emptyState =
     activeTab === 'following' ? (
@@ -40,12 +35,6 @@ function ConnectionsCard() {
     <CustomCard>
       <div className="flex items-center justify-between mb-1">
         <p className="text-sm font-semibold uppercase tracking-wide text-neutral-600">Friends</p>
-        <AppButton
-          variant="link"
-          onClick={() => setModalOpen(true)}
-        >
-          See all
-        </AppButton>
       </div>
 
       <div className="flex w-full rounded-xl bg-primary/8 p-1.5 mb-1">
@@ -75,14 +64,6 @@ function ConnectionsCard() {
         profiles={activeTab === 'following' ? following : followers}
         isLoading={isLoading}
         emptyState={emptyState}
-      />
-
-      <ConnectionsModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        followers={followers}
-        following={following}
-        defaultTab={activeTab}
       />
     </CustomCard>
   )
@@ -115,7 +96,7 @@ function ConnectionsPreview({
 
   return (
     <div className="h-72 overflow-y-auto flex flex-col gap-3">
-      {profiles.slice(0, PREVIEW_LIMIT).map((profile) => (
+      {profiles.map((profile) => (
         <AvatarNameSubtitle
           key={profile.id}
           user_id={profile.id}
