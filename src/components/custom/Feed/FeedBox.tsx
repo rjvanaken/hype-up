@@ -5,16 +5,19 @@ import { Separator } from '@/components/ui/separator'
 import Post from './Post'
 import type { PostData } from '@/hooks/usePosts'
 import { getTimestamp } from '@/lib/formatRelativeTime'
+import EmptyState from '../Shared/EmptyState'
+import { Plus } from 'lucide-react'
 
 type FeedProps = {
     title?: string
     posts: PostData[]
     isLoading?: boolean
+    canPost?: boolean
 
     // taskCategory : string
 }
 
-function FeedBox({ title = "title", posts, isLoading = false }: FeedProps) {
+function FeedBox({ title = "title", posts, isLoading = false, canPost = false }: FeedProps) {
     const [filter, setFilter] = useState<FeedFilter>('all')
 
     const filteredPosts = posts.filter((post) => {
@@ -33,6 +36,18 @@ function FeedBox({ title = "title", posts, isLoading = false }: FeedProps) {
             {isLoading && (
                 <p className='px-6 py-4 text-sm text-muted-foreground'>Loading posts...</p>
             )}
+
+            {!isLoading && filteredPosts.length === 0 && (
+                <EmptyState
+                    imagePath='src\assets\empty\no-posts.svg'
+                    title={'No posts yet'} 
+                    subtitle={canPost ? 'Share your success or ask for help with a post!' : "Nothing has been posted"}
+                    actionLabel={canPost ? 'Add a Post' : undefined}
+                    icon={Plus}   
+                    className='mb-7'
+                    ></EmptyState>
+                )
+}
             {!isLoading && filteredPosts.map((post) => (
                 <Post
                     key={post.id}
