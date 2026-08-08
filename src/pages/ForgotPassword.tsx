@@ -95,11 +95,11 @@ function ForgotPassword() {
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
+                    <AppButton variant="alternate" className="flex-1" onClick={() => navigate('/login')}>
+                        Cancel
+                    </AppButton>
                     <AppButton className="flex-1" onClick={handleSendEmail} disabled={isLoading}>
                         Send Email
-                    </AppButton>
-                    <AppButton variant="outline" className="flex-1" onClick={() => navigate('/login')}>
-                        Cancel
                     </AppButton>
                 </CardFooter>
             </CustomCard>
