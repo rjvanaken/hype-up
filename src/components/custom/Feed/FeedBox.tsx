@@ -8,6 +8,7 @@ import { getTimestamp } from '@/lib/formatRelativeTime'
 import EmptyState from '../Shared/EmptyState'
 import { Plus } from 'lucide-react'
 import noPostsImage from '@/assets/empty/no-posts.svg'
+import { useCreatePostDialog } from '@/hooks/useCreatePostDialog'
 
 type FeedProps = {
     title?: string
@@ -20,6 +21,7 @@ type FeedProps = {
 
 function FeedBox({ title = "title", posts, isLoading = false, canPost = false }: FeedProps) {
     const [filter, setFilter] = useState<FeedFilter>('all')
+    const { openCreatePost } = useCreatePostDialog()
 
     const filteredPosts = posts.filter((post) => {
         if (filter === 'hypes') return post.postType === 'share'
@@ -44,7 +46,8 @@ function FeedBox({ title = "title", posts, isLoading = false, canPost = false }:
                     title={'No posts yet'} 
                     subtitle={canPost ? 'Share your success or ask for help with a post!' : "Nothing has been posted"}
                     actionLabel={canPost ? 'Add a Post' : undefined}
-                    icon={Plus}   
+                    icon={Plus}
+                    onAction={() => openCreatePost(false)}
                     className='mb-7'
                     ></EmptyState>
                 )

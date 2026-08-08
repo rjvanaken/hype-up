@@ -19,6 +19,7 @@ import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
 import { RemindersRefreshProvider } from "@/hooks/useRemindersRefresh"
+import { CreatePostDialogProvider, useCreatePostDialog } from "@/hooks/useCreatePostDialog"
 import { supabase } from '@/lib/client'
 import { ProfileProvider, useProfile } from "@/hooks/useProfile"
 import { HypesProvider } from "@/hooks/useHypes"
@@ -32,16 +33,14 @@ function AppNavContent() {
   const unreadCount = 3 // wire this to real notification state later
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [createPostOpen, setCreatePostOpen] = useState(false)
-  const [boostMode, setBoostMode] = useState(false)
+  const { open: createPostOpen, boostMode, openCreatePost, setOpen: setCreatePostOpen } = useCreatePostDialog()
 
 
   const initials = useProfile()?.initials ?? '?'
 
 
   const handleFabSelect = (selectedBoostMode: boolean) => {
-    setBoostMode(selectedBoostMode)
-    setCreatePostOpen(true)
+    openCreatePost(selectedBoostMode)
   }
 
   const navigate = useNavigate()
@@ -192,7 +191,9 @@ function AppNav() {
       <RemindersRefreshProvider>
         <ProfileProvider>
           <HypesProvider>
-            <AppNavContent />
+            <CreatePostDialogProvider>
+              <AppNavContent />
+            </CreatePostDialogProvider>
           </HypesProvider>
         </ProfileProvider>
       </RemindersRefreshProvider>
