@@ -58,7 +58,7 @@ function CreatePost({ boostMode, open, onOpenChange, editingPost }: CreatePostPr
   const taskLabel = boostMode ? "What do you need to do?" : "Task type"
   const noteLabel = boostMode ? "What's got you stuck?" : "Note"
   const notePlaceholder = boostMode ? "Ask for some encouragement..." : "How does it feel?"
-  const photoSubtext = boostMode ? "optional, if it helps explain" : "optional proof of the deed"
+  const photoSubtext = "(optional)"
   const submitLabel = editingPost ? "Save changes" : (boostMode ? "Ask for hype" : "Post it")
   const missingOtherDescription = task === 'other' && !description.trim()
 
