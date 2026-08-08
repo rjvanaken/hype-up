@@ -2,19 +2,39 @@ import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import AppButton from '@/components/custom/Shared/AppButton'
-import { Button } from '@/components/ui/button'
 import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import ConnectionsModal from '@/components/custom/Profile/ConnectionsModal'
 import { useConnections, type ConnectionProfile } from '@/hooks/useConnections'
 import { cn } from '@/lib/utils'
+import EmptyState from '../Shared/EmptyState'
+import { UserPlus } from 'lucide-react'
+import noUsersImage from '@/assets/empty/no-users.svg'
 
-const PREVIEW_LIMIT = 4
+const PREVIEW_LIMIT = 6
 
 function ConnectionsCard() {
   const navigate = useNavigate()
   const { followers, following, isLoading } = useConnections()
   const [activeTab, setActiveTab] = useState<'followers' | 'following'>('followers')
   const [modalOpen, setModalOpen] = useState(false)
+
+  const emptyState =
+    activeTab === 'following' ? (
+      <EmptyState
+        imagePath={noUsersImage}
+        title="Not following anyone yet"
+        subtitle="Find friends to follow."
+        actionLabel="Find Friends"
+        icon={UserPlus}
+        onAction={() => navigate('/find-friends')}
+      />
+    ) : (
+      <EmptyState
+        imagePath={noUsersImage}
+        title="No followers yet"
+        subtitle="When someone follows you, they'll show up here."
+      />
+    )
 
   return (
     <CustomCard>
@@ -51,26 +71,11 @@ function ConnectionsCard() {
         </button>
       </div>
 
-      {activeTab === 'following' ? (
-        <ConnectionsPreview
-          profiles={following}
-          isLoading={isLoading}
-          emptyHeading="Not following anyone yet"
-          emptySubtitle="Find friends to follow."
-          emptyAction={
-            <Button className="mt-2" onClick={() => navigate('/find-friends')}>
-              Find Friends
-            </Button>
-          }
-        />
-      ) : (
-        <ConnectionsPreview
-          profiles={followers}
-          isLoading={isLoading}
-          emptyHeading="No followers yet"
-          emptySubtitle="When someone follows you, they'll show up here."
-        />
-      )}
+      <ConnectionsPreview
+        profiles={activeTab === 'following' ? following : followers}
+        isLoading={isLoading}
+        emptyState={emptyState}
+      />
 
       <ConnectionsModal
         open={modalOpen}
@@ -86,19 +91,15 @@ function ConnectionsCard() {
 function ConnectionsPreview({
   profiles,
   isLoading,
-  emptyHeading,
-  emptySubtitle,
-  emptyAction
+  emptyState
 }: {
   profiles: ConnectionProfile[]
   isLoading: boolean
-  emptyHeading: string
-  emptySubtitle: string
-  emptyAction?: ReactNode
+  emptyState: ReactNode
 }) {
   if (isLoading) {
     return (
-      <div className="h-48 flex items-center justify-center">
+      <div className="h-72 flex items-center justify-center">
         <p className="text-sm text-muted-foreground">Loading...</p>
       </div>
     )
@@ -106,16 +107,14 @@ function ConnectionsPreview({
 
   if (profiles.length === 0) {
     return (
-      <div className="h-48 flex items-center justify-center">
-        <EmptyConnections heading={emptyHeading} subtitle={emptySubtitle}>
-          {emptyAction}
-        </EmptyConnections>
+      <div className="h-72 flex items-center justify-center">
+        {emptyState}
       </div>
     )
   }
 
   return (
-    <div className="h-48 overflow-y-auto flex flex-col gap-3">
+    <div className="h-72 overflow-y-auto flex flex-col gap-3">
       {profiles.slice(0, PREVIEW_LIMIT).map((profile) => (
         <AvatarNameSubtitle
           key={profile.id}
@@ -127,24 +126,6 @@ function ConnectionsPreview({
           fullName
         />
       ))}
-    </div>
-  )
-}
-
-function EmptyConnections({
-  heading,
-  subtitle,
-  children
-}: {
-  heading: string
-  subtitle: string
-  children?: ReactNode
-}) {
-  return (
-    <div className="flex flex-col items-center text-center gap-1 py-4">
-      <p className="font-semibold text-secondary">{heading}</p>
-      <p className="text-sm text-muted-foreground">{subtitle}</p>
-      {children}
     </div>
   )
 }

@@ -8,6 +8,8 @@ import AvatarNameSubtitle from '@/components/custom/Shared/AvatarNameSubtitle'
 import { useProfileSearch } from '@/hooks/useProfileSearch'
 import { useFollowActions } from '@/hooks/useFollowActions'
 import FollowButton from '@/components/custom/Shared/FollowButton'
+import EmptyState from '@/components/custom/Shared/EmptyState'
+import noResultsImage from '@/assets/empty/no-results.svg'
 
 function FindFriends() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -41,8 +43,11 @@ function FindFriends() {
                                 )}
                                 {!loading && results.length === 0 && (
                                     <div className="flex flex-col items-center text-center gap-1 py-6">
-                                        <p className="font-semibold text-secondary">No matches</p>
-                                        <p className="text-sm text-muted-foreground">Try searching a different name</p>
+                <EmptyState
+                  imagePath={noResultsImage}
+                  title="No results found"
+                  subtitle="Try searching for a different name">
+                </EmptyState>
                                     </div>
                                 )}
                                 {results.map((profile, index) => {

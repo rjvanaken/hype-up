@@ -10,6 +10,8 @@ import SetReminderDialog, {
   type ReminderDraft,
 } from '@/components/custom/Reminders/SetReminderDialog'
 import { useReminders, type Reminder } from '@/hooks/useReminders'
+import EmptyState from '@/components/custom/Shared/EmptyState'
+import noRemindersImage from '@/assets/empty/no-reminders.svg'
 
 function Reminders() {
   const { reminders, addReminder, updateReminder, toggleReminder, deleteReminder } =
@@ -53,37 +55,46 @@ function Reminders() {
                   </p>
                 </div>
 
-                <AppButton
-                  className="flex-none"
-                  icon={Plus}
-                  onClick={() => setIsAddDialogOpen(true)}
-                >
-                  Add Reminder
-                </AppButton>
+                {reminders.length > 0 && (
+                  <AppButton
+                    className="flex-none"
+                    icon={Plus}
+                    onClick={() => setIsAddDialogOpen(true)}
+                  >
+                    Add Reminder
+                  </AppButton>
+                )}
               </div>
             </CustomCard>
 
             <CustomCard>
-              <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
-                All Reminders
-              </p>
-
               {reminders.length === 0 ? (
-                <p className="py-2 text-sm text-muted-foreground">
-                  No reminders yet.
-                </p>
+                <EmptyState
+                  imagePath={noRemindersImage}
+                  title="No reminders yet"
+                  subtitle="Set a reminder to stay on track"
+                  actionLabel="Add Reminder"
+                  icon={Plus}
+                  onAction={() => setIsAddDialogOpen(true)}
+                />
               ) : (
-                <div className="flex flex-col">
-                  {reminders.map((reminder) => (
-                    <ReminderRow
-                      key={reminder.id}
-                      reminder={reminder}
-                      onToggleEnabled={toggleReminder}
-                      onUpdate={updateReminder}
-                      onDeleteRequest={setReminderToDelete}
-                    />
-                  ))}
-                </div>
+                <>
+                  <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
+                    All Reminders
+                  </p>
+
+                  <div className="flex flex-col">
+                    {reminders.map((reminder) => (
+                      <ReminderRow
+                        key={reminder.id}
+                        reminder={reminder}
+                        onToggleEnabled={toggleReminder}
+                        onUpdate={updateReminder}
+                        onDeleteRequest={setReminderToDelete}
+                      />
+                    ))}
+                  </div>
+                </>
               )}
             </CustomCard>
           </>

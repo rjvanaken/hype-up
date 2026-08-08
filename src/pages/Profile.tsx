@@ -65,7 +65,7 @@ function Profile() {
                                     onEditProfileClick={isOwnProfile ? () => setEditProfileOpen(true) : undefined}
                                     streak={streakCount}
                                 ></ProfileBanner>
-                                <FeedBox title='POSTS' posts={posts} isLoading={postsLoading}></FeedBox>
+                                <FeedBox title='POSTS' posts={posts} isLoading={postsLoading} canPost></FeedBox>
                             </>
                         }
                         rightColumn={isOwnProfile ? (

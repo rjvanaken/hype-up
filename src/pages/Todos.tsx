@@ -12,6 +12,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useTodos } from '@/hooks/useTodos'
 import type { Todo } from '@/components/custom/Todos/HomeTodos'
+import EmptyState from '@/components/custom/Shared/EmptyState'
+import noTodosImage from '@/assets/empty/no-todos.svg'
 
 const VISIBLE_ROWS = 10
 const ROW_HEIGHT_PX = 53
@@ -144,15 +146,30 @@ function Todos() {
               <p className="text-sm text-muted-foreground">Small steps, no pressure.</p>
             </div>
 
-            <AppButton
-              icon={Plus}
-              className="flex-none"
-              onClick={() => setIsAddDialogOpen(true)}
-            >
-              Add Todo
-            </AppButton>
+            {todos.length > 0 && (
+              <AppButton
+                icon={Plus}
+                className="flex-none"
+                onClick={() => setIsAddDialogOpen(true)}
+              >
+                Add Todo
+              </AppButton>
+            )}
           </div>
         </CustomCard>
+
+        {todos.length === 0 ? (
+          <CustomCard>
+            <EmptyState
+              imagePath={noTodosImage}
+              title="No todos yet"
+              subtitle="Add a todo to get started"
+              actionLabel="Add a Todo"
+              icon={Plus}
+              onAction={() => setIsAddDialogOpen(true)}
+            />
+          </CustomCard>
+        ) : (
 <div className='flex flex-col gap-4'>
 
         <CustomCard>
@@ -345,6 +362,7 @@ function Todos() {
           ))}
         </CustomCard>
               </div>
+        )}
           </>
         }
       />
