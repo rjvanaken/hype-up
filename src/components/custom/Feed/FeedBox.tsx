@@ -8,6 +8,7 @@ import { getTimestamp } from '@/lib/formatRelativeTime'
 import EmptyState from '../Shared/EmptyState'
 import { Plus } from 'lucide-react'
 import noPostsImage from '@/assets/empty/no-posts.svg'
+import noResultsImage from '@/assets/empty/no-results.svg'
 import { useCreatePostDialog } from '@/hooks/useCreatePostDialog'
 
 type FeedProps = {
@@ -40,18 +41,26 @@ function FeedBox({ title = "title", posts, isLoading = false, canPost = false }:
                 <p className='px-6 py-4 text-sm text-muted-foreground'>Loading posts...</p>
             )}
 
-            {!isLoading && filteredPosts.length === 0 && (
+            {!isLoading && posts.length === 0 && (
                 <EmptyState
                     imagePath={noPostsImage}
-                    title={'No posts yet'} 
+                    title={'No posts yet'}
                     subtitle={canPost ? 'Share your success or ask for help with a post!' : "Nothing has been posted"}
                     actionLabel={canPost ? 'Add a Post' : undefined}
                     icon={Plus}
                     onAction={() => openCreatePost(false)}
                     className='mb-7'
                     ></EmptyState>
-                )
-}
+                )}
+
+            {!isLoading && posts.length > 0 && filteredPosts.length === 0 && (
+                <EmptyState
+                    imagePath={noResultsImage}
+                    title="No posts match this filter"
+                    subtitle="Try a different filter"
+                    className='mb-7'
+                    ></EmptyState>
+                )}
             {!isLoading && filteredPosts.map((post) => (
                 <Post
                     key={post.id}
