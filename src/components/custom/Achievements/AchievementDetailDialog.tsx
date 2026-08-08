@@ -34,6 +34,9 @@ function AchievementDetailDialog({
   const unlocked = shown?.unlocked ?? true
   const isPinned = !!shown && pinnedBadgeKey === shown.key
   const tasksToGo = shown?.task_threshold !== undefined ? Math.max(shown.task_threshold - tasksCompleted, 0) : undefined
+  const earnedDate = shown?.earnedAt
+    ? new Date(shown.earnedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : null
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -73,7 +76,7 @@ function AchievementDetailDialog({
 
                 <div className="w-full rounded-full bg-green-600/10 py-2 text-sm font-semibold text-green-700">
                   {unlocked
-                    ? 'Unlocked'
+                    ? (earnedDate ? `Unlocked on ${earnedDate}` : 'Unlocked')
                     : tasksToGo !== undefined
                       ? `Locked · ${tasksToGo} ${tasksToGo === 1 ? 'task' : 'tasks'} to go`
                       : 'Locked'}
