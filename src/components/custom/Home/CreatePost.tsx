@@ -60,6 +60,7 @@ function CreatePost({ boostMode, open, onOpenChange, editingPost }: CreatePostPr
   const notePlaceholder = boostMode ? "Ask for some encouragement..." : "How does it feel?"
   const photoSubtext = boostMode ? "optional, if it helps explain" : "optional proof of the deed"
   const submitLabel = editingPost ? "Save changes" : (boostMode ? "Ask for hype" : "Post it")
+  const missingOtherDescription = task === 'other' && !description.trim()
 
   async function handleSubmit() {
     const success = editingPost
@@ -101,7 +102,7 @@ function CreatePost({ boostMode, open, onOpenChange, editingPost }: CreatePostPr
           <AppButton variant="alternate" onClick={() => onOpenChange(false)}>
             Cancel
           </AppButton>
-          <AppButton variant="default" disabled={!task || isSubmitting} onClick={handleSubmit}>
+          <AppButton variant="default" disabled={!task || missingOtherDescription || isSubmitting} onClick={handleSubmit}>
             {submitLabel}
           </AppButton>
         </>
