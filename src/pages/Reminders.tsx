@@ -48,7 +48,7 @@ function Reminders() {
           reminders.length === 0 ? (
             <CustomCard>
               <EmptyState
-                imagePath='src\assets\empty\no-reminders.svg'
+                imagePath={noRemindersImage}
                 title="No reminders yet"
                 subtitle="Set a reminder to stay on track"
                 actionLabel="Add Reminder"

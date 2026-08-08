@@ -141,7 +141,7 @@ function Todos() {
           todos.length === 0 ? (
             <CustomCard>
               <EmptyState
-                imagePath='src\assets\empty\no-todos.svg'
+                imagePath={noTodosImage}
                 title="No todos yet"
                 subtitle="Add a todo to get started"
                 actionLabel="Add a Todo"
