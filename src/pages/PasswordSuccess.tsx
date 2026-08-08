@@ -1,7 +1,7 @@
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { useNavigate } from 'react-router-dom'
 import { CheckCircle } from 'lucide-react'
 
@@ -20,9 +20,9 @@ function PasswordSuccess() {
         <p className='text-md font-regular text-center text-neutral-600'>Your password has successfully been updated.</p>
       </CardContent>
       <CardFooter className="flex flex-col gap-3 mt-2">
-        <Button size="lg" className="w-full" onClick={() => navigate('/login')}>
+        <AppButton className="w-full" onClick={() => navigate('/login')}>
           Return to Login
-        </Button>
+        </AppButton>
       </CardFooter>
     </CustomCard>
     </PageLayout>

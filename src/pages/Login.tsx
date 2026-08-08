@@ -1,6 +1,6 @@
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
@@ -43,7 +43,7 @@ function Onboarding() {
             return
         }
 
-        navigate('/home') 
+        navigate('/home')
     }
 
     return (
@@ -73,9 +73,9 @@ function Onboarding() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
+                    <AppButton variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
                         Forgot Password?
-                    </Button>
+                    </AppButton>
 
                     {error &&(
                         <Badge variant={'destructive'}>
@@ -86,12 +86,12 @@ function Onboarding() {
 
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                    <Button size="lg" className="w-full" onClick={handleLogin}>
+                    <AppButton className="w-full" onClick={handleLogin}>
                         Log In
-                    </Button>
+                    </AppButton>
                     <div className="flex items-center gap-1">
                         <p className='font-medium '>Don't have an account?</p>
-                        <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </Button>
+                        <AppButton variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </AppButton>
                     </div>
                 </CardFooter>
             </CustomCard>

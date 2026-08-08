@@ -2,7 +2,7 @@ import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Badge } from '@/components/ui/badge'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
@@ -18,7 +18,6 @@ function SignUp() {
   const [last, setLast] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
 
 
@@ -26,7 +25,7 @@ function SignUp() {
     // reset error
     setError('')
 
-    const validationError = validateSignUpFields(first, last, email, password, confirm)
+    const validationError = validateSignUpFields(first, last, email, password)
     if (validationError) {
       setError(validationError)
       return
@@ -94,14 +93,6 @@ function SignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FormField
-            id="password-confirm"
-            label="Confirm Password"
-            type="password"
-            placeholder="Confirm the password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-          />
             <p className="w-full text-center text-sm text-primary font-semibold mb-0">
             Password must be at least 8 characters
             </p>
@@ -115,12 +106,12 @@ function SignUp() {
 
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
-            <Button size="lg" className="w-full" onClick={() => handleSignUp()}>
+            <AppButton className="w-full" onClick={() => handleSignUp()}>
             Create Account
-            </Button>
+            </AppButton>
             <div className="flex items-center gap-1">
             <p className='font-medium '>Already have an account?</p>
-            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
+            <AppButton variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</AppButton>
             </div>
         </CardFooter>
         </CustomCard>

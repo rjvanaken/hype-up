@@ -2,7 +2,7 @@ import PageLayout from '@/components/custom/Shared/PageLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
@@ -84,12 +84,12 @@ function ResetPassword() {
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
+                    <AppButton className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
                         {submitting ? 'Updating...' : 'Update Password'}
-                    </Button>
-                    <Button size="lg" variant="outline" className="flex-1" onClick={() => navigate('/login')}>
+                    </AppButton>
+                    <AppButton variant="outline" className="flex-1" onClick={() => navigate('/login')}>
                         Cancel
-                    </Button>
+                    </AppButton>
                 </CardFooter>
             </CustomCard>
         </PageLayout>
