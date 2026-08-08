@@ -17,6 +17,7 @@ import { useHypes } from "@/hooks/useHypes";
 import { useCreatePost } from "@/hooks/useCreatePost";
 import { usePostsRefresh } from "@/hooks/usePostsRefresh";
 import CreatePost from "@/components/custom/Home/CreatePost";
+import ActionDialog from "@/components/custom/Shared/ActionDialog";
 
 
 interface postProps {
@@ -67,6 +68,8 @@ function Post({
     const { deletePost } = useCreatePost()
     const { triggerRefresh } = usePostsRefresh()
     const [editOpen, setEditOpen] = useState(false)
+    const [deletePostOpen, setDeletePostOpen] = useState(false)
+    const [commentToDelete, setCommentToDelete] = useState<string | null>(null)
     const isOwnPost = userId === profile?.userId
 
 
@@ -107,6 +110,13 @@ function Post({
         if (success) {
             triggerRefresh()
         }
+        setDeletePostOpen(false)
+    }
+
+    async function handleConfirmDeleteComment() {
+        if (!commentToDelete) return
+        await deleteComment(commentToDelete)
+        setCommentToDelete(null)
     }
 
 
@@ -133,7 +143,7 @@ function Post({
                                 <Pencil className="size-3.5" />
                                 Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem variant="destructive" onClick={handleDeletePost}>
+                            <DropdownMenuItem variant="destructive" onClick={() => setDeletePostOpen(true)}>
                                 <Trash2 className="size-3.5" />
                                 Delete
                             </DropdownMenuItem>
@@ -229,7 +239,7 @@ function Post({
                                                         <Pencil className="size-3.5" />
                                                         Edit
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem variant="destructive" onClick={() => deleteComment(comment.id)}>
+                                                    <DropdownMenuItem variant="destructive" onClick={() => setCommentToDelete(comment.id)}>
                                                         <Trash2 className="size-3.5" />
                                                         Delete
                                                     </DropdownMenuItem>
@@ -271,6 +281,46 @@ function Post({
                         editingPost={{ id: postId, taskType, customTask, postNote }}
                     />
                 )}
+
+                <ActionDialog
+                    open={deletePostOpen}
+                    onOpenChange={setDeletePostOpen}
+                    title="Delete post?"
+                    footer={
+                        <>
+                            <AppButton variant="alternate" onClick={() => setDeletePostOpen(false)}>
+                                Cancel
+                            </AppButton>
+                            <AppButton variant="destructive" onClick={handleDeletePost}>
+                                Delete
+                            </AppButton>
+                        </>
+                    }
+                >
+                    <p className="text-sm text-muted-foreground">
+                        Are you sure you want to delete this post? This action cannot be undone.
+                    </p>
+                </ActionDialog>
+
+                <ActionDialog
+                    open={commentToDelete !== null}
+                    onOpenChange={(open) => !open && setCommentToDelete(null)}
+                    title="Delete comment?"
+                    footer={
+                        <>
+                            <AppButton variant="alternate" onClick={() => setCommentToDelete(null)}>
+                                Cancel
+                            </AppButton>
+                            <AppButton variant="destructive" onClick={handleConfirmDeleteComment}>
+                                Delete
+                            </AppButton>
+                        </>
+                    }
+                >
+                    <p className="text-sm text-muted-foreground">
+                        Are you sure you want to delete this comment? This action cannot be undone.
+                    </p>
+                </ActionDialog>
 </div>
     )
     }
