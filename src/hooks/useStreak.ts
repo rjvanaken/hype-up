@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/client'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { usePostsRefresh } from '@/hooks/usePostsRefresh'
 
 const WINDOW_DAYS = 28
 
@@ -14,6 +15,7 @@ export function toLocalDateKey(value: Date | string) {
 
 export function useStreak() {
     const { user } = useCurrentUser()
+    const { version } = usePostsRefresh()
     const [activityDates, setActivityDates] = useState<Set<string>>(new Set())
     const [isLoading, setIsLoading] = useState(true)
 
@@ -52,7 +54,7 @@ export function useStreak() {
         return () => {
             cancelled = true
         }
-    }, [user])
+    }, [user, version])
 
     return { activityDates, isLoading }
 }
