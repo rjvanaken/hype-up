@@ -24,7 +24,7 @@ function FormSelectField({ label, id, placeholder, options, value, defaultValue,
         {label}
       </Label>
       <Select items={options} value={value} defaultValue={defaultValue} onValueChange={onValueChange}>
-        <SelectTrigger id={id} className="w-full">
+        <SelectTrigger id={id} className="w-full h-11 border-1 border-input px-2.5">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

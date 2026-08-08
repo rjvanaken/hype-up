@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import FormSelectField from '@/components/custom/Shared/FormSelectField'
+import FormComboboxField from '@/components/custom/Shared/FormComboboxField'
 import { timeOptions } from '@/lib/timeOptions'
 import type { Reminder } from '@/hooks/useReminders'
 
@@ -140,7 +140,7 @@ function ReminderRow({
 
       {isExpanded && (
         <div className="flex flex-col gap-4 pb-4">
-          <FormSelectField
+          <FormComboboxField
             id={`reminder-time-${reminder.id}`}
             label="Time"
             placeholder="Select a time"

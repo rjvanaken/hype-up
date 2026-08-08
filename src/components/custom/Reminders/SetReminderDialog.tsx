@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import ActionDialog from '@/components/custom/Shared/ActionDialog'
 import FormField from '@/components/custom/Shared/FormField'
-import FormSelectField from '@/components/custom/Shared/FormSelectField'
+import FormComboboxField from '@/components/custom/Shared/FormComboboxField'
 import AppButton from '@/components/custom/Shared/AppButton'
 import { timeOptions } from '@/lib/timeOptions'
 
@@ -87,7 +87,7 @@ function SetReminderDialog({
         onChange={(event) => setLabel(event.target.value)}
       />
 
-      <FormSelectField
+      <FormComboboxField
         id="reminder-time"
         label="Time"
         placeholder="Select a time"

@@ -5,9 +5,9 @@ function formatLabel(hour: number, minute: number) {
     return `${displayHour}:${displayMinute} ${period}`
 }
 
-export const timeOptions = Array.from({ length: 24 * 4 }, (_, index) => {
-    const hour = Math.floor(index / 4)
-    const minute = (index % 4) * 15
+export const timeOptions = Array.from({ length: 24 * 60 }, (_, index) => {
+    const hour = Math.floor(index / 60)
+    const minute = index % 60
     const value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
     return { value, label: formatLabel(hour, minute) }
 })
