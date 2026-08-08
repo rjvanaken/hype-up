@@ -12,6 +12,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useTodos } from '@/hooks/useTodos'
 import type { Todo } from '@/components/custom/Todos/HomeTodos'
+import EmptyState from '@/components/custom/Shared/EmptyState'
+import noTodosImage from '@/assets/empty/no-todos.svg'
 
 const VISIBLE_ROWS = 10
 const ROW_HEIGHT_PX = 53
@@ -136,6 +138,18 @@ function Todos() {
     <PageLayout maxWidth={1000}>
       <TwoColumnLayout
         main={
+          todos.length === 0 ? (
+            <CustomCard>
+              <EmptyState
+                imagePath='src\assets\empty\no-todos.svg'
+                title="No todos yet"
+                subtitle="Add a todo to get started"
+                actionLabel="Add a Todo"
+                icon={Plus}
+                onAction={() => setIsAddDialogOpen(true)}
+              />
+            </CustomCard>
+          ) : (
           <>
         <CustomCard>
           <div className="flex items-center justify-between gap-4">
@@ -346,6 +360,7 @@ function Todos() {
         </CustomCard>
               </div>
           </>
+          )
         }
       />
 

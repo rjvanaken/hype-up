@@ -10,6 +10,8 @@ import SetReminderDialog, {
   type ReminderDraft,
 } from '@/components/custom/Reminders/SetReminderDialog'
 import { useReminders, type Reminder } from '@/hooks/useReminders'
+import EmptyState from '@/components/custom/Shared/EmptyState'
+import noRemindersImage from '@/assets/empty/no-reminders.svg'
 
 function Reminders() {
   const { reminders, addReminder, updateReminder, toggleReminder, deleteReminder } =
@@ -43,36 +45,43 @@ function Reminders() {
     <PageLayout maxWidth={1000}>
       <TwoColumnLayout
         main={
-          <>
+          reminders.length === 0 ? (
             <CustomCard>
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <h1 className="text-xl font-bold">Reminders</h1>
-                  <p className="text-sm text-muted-foreground">
-                    Schedule nudges at times that work for you
-                  </p>
-                </div>
-
-                <AppButton
-                  className="flex-none"
-                  icon={Plus}
-                  onClick={() => setIsAddDialogOpen(true)}
-                >
-                  Add Reminder
-                </AppButton>
-              </div>
+              <EmptyState
+                imagePath='src\assets\empty\no-reminders.svg'
+                title="No reminders yet"
+                subtitle="Set a reminder to stay on track"
+                actionLabel="Add Reminder"
+                icon={Plus}
+                onAction={() => setIsAddDialogOpen(true)}
+              />
             </CustomCard>
+          ) : (
+            <>
+              <CustomCard>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-col gap-1">
+                    <h1 className="text-xl font-bold">Reminders</h1>
+                    <p className="text-sm text-muted-foreground">
+                      Schedule nudges at times that work for you
+                    </p>
+                  </div>
 
-            <CustomCard>
-              <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
-                All Reminders
-              </p>
+                  <AppButton
+                    className="flex-none"
+                    icon={Plus}
+                    onClick={() => setIsAddDialogOpen(true)}
+                  >
+                    Add Reminder
+                  </AppButton>
+                </div>
+              </CustomCard>
 
-              {reminders.length === 0 ? (
-                <p className="py-2 text-sm text-muted-foreground">
-                  No reminders yet.
+              <CustomCard>
+                <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
+                  All Reminders
                 </p>
-              ) : (
+
                 <div className="flex flex-col">
                   {reminders.map((reminder) => (
                     <ReminderRow
@@ -84,9 +93,9 @@ function Reminders() {
                     />
                   ))}
                 </div>
-              )}
-            </CustomCard>
-          </>
+              </CustomCard>
+            </>
+          )
         }
       />
 
