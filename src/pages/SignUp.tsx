@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { validateSignUpFields } from '@/lib/validation'
 import { supabase } from '@/lib/client'
-import { AlertCircle} from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -18,14 +18,17 @@ function SignUp() {
   const [last, setLast] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
 
   async function handleSignUp() {
     // reset error
     setError('')
 
-    const validationError = validateSignUpFields(first, last, email, password)
+    const validationError = validateSignUpFields(first, last, email, password, confirm)
     if (validationError) {
       setError(validationError)
       return
@@ -58,7 +61,7 @@ function SignUp() {
         <CardHeader>
             <CardTitle className='text-xl font-semibold text-left'>Create an account</CardTitle>
         </CardHeader>
-        <CardContent className='mb-0 flex flex-col gap-3'>
+        <CardContent className='mb-0 flex flex-col gap-2'>
         <div className='flex gap-4'>
             <FormField
             id="firstname"
@@ -88,14 +91,23 @@ function SignUp() {
           <FormField
             id="password"
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Enter a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            trailingIcon={showPassword ? EyeOff : Eye}
+            onTrailingIconClick={() => setShowPassword((v) => !v)}
           />
-            <p className="w-full text-center text-sm text-primary font-semibold mb-0">
-            Password must be at least 8 characters
-            </p>
+          <FormField
+            id="password-confirm"
+            label="Confirm Password"
+            type={showConfirm ? 'text' : 'password'}
+            placeholder="Confirm the password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            trailingIcon={showConfirm ? EyeOff : Eye}
+            onTrailingIconClick={() => setShowConfirm((v) => !v)}
+          />
 
                     {error &&(
                         <Badge variant= {'destructive'}>
@@ -106,7 +118,7 @@ function SignUp() {
 
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
-            <AppButton className="w-full" onClick={() => handleSignUp()}>
+            <AppButton className="w-full" disabled={password.length < 8} onClick={() => handleSignUp()}>
             Create Account
             </AppButton>
             <div className="flex items-center gap-1">

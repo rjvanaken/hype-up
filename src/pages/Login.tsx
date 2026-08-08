@@ -4,7 +4,7 @@ import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { validateLoginFields } from '@/lib/validation'
@@ -17,7 +17,8 @@ function Onboarding() {
     const [error, setError] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    
+    const [showPassword, setShowPassword] = useState(false)
+
     async function handleLogin() {
         // reset error
         setError('')
@@ -56,7 +57,7 @@ function Onboarding() {
                 <CardHeader>
                     <CardTitle className='text-xl font-semibold text-left'>Log into your account</CardTitle>
                 </CardHeader>
-                <CardContent className='mb-0 flex flex-col gap-3'>
+                <CardContent className='mb-0 flex flex-col gap-2'>
                     <FormField
                         id="email"
                         label="Email"
@@ -68,10 +69,12 @@ function Onboarding() {
                     <FormField
                         id="password"
                         label="Password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        trailingIcon={showPassword ? EyeOff : Eye}
+                        onTrailingIconClick={() => setShowPassword((v) => !v)}
                     />
                     <AppButton variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
                         Forgot Password?
