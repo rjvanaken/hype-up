@@ -2,7 +2,7 @@ import PageLayout from '@/components/custom/Shared/PageLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
@@ -95,12 +95,12 @@ function ForgotPassword() {
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="flex-1" onClick={handleSendEmail} disabled={isLoading}>
+                    <AppButton className="flex-1" onClick={handleSendEmail} disabled={isLoading}>
                         Send Email
-                    </Button>
-                    <Button variant="outline" className="flex-1" size="lg" onClick={() => navigate('/login')}> 
+                    </AppButton>
+                    <AppButton variant="outline" className="flex-1" onClick={() => navigate('/login')}>
                         Cancel
-                    </Button>
+                    </AppButton>
                 </CardFooter>
             </CustomCard>
         </PageLayout>

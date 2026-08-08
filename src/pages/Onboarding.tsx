@@ -1,10 +1,9 @@
 import CustomCard from '@/components/custom/Shared/CustomCard'
-import PageLayout from '@/components/custom/Shared/PageLayout'
-import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import { useNavigate } from 'react-router-dom'
-
+import PageLayout from '@/components/custom/Shared/PageLayout'
 
 function Onboarding() {
   const navigate = useNavigate()
@@ -13,16 +12,36 @@ function Onboarding() {
   <PageLayout centerPage maxWidth={380}>
     <CustomCard>
         <img src={logo} alt="" className="mx-auto mt-6 h-15 object-contain !rounded-none" />
-      <CardHeader></CardHeader>
       <CardHeader>
-        <CardTitle className='text-xl font-semibold text-center'>Welcome to <span className='font-bold'>Hype<span className="text-primary">Up</span></span></CardTitle>
+        <CardTitle className='text-xl font-semibold text-center'>How it Works</CardTitle>
+        <CardDescription className='text-sm mb-2.5 font-regular text-center text-neutral-500'>The whole idea, in three parts.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className='text-md font-regular text-center text-neutral-600'>Do the thing. Share the win.<br></br>Here’s what that actually means.</p>
+        <div className="flex items-start gap-3 mb-3.5">
+          <span className="text-2xl leading-none" aria-hidden="true">✅</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Complete a task</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Laundry, dishes, that email you've been avoiding — anything counts.</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3 mb-3.5">
+          <span className="text-2xl leading-none" aria-hidden="true">🙋</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Ask for help</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Not feeling it? Post before you start and let people hype you up.</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3 mb-2">
+          <span className="text-2xl leading-none" aria-hidden="true">🎉</span>
+          <div>
+            <p className='text-lg font-semibold text-left text-secondary'>Cheer each other on!</p>
+            <p className='text-md font-regular text-left text-neutral-600'>Follow friends, share wins, and celebrate the small stuff together.</p>
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-3 mt-2">
-        <AppButton className="w-full" onClick={() => navigate('/onboarding-step-2')}>
-          Get Started
+        <AppButton className="w-full" onClick={() => navigate('/signup')}>
+          Sign Up
         </AppButton>
             <div className="flex items-center gap-1">
             <p className='font-medium '>Already have an account?</p>

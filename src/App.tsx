@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import { CurrentUserProvider } from '@/hooks/useCurrentUser'
+import Splash from '@/pages/Splash'
 import Onboarding from '@/pages/Onboarding'
-import OnboardingStep2 from '@/pages/OnboardingStep2'
 import Login from '@/pages/Login'
 import SignUp from '@/pages/SignUp'
 import ForgotPassword from '@/pages/ForgotPassword'
@@ -20,8 +20,8 @@ function App() {
       <CurrentUserProvider>
       <Routes>
         {/* Onboarding and Login - no navigation */}
-        <Route path="/" element={<Onboarding />} />
-        <Route path="/onboarding-step-2" element={<OnboardingStep2 />} />
+        <Route path="/" element={<Splash />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
