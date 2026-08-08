@@ -7,6 +7,7 @@ import type { PostData } from '@/hooks/usePosts'
 import { getTimestamp } from '@/lib/formatRelativeTime'
 import EmptyState from '../Shared/EmptyState'
 import { Plus } from 'lucide-react'
+import noPostsImage from '@/assets/empty/no-posts.svg'
 
 type FeedProps = {
     title?: string
@@ -39,7 +40,7 @@ function FeedBox({ title = "title", posts, isLoading = false, canPost = false }:
 
             {!isLoading && filteredPosts.length === 0 && (
                 <EmptyState
-                    imagePath='src\assets\empty\no-posts.svg'
+                    imagePath={noPostsImage}
                     title={'No posts yet'} 
                     subtitle={canPost ? 'Share your success or ask for help with a post!' : "Nothing has been posted"}
                     actionLabel={canPost ? 'Add a Post' : undefined}
