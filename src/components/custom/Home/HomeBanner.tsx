@@ -37,6 +37,9 @@ function HomeBanner({
         {recentPostersLoading && (
           <p className="text-sm text-muted-foreground">Loading recently posted...</p>
         )}
+        {!recentPostersLoading && recentPosters.length === 0 && (
+          <p className="text-sm text-muted-foreground">You're all caught up!</p>
+        )}
         {!recentPostersLoading && recentPosters.map(p => <RecentPoster key={p.id} {...p} />)}
         </div>
         </div>
