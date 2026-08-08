@@ -45,28 +45,17 @@ function Reminders() {
     <PageLayout maxWidth={1000}>
       <TwoColumnLayout
         main={
-          reminders.length === 0 ? (
+          <>
             <CustomCard>
-              <EmptyState
-                imagePath={noRemindersImage}
-                title="No reminders yet"
-                subtitle="Set a reminder to stay on track"
-                actionLabel="Add Reminder"
-                icon={Plus}
-                onAction={() => setIsAddDialogOpen(true)}
-              />
-            </CustomCard>
-          ) : (
-            <>
-              <CustomCard>
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex flex-col gap-1">
-                    <h1 className="text-xl font-bold">Reminders</h1>
-                    <p className="text-sm text-muted-foreground">
-                      Schedule nudges at times that work for you
-                    </p>
-                  </div>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-xl font-bold">Reminders</h1>
+                  <p className="text-sm text-muted-foreground">
+                    Schedule nudges at times that work for you
+                  </p>
+                </div>
 
+                {reminders.length > 0 && (
                   <AppButton
                     className="flex-none"
                     icon={Plus}
@@ -74,28 +63,41 @@ function Reminders() {
                   >
                     Add Reminder
                   </AppButton>
-                </div>
-              </CustomCard>
+                )}
+              </div>
+            </CustomCard>
 
-              <CustomCard>
-                <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
-                  All Reminders
-                </p>
+            <CustomCard>
+              {reminders.length === 0 ? (
+                <EmptyState
+                  imagePath={noRemindersImage}
+                  title="No reminders yet"
+                  subtitle="Set a reminder to stay on track"
+                  actionLabel="Add Reminder"
+                  icon={Plus}
+                  onAction={() => setIsAddDialogOpen(true)}
+                />
+              ) : (
+                <>
+                  <p className="mb-3 text-xs font-medium uppercase text-neutral-600">
+                    All Reminders
+                  </p>
 
-                <div className="flex flex-col">
-                  {reminders.map((reminder) => (
-                    <ReminderRow
-                      key={reminder.id}
-                      reminder={reminder}
-                      onToggleEnabled={toggleReminder}
-                      onUpdate={updateReminder}
-                      onDeleteRequest={setReminderToDelete}
-                    />
-                  ))}
-                </div>
-              </CustomCard>
-            </>
-          )
+                  <div className="flex flex-col">
+                    {reminders.map((reminder) => (
+                      <ReminderRow
+                        key={reminder.id}
+                        reminder={reminder}
+                        onToggleEnabled={toggleReminder}
+                        onUpdate={updateReminder}
+                        onDeleteRequest={setReminderToDelete}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </CustomCard>
+          </>
         }
       />
 

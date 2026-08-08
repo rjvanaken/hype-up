@@ -138,18 +138,6 @@ function Todos() {
     <PageLayout maxWidth={1000}>
       <TwoColumnLayout
         main={
-          todos.length === 0 ? (
-            <CustomCard>
-              <EmptyState
-                imagePath={noTodosImage}
-                title="No todos yet"
-                subtitle="Add a todo to get started"
-                actionLabel="Add a Todo"
-                icon={Plus}
-                onAction={() => setIsAddDialogOpen(true)}
-              />
-            </CustomCard>
-          ) : (
           <>
         <CustomCard>
           <div className="flex items-center justify-between gap-4">
@@ -158,15 +146,30 @@ function Todos() {
               <p className="text-sm text-muted-foreground">Small steps, no pressure.</p>
             </div>
 
-            <AppButton
-              icon={Plus}
-              className="flex-none"
-              onClick={() => setIsAddDialogOpen(true)}
-            >
-              Add Todo
-            </AppButton>
+            {todos.length > 0 && (
+              <AppButton
+                icon={Plus}
+                className="flex-none"
+                onClick={() => setIsAddDialogOpen(true)}
+              >
+                Add Todo
+              </AppButton>
+            )}
           </div>
         </CustomCard>
+
+        {todos.length === 0 ? (
+          <CustomCard>
+            <EmptyState
+              imagePath={noTodosImage}
+              title="No todos yet"
+              subtitle="Add a todo to get started"
+              actionLabel="Add a Todo"
+              icon={Plus}
+              onAction={() => setIsAddDialogOpen(true)}
+            />
+          </CustomCard>
+        ) : (
 <div className='flex flex-col gap-4'>
 
         <CustomCard>
@@ -359,8 +362,8 @@ function Todos() {
           ))}
         </CustomCard>
               </div>
+        )}
           </>
-          )
         }
       />
 
