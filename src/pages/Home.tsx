@@ -48,7 +48,7 @@ function Home() {
                                 recentPosters={recentPosters}
                                 recentPostersLoading={recentPostersLoading}
                                 ></HomeBanner>
-                                <FeedBox title='YOUR FEED' posts={posts} isLoading={postsLoading} canPost></FeedBox>
+                                <FeedBox title='YOUR FEED' posts={posts} isLoading={postsLoading}></FeedBox>
                                     
 
                             </>
