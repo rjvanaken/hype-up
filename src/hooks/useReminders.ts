@@ -23,7 +23,7 @@ function mapReminder(row: ReminderRow): Reminder {
   return {
     id: row.id,
     label: row.label,
-    time: row.time,
+    time: row.time.slice(0, 5),
     days: row.days,
     enabled: row.enabled ?? true,
   }

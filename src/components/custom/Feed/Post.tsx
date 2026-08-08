@@ -169,7 +169,7 @@ function Post({
                     onClick={() => handleHypeClick()} 
                     className={`flex px-2 py-1 rounded-sm hover:bg-cool-brand-300/20 flex-row gap-2 items-center cursor-pointer ${isHyping ? 'font-bold' : 'font-regular'} ${isHyping ? 'text-primary' : 'text-foreground'}`}>
                     <ThumbsUp className={`size-3 ${isHyping ? 'fill-current text-primary' : ''}`} />
-                    {displayedLikeCount} hypes
+                    {displayedLikeCount} {displayedLikeCount === 1 ? 'hype' : 'hypes'}
                     </button>
                                 <button type='button' onClick={() => setShowComments((prev) => !prev)} className='flex px-2 py-1 active:text-cool-brand-700 rounded-sm hover:bg-cool-brand-200/20 flex-row gap-2 hover:text-primary items-center cursor-pointer'>
                     <MessageCircle className='size-3'/>

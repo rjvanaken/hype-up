@@ -1,10 +1,11 @@
-import { useState, type ChangeEvent } from 'react'
+import { useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import FormSelectField from '@/components/custom/Shared/FormSelectField'
+import { timeOptions } from '@/lib/timeOptions'
 import type { Reminder } from '@/hooks/useReminders'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
@@ -80,8 +81,7 @@ function ReminderRow({
     setIsExpanded((current) => !current)
   }
 
-  function handleTimeChange(event: ChangeEvent<HTMLInputElement>) {
-    const nextTime = event.target.value
+  function handleTimeChange(nextTime: string) {
     setEditTime(nextTime)
     onUpdate(reminder.id, { time: nextTime })
   }
@@ -140,17 +140,14 @@ function ReminderRow({
 
       {isExpanded && (
         <div className="flex flex-col gap-4 pb-4">
-          <div>
-            <Label htmlFor={`reminder-time-${reminder.id}`}>Time</Label>
-
-            <Input
-              id={`reminder-time-${reminder.id}`}
-              type="time"
-              value={editTime}
-              className="mt-2"
-              onChange={handleTimeChange}
-            />
-          </div>
+          <FormSelectField
+            id={`reminder-time-${reminder.id}`}
+            label="Time"
+            placeholder="Select a time"
+            options={timeOptions}
+            value={editTime}
+            onValueChange={(value) => handleTimeChange(value ?? '')}
+          />
 
           <div>
             <Label id={`reminder-days-label-${reminder.id}`}>

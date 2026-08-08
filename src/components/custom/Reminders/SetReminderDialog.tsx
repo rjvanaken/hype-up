@@ -3,7 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import ActionDialog from '@/components/custom/Shared/ActionDialog'
 import FormField from '@/components/custom/Shared/FormField'
+import FormSelectField from '@/components/custom/Shared/FormSelectField'
 import AppButton from '@/components/custom/Shared/AppButton'
+import { timeOptions } from '@/lib/timeOptions'
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 
@@ -85,13 +87,13 @@ function SetReminderDialog({
         onChange={(event) => setLabel(event.target.value)}
       />
 
-      <FormField
-        className="border-1 placeholder:text-sm"
+      <FormSelectField
         id="reminder-time"
-        type="time"
         label="Time"
+        placeholder="Select a time"
+        options={timeOptions}
         value={time}
-        onChange={(event) => setTime(event.target.value)}
+        onValueChange={(value) => setTime(value ?? '')}
       />
 
       <div>
