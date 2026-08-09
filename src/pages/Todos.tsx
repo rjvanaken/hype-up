@@ -23,7 +23,7 @@ function EmptyTodos({ message }: { message: string }) {
 }
 
 function Todos() {
-  const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
+  const { todos, isLoading, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [newTodoText, setNewTodoText] = useState('')
@@ -158,7 +158,11 @@ function Todos() {
           </div>
         </CustomCard>
 
-        {todos.length === 0 ? (
+        {isLoading ? (
+          <CustomCard>
+            <EmptyTodos message="Loading todos..." />
+          </CustomCard>
+        ) : todos.length === 0 ? (
           <CustomCard>
             <EmptyState
               imagePath={noTodosImage}

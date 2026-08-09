@@ -26,8 +26,8 @@ function Home() {
     const { summary: profileSummary, isLoading: profileSummaryLoading } = useProfileSummary()
     const { recentPosters, isLoading: recentPostersLoading } = useHomeRecents()
 
-  const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
-  const { reminders, addReminder } = useReminders()
+  const { todos, isLoading: todosLoading, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
+  const { reminders, isLoading: remindersLoading, addReminder } = useReminders()
 
   function handleSetReminder(_todo: Todo, reminder: ReminderDraft) {
     addReminder(reminder.label, reminder.time, reminder.days)
@@ -74,6 +74,7 @@ function Home() {
                                     )}
                                     <HomeTodos
                                       todos={todos}
+                                      isLoading={todosLoading}
                                       onToggleTodo={toggleTodo}
                                       onAddTodo={addTodo}
                                       onDeleteTodo={deleteTodo}
@@ -81,7 +82,7 @@ function Home() {
                                       onEditTodo={editTodo}
                                       onViewAll={() => navigate('/todos')} />
                                     <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
-                                    <HomeReminders reminders={reminders} onAddReminder={handleAddReminder} />
+                                    <HomeReminders reminders={reminders} isLoading={remindersLoading} onAddReminder={handleAddReminder} />
                             </>
                         }>
                     </TwoColumnLayout>

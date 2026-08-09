@@ -8,6 +8,7 @@ import type { Reminder } from '@/hooks/useReminders'
 
 type HomeRemindersProps = {
   reminders: Reminder[]
+  isLoading?: boolean
   onAddReminder?: (reminder: ReminderDraft) => void
 }
 
@@ -25,7 +26,7 @@ function formatTime(time: string) {
   return `${displayHours}:${minutesText} ${period}`
 }
 
-function HomeReminders({ reminders, onAddReminder }: HomeRemindersProps) {
+function HomeReminders({ reminders, isLoading = false, onAddReminder }: HomeRemindersProps) {
   const navigate = useNavigate()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
 
@@ -50,7 +51,11 @@ function HomeReminders({ reminders, onAddReminder }: HomeRemindersProps) {
         </div>
 
         <div className="flex flex-col">
-          {activeReminders.length === 0 ? (
+          {isLoading ? (
+            <p className="py-2 text-sm text-muted-foreground">
+              Loading reminders...
+            </p>
+          ) : activeReminders.length === 0 ? (
             <p className="py-2 text-sm text-muted-foreground">
               No active reminders
             </p>
