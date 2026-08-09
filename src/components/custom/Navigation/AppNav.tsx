@@ -67,11 +67,6 @@ function AppNavContent() {
         <div className="flex items-center gap-4">
           <button className="relative">
             <Bell className="size-4.5 text-neutral-200" />
-            {unreadCount > 0 && (
-              <Badge className="absolute -top-2 -right-2 h-4 w-4 justify-center p-0 text-[10px]">
-                {unreadCount}
-              </Badge>
-            )}
           </button>
 
           <DropdownMenu>
