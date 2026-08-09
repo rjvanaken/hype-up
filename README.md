@@ -11,90 +11,63 @@ to show off accomplishments. HypeUp is designed to address the motivational and 
 by turning personal progress into a shared, encouraging experience where users can celebrate completed tasks 
 and hype each other up!
 
-## Prerequisites and Dependencies
+## Getting started
 
-Software:
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18 or newer (LTS recommended)
+- npm (ships with Node)
 - Git
-- Node.js + npm
-- Browsers like Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari
 
-## Setup and Execution Instructions
+### 1. Install dependencies
 
-Follow these steps to get the project running on your machine.
-
-### 1. Install Node.js
-
-If you don't already have Node installed:
-
-- Download the **LTS** version from [nodejs.org](https://nodejs.org)
-- Run the installer with default options — leave "Automatically install the necessary tools" **unchecked**
-- **Restart your computer** after installing (not just your terminal — a full restart ensures PATH updates correctly)
-- Verify the install:
-  ```bash
-  node -v
-  npm -v
-  ```
-  Both should print version numbers.
-
-### 2. (Windows only) Allow PowerShell to run scripts
-
-If you see an error like *"running scripts is disabled on this system"*, run:
 ```bash
+npm install
+```
+
+If you hit an error mentioning `Cannot find native binding` or optional dependencies:
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+*(On Windows PowerShell: `Remove-Item -Recurse -Force node_modules; Remove-Item -Force package-lock.json`)*
+
+If PowerShell blocks npm with *"running scripts is disabled on this system"*, run:
+```powershell
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
-Type `Y` to confirm if prompted.
 
-### 3. Clone the repo
+### 2. Configure environment variables
 
-```bash
-git clone <your-repo-url>
-cd hype-up
-```
-
-### 4. Install dependencies
-
-```bash
-npm install
-```
-
-If you hit an error mentioning `Cannot find native binding` or optional dependencies, run:
-```bash
-Remove-Item -Recurse -Force node_modules
-Remove-Item -Force package-lock.json
-npm install
-```
-*(On Mac/Linux, use `rm -rf node_modules` and `rm package-lock.json` instead.)*
-
-### 5. Set up environment variables
-
-Create a file called `.env.local` in the project root (this file is intentionally gitignored, since it holds secrets — it won't come through the clone). Add:
+Create `.env.local` in the project root (gitignored, so you'll need to create it yourself):
 
 ```
 VITE_SUPABASE_URL=your-project-url-here
-VITE_SUPABASE_ANON_KEY=your-anon-key-here
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
 ```
 
-Ask a teammate for the actual values — these are shared separately (Slack, text, etc.), never committed to the repo.
-Upon the Canvas submission of Phase 5, a separate `.env.local` or URL and KEY values will be provided.
+Upon Canvas submission of Phase 5, an `.env.local` or URL/key values will be provided.
 
-### 6. Run the dev server
+### 3. Run the dev server
 
 ```bash
 npm run dev
 ```
 
-You should see something like:
-```
-VITE ready in ... ms
-➜  Local:   http://localhost:5173/
-```
+Vite will print a local URL (typically `http://localhost:5173`) — open it in your browser.
 
-Open that URL in your browser to confirm everything's working.
+### Other scripts
+
+```bash
+npm run build     # type-check and build for production
+npm run preview   # preview the production build locally
+npm run lint      # run Oxlint
+```
 
 ## Test Credentials
 
 Please use the following demo account to explore the app:
-Email: jordan@hypeup.test
+Email: maya@hypeup.test
 Password: hypeup123
 
 ## Tech Stack
@@ -109,23 +82,11 @@ Password: hypeup123
 ```
 src/
 ├── components/
-│   ├── ui/        # shadcn-managed components — installed via CLI, avoid heavy edits
-│   └── custom/     # our own custom reusable components
-├── pages/          # one file per screen (Onboarding, Login, Feed, etc.)
+│   ├── ui/         # shadcn-managed components — installed via CLI
+│   └── custom/     # our own custom components, some reusable and 
+│                     some for keeping page layout organized
+├── pages/          # one file per screen (Onboarding, Login, Home, etc.)
+├── hooks/          # Supabase data hooks (usePosts, useCreatePost, etc.)
 ├── lib/            # helpers (cn(), Supabase client, etc.)
 └── assets/         # images, logos, icons
 ```
-## Our Dev Process
-No code may be committed without approval from the other team member. All code must be attached to a project task.
-
-- Assign yourself a project task
-- Create a new branch and link it to the task
-- Use detailed commit messages
-- Open the PR when finished and request review from the other team member
-- Code reviews are suggested but optional. May be needed depending on the complexity of the task
-
-## Our Development Team
-The following is how we generally plan to divide the tasks. Deviation is potentially expected depending on availability later on in the project.
-
-- **Backend:** Derrick Tam
-- **Frontend:** Rebecca Van Aken
