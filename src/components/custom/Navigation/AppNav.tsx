@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
 import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
@@ -19,6 +18,7 @@ import FAB from "@/components/custom/Shared/FAB"
 import CreatePost from "@/components/custom/Home/CreatePost"
 import { PostsRefreshProvider } from "@/hooks/usePostsRefresh"
 import { RemindersRefreshProvider } from "@/hooks/useRemindersRefresh"
+import { CreatePostDialogProvider, useCreatePostDialog } from "@/hooks/useCreatePostDialog"
 import { supabase } from '@/lib/client'
 import { ProfileProvider, useProfile } from "@/hooks/useProfile"
 import { HypesProvider } from "@/hooks/useHypes"
@@ -29,19 +29,17 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`
 
 function AppNavContent() {
-  const unreadCount = 3 // wire this to real notification state later
+  
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [createPostOpen, setCreatePostOpen] = useState(false)
-  const [boostMode, setBoostMode] = useState(false)
+  const { open: createPostOpen, boostMode, openCreatePost, setOpen: setCreatePostOpen } = useCreatePostDialog()
 
 
   const initials = useProfile()?.initials ?? '?'
 
 
   const handleFabSelect = (selectedBoostMode: boolean) => {
-    setBoostMode(selectedBoostMode)
-    setCreatePostOpen(true)
+    openCreatePost(selectedBoostMode)
   }
 
   const navigate = useNavigate()
@@ -68,11 +66,6 @@ function AppNavContent() {
         <div className="flex items-center gap-4">
           <button className="relative">
             <Bell className="size-4.5 text-neutral-200" />
-            {unreadCount > 0 && (
-              <Badge className="absolute -top-2 -right-2 h-4 w-4 justify-center p-0 text-[10px]">
-                {unreadCount}
-              </Badge>
-            )}
           </button>
 
           <DropdownMenu>
@@ -192,7 +185,9 @@ function AppNav() {
       <RemindersRefreshProvider>
         <ProfileProvider>
           <HypesProvider>
-            <AppNavContent />
+            <CreatePostDialogProvider>
+              <AppNavContent />
+            </CreatePostDialogProvider>
           </HypesProvider>
         </ProfileProvider>
       </RemindersRefreshProvider>

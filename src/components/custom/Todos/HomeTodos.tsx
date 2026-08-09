@@ -18,6 +18,7 @@ export type Todo = {
 
 type TodoCardProps = {
   todos: Todo[]
+  isLoading?: boolean
   onAddTodo?: (text: string) => void
   onEditTodo?: (id: string, text: string) => void
   onDeleteTodo?: (id: string) => void
@@ -28,6 +29,7 @@ type TodoCardProps = {
 
 function HomeTodos({
   todos,
+  isLoading = false,
   onAddTodo,
   onEditTodo,
   onDeleteTodo,
@@ -180,7 +182,11 @@ function handleSaveReminder(reminder: ReminderDraft) {
 
         {/* Active todos */}
         <div className="flex flex-col">
-          {activeTodos.length === 0 ? (
+          {isLoading ? (
+            <p className="py-2 text-sm text-muted-foreground">
+              Loading todos...
+            </p>
+          ) : activeTodos.length === 0 ? (
             <p className="py-2 text-sm text-muted-foreground">
               You’re all caught up! Add a todo when you’re ready.
             </p>

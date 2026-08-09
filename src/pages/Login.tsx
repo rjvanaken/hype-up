@@ -1,10 +1,10 @@
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { validateLoginFields } from '@/lib/validation'
@@ -17,7 +17,8 @@ function Onboarding() {
     const [error, setError] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    
+    const [showPassword, setShowPassword] = useState(false)
+
     async function handleLogin() {
         // reset error
         setError('')
@@ -43,7 +44,7 @@ function Onboarding() {
             return
         }
 
-        navigate('/home') 
+        navigate('/home')
     }
 
     return (
@@ -56,7 +57,7 @@ function Onboarding() {
                 <CardHeader>
                     <CardTitle className='text-xl font-semibold text-left'>Log into your account</CardTitle>
                 </CardHeader>
-                <CardContent className='mb-0 flex flex-col gap-3'>
+                <CardContent className='mb-0 flex flex-col gap-2'>
                     <FormField
                         id="email"
                         label="Email"
@@ -68,14 +69,16 @@ function Onboarding() {
                     <FormField
                         id="password"
                         label="Password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        trailingIcon={showPassword ? EyeOff : Eye}
+                        onTrailingIconClick={() => setShowPassword((v) => !v)}
                     />
-                    <Button variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
+                    <AppButton variant="link" className="w-full text-center text-sm text-primary font-semibold p-0 h-auto" onClick={() => navigate('/forgot-password')}>
                         Forgot Password?
-                    </Button>
+                    </AppButton>
 
                     {error &&(
                         <Badge variant={'destructive'}>
@@ -86,12 +89,12 @@ function Onboarding() {
 
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                    <Button size="lg" className="w-full" onClick={handleLogin}>
+                    <AppButton className="w-full" onClick={handleLogin}>
                         Log In
-                    </Button>
+                    </AppButton>
                     <div className="flex items-center gap-1">
                         <p className='font-medium '>Don't have an account?</p>
-                        <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </Button>
+                        <AppButton variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/signup')}>Sign Up </AppButton>
                     </div>
                 </CardFooter>
             </CustomCard>

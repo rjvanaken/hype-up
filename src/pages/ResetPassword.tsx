@@ -2,7 +2,7 @@ import PageLayout from '@/components/custom/Shared/PageLayout'
 import CustomCard from '@/components/custom/Shared/CustomCard'
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { supabase } from '@/lib/client'
 import { validatePassword } from '@/lib/validation'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 
 function ResetPassword() {
     const navigate = useNavigate()
@@ -18,6 +18,8 @@ function ResetPassword() {
     const [confirm, setConfirm] = useState('')
     const [error, setError] = useState('')
     const [submitting, setSubmitting] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     async function handleUpdatePassword() {
         setError('')
@@ -60,19 +62,23 @@ function ResetPassword() {
                     <FormField
                         id="new-password"
                         label="New Password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your new password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        trailingIcon={showPassword ? EyeOff : Eye}
+                        onTrailingIconClick={() => setShowPassword((v) => !v)}
                         disabled={submitting}
                     />
                     <FormField
                         id="new-password-confirm"
-                        label="Confirm Password"
-                        type="password"
+                        label="Confirm New Password"
+                        type={showConfirm ? 'text' : 'password'}
                         placeholder="Confirm your new password"
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
+                        trailingIcon={showConfirm ? EyeOff : Eye}
+                        onTrailingIconClick={() => setShowConfirm((v) => !v)}
                         disabled={submitting}
                     />
 
@@ -84,12 +90,12 @@ function ResetPassword() {
 
                 </CardContent>
                 <CardFooter className="flex gap-3">
-                    <Button size="lg" className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
-                        {submitting ? 'Updating...' : 'Update Password'}
-                    </Button>
-                    <Button size="lg" variant="outline" className="flex-1" onClick={() => navigate('/login')}>
+                    <AppButton variant="alternate" className="flex-1" onClick={() => navigate('/login')}>
                         Cancel
-                    </Button>
+                    </AppButton>
+                    <AppButton className="flex-1" onClick={handleUpdatePassword} disabled={submitting}>
+                        {submitting ? 'Updating...' : 'Update Password'}
+                    </AppButton>
                 </CardFooter>
             </CustomCard>
         </PageLayout>

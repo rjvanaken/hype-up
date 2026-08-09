@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
 import HomeReminders from '@/components/custom/Reminders/HomeReminders'
 import type { ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
@@ -18,15 +19,15 @@ import { useProfileSummary } from '@/hooks/useProfileSummary'
 import { useHomeRecents } from '@/hooks/useHomeRecents'
 
 function Home() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
     const { posts, isLoading: postsLoading } = usePosts('feed')
     const profile = useProfile()
     const { summary: profileSummary, isLoading: profileSummaryLoading } = useProfileSummary()
     const { recentPosters, isLoading: recentPostersLoading } = useHomeRecents()
 
-  const { todos, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
-  const { reminders, addReminder } = useReminders()
+  const { todos, isLoading: todosLoading, addTodo, deleteTodo, editTodo, toggleTodo } = useTodos()
+  const { reminders, isLoading: remindersLoading, addReminder } = useReminders()
 
   function handleSetReminder(_todo: Todo, reminder: ReminderDraft) {
     addReminder(reminder.label, reminder.time, reminder.days)
@@ -71,15 +72,17 @@ function Home() {
                                             followers={profileSummary.followers}
                                         />
                                     )}
-                                    <HomeTodos 
-                                      todos={todos} 
-                                      onToggleTodo={toggleTodo} 
-                                      onAddTodo={addTodo} 
-                                      onDeleteTodo={deleteTodo} 
-                                      onSetReminder={handleSetReminder} 
-                                      onEditTodo={editTodo} /> {/*placeholder*/}
+                                    <HomeTodos
+                                      todos={todos}
+                                      isLoading={todosLoading}
+                                      onToggleTodo={toggleTodo}
+                                      onAddTodo={addTodo}
+                                      onDeleteTodo={deleteTodo}
+                                      onSetReminder={handleSetReminder}
+                                      onEditTodo={editTodo}
+                                      onViewAll={() => navigate('/todos')} />
                                     <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
-                                    <HomeReminders reminders={reminders} onAddReminder={handleAddReminder} />
+                                    <HomeReminders reminders={reminders} isLoading={remindersLoading} onAddReminder={handleAddReminder} />
                             </>
                         }>
                     </TwoColumnLayout>

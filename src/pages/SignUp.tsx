@@ -2,7 +2,7 @@ import CustomCard from '@/components/custom/Shared/CustomCard'
 import PageLayout from '@/components/custom/Shared/PageLayout'
 import FormField from '@/components/custom/Shared/FormField'
 import { CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import AppButton from '@/components/custom/Shared/AppButton'
 import { Badge } from '@/components/ui/badge'
 import logo from '@/assets/HypeUp_onb_login_logo.svg'
 import text_logo_large from '@/assets/HypeUpLarge.svg'
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { validateSignUpFields } from '@/lib/validation'
 import { supabase } from '@/lib/client'
-import { AlertCircle} from 'lucide-react'
+import { AlertCircle, Eye, EyeOff } from 'lucide-react'
 
 function SignUp() {
   const navigate = useNavigate()
@@ -20,6 +20,8 @@ function SignUp() {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
 
   async function handleSignUp() {
@@ -59,7 +61,7 @@ function SignUp() {
         <CardHeader>
             <CardTitle className='text-xl font-semibold text-left'>Create an account</CardTitle>
         </CardHeader>
-        <CardContent className='mb-0 flex flex-col gap-3'>
+        <CardContent className='mb-0 flex flex-col gap-2'>
         <div className='flex gap-4'>
             <FormField
             id="firstname"
@@ -89,22 +91,23 @@ function SignUp() {
           <FormField
             id="password"
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Enter a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            trailingIcon={showPassword ? EyeOff : Eye}
+            onTrailingIconClick={() => setShowPassword((v) => !v)}
           />
           <FormField
             id="password-confirm"
             label="Confirm Password"
-            type="password"
+            type={showConfirm ? 'text' : 'password'}
             placeholder="Confirm the password"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
+            trailingIcon={showConfirm ? EyeOff : Eye}
+            onTrailingIconClick={() => setShowConfirm((v) => !v)}
           />
-            <p className="w-full text-center text-sm text-primary font-semibold mb-0">
-            Password must be at least 8 characters
-            </p>
 
                     {error &&(
                         <Badge variant= {'destructive'}>
@@ -115,12 +118,12 @@ function SignUp() {
 
         </CardContent>
 <CardFooter className="flex flex-col gap-4">
-            <Button size="lg" className="w-full" onClick={() => handleSignUp()}>
+            <AppButton className="w-full" disabled={password.length < 8} onClick={() => handleSignUp()}>
             Create Account
-            </Button>
+            </AppButton>
             <div className="flex items-center gap-1">
             <p className='font-medium '>Already have an account?</p>
-            <Button variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</Button>
+            <AppButton variant="link" className="font-semibold text-sm p-0 h-auto " onClick={() => navigate('/login')}>Log In</AppButton>
             </div>
         </CardFooter>
         </CustomCard>

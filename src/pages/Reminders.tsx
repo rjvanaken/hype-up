@@ -14,7 +14,7 @@ import EmptyState from '@/components/custom/Shared/EmptyState'
 import noRemindersImage from '@/assets/empty/no-reminders.svg'
 
 function Reminders() {
-  const { reminders, addReminder, updateReminder, toggleReminder, deleteReminder } =
+  const { reminders, isLoading, addReminder, updateReminder, toggleReminder, deleteReminder } =
     useReminders()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [reminderToDelete, setReminderToDelete] = useState<Reminder | null>(
@@ -68,7 +68,11 @@ function Reminders() {
             </CustomCard>
 
             <CustomCard>
-              {reminders.length === 0 ? (
+              {isLoading ? (
+                <p className="py-2 text-sm text-muted-foreground">
+                  Loading reminders...
+                </p>
+              ) : reminders.length === 0 ? (
                 <EmptyState
                   imagePath={noRemindersImage}
                   title="No reminders yet"
