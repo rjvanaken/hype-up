@@ -22,8 +22,15 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
             setLoading(false)
         })
 
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (cancelled) return
+            setUser(session?.user ?? null)
+            setLoading(false)
+        })
+
         return () => {
             cancelled = true
+            authListener.subscription.unsubscribe()
         }
     }, [])
 
