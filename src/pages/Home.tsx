@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import HomeTodos, { type Todo } from '@/components/custom/Todos/HomeTodos'
 import HomeReminders from '@/components/custom/Reminders/HomeReminders'
 import type { ReminderDraft } from '@/components/custom/Reminders/SetReminderDialog'
@@ -18,7 +19,7 @@ import { useProfileSummary } from '@/hooks/useProfileSummary'
 import { useHomeRecents } from '@/hooks/useHomeRecents'
 
 function Home() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { achievements, tasksCompleted } = useAchievements()
     const { posts, isLoading: postsLoading } = usePosts('feed')
     const profile = useProfile()
@@ -76,8 +77,9 @@ function Home() {
                                       onToggleTodo={toggleTodo} 
                                       onAddTodo={addTodo} 
                                       onDeleteTodo={deleteTodo} 
-                                      onSetReminder={handleSetReminder} 
-                                      onEditTodo={editTodo} /> {/*placeholder*/}
+                                      onSetReminder={handleSetReminder}
+                                      onEditTodo={editTodo}
+                                      onViewAll={() => navigate('/todos')} /> {/*placeholder*/}
                                     <AchievementsCard achievements={achievements} tasksCompleted={tasksCompleted} />
                                     <HomeReminders reminders={reminders} onAddReminder={handleAddReminder} />
                             </>
