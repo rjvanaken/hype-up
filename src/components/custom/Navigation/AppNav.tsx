@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
 import logo from '@/assets/full-logo-hypeup.svg'
 import { useState } from "react"
 import SettingsDialog from "@/components/custom/Shared/SettingsDialog"
@@ -30,7 +29,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`
 
 function AppNavContent() {
-  const unreadCount = 3 // wire this to real notification state later
+  
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const { open: createPostOpen, boostMode, openCreatePost, setOpen: setCreatePostOpen } = useCreatePostDialog()
