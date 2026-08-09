@@ -19,7 +19,24 @@ and hype each other up!
 - npm (ships with Node)
 - Git
 
-### 1. Install dependencies
+### Key package versions
+
+- React 19 / React DOM 19
+- Vite 8
+- TypeScript ~6.0
+- Tailwind CSS 4
+- @supabase/supabase-js 2.x
+
+(Full pinned versions live in `package.json`; `npm install` resolves them automatically.)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/rjvanaken/hype-up.git
+cd hype-up
+```
+
+### 2. Install dependencies
 
 ```bash
 npm install
@@ -37,7 +54,7 @@ If PowerShell blocks npm with *"running scripts is disabled on this system"*, ru
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
-### 2. Configure environment variables
+### 3. Configure environment variables
 
 Create `.env.local` in the project root (gitignored, so you'll need to create it yourself):
 
@@ -46,15 +63,17 @@ VITE_SUPABASE_URL=your-project-url-here
 VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key-here
 ```
 
-Upon Canvas submission of Phase 5, an `.env.local` or URL/key values will be provided.
+A completed `.env.local` file is attached to the Phase 5 Canvas submission — download it and drop it directly into the project root (no edits needed).
 
-### 3. Run the dev server
+### 4. Run the dev server
 
 ```bash
 npm run dev
 ```
 
 Vite will print a local URL (typically `http://localhost:5173`) — open it in your browser.
+
+There is no separate backend server to start — the backend is Supabase's hosted Postgres/Auth/Storage, reached directly from the frontend via the URL/key in `.env.local`.
 
 ### Other scripts
 
